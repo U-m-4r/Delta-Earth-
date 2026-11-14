@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import { Crosshair, Home, Map, MousePointer2, PanelRight, Search, Settings, Undo2, X } from 'lucide-react';
+import { BarChart3, Crosshair, Database, Home, Map, MousePointer2, PanelRight, Search, Settings, Undo2, X } from 'lucide-react';
 import { EarthGlobe } from './components/Globe/EarthGlobe';
 import { LocationSearch } from './components/Globe/LocationSearch';
 import { InformationPanel } from './components/Layout/InformationPanel';
 import { submitStudyArea } from './services/studyAreaService';
 import type { GeoJsonFeature } from './types/geojson';
 import type { LocationResult } from './services/locationSearchService';
+import { analyzeStudyArea } from './services/visualizationApi';
+import { VisualizationWorkspace } from './components/visualizations/VisualizationWorkspace';
+import { VisualizationPage } from './components/visualizations/VisualizationPage';
+import type { AnalysisResult } from './types/visualization';
 
 function App() {
   const [selectionActive, setSelectionActive] = useState(false);
@@ -20,6 +24,11 @@ function App() {
   const [undoSignal, setUndoSignal] = useState(0);
   const [homeSignal, setHomeSignal] = useState(0);
   const [focusRequest, setFocusRequest] = useState<{ selection: GeoJsonFeature; id: number } | null>(null);
+  const [dataOpen, setDataOpen] = useState(false);
+  const [visualizationsOpen, setVisualizationsOpen] = useState(false);
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
+  const [analysisLoading, setAnalysisLoading] = useState(false);
+  const [analysisError, setAnalysisError] = useState<string | null>(null);
 
   const startSelection = () => {
     setSubmitMessage(null);
@@ -36,11 +45,51 @@ function App() {
     setClearSignal((signal) => signal + 1);
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!selection) return;
-    const result = submitStudyArea(selection);
+    const result = await submitStudyArea(selection);
     setSubmitMessage(result.message);
     if (result.ok) setFocusRequest({ selection, id: Date.now() });
+  };
+
+  const openVisualizations = async () => {
+    if (!selection) return;
+    setDataOpen(false);
+    setVisualizationsOpen(true);
+    if (analysis) return;
+    setAnalysisLoading(true);
+    setAnalysisError(null);
+    try {
+      setAnalysis(await analyzeStudyArea(selection));
+    } catch (error) {
+      setAnalysisError(error instanceof Error ? error.message : 'Unable to load visualization data.');
+    } finally {
+      setAnalysisLoading(false);
+    }
+    setAnalysisLoading(true);
+    setAnalysisError(null);
+    try {
+      setAnalysis(await analyzeStudyArea(selection));
+    } catch (error) {
+      setAnalysisError(error instanceof Error ? error.message : 'Unable to load visualization data.');
+    } finally {
+      setAnalysisLoading(false);
+    }
+  };
+
+  const openData = async () => {
+    if (!selection) return;
+    setVisualizationsOpen(false);
+    setDataOpen(true);
+    setAnalysisLoading(true);
+    setAnalysisError(null);
+    try {
+      setAnalysis(await analyzeStudyArea(selection));
+    } catch (error) {
+      setAnalysisError(error instanceof Error ? error.message : 'Unable to load data.');
+    } finally {
+      setAnalysisLoading(false);
+    }
   };
 
   return (
@@ -59,6 +108,8 @@ function App() {
           <button className={!selectionActive ? 'active' : ''} onClick={() => setSelectionActive(false)} title="Navigate"><MousePointer2 size={18} /><span>Navigate</span></button>
           <button className={selectionActive ? 'active' : ''} onClick={startSelection} title="Select polygon"><Map size={18} /><span>Select polygon</span></button>
           <div className="toolbar-divider" />
+          <button className={dataOpen ? 'active' : ''} onClick={() => void openData()} disabled={!selection} title="Data"><Database size={18} /><span>Data</span></button>
+          <button className={visualizationsOpen ? 'active' : ''} onClick={() => void openVisualizations()} disabled={!selection} title="Visualizations"><BarChart3 size={18} /><span>Visualizations</span></button>
           <button onClick={() => setUndoSignal((signal) => signal + 1)} disabled={!selectionActive || draftVertexCount === 0} title="Undo last point"><Undo2 size={18} /><span>Undo point</span></button>
           <button onClick={clearSelection} disabled={!selection && !selectionActive} title="Clear selection"><X size={18} /><span>Clear</span></button>
           <div className="toolbar-bottom">          <button title="Home view" onClick={() => { setLocation(undefined); setHomeSignal((signal) => signal + 1); }}><Home size={18} /></button><button title="Toggle panel" onClick={() => setPanelOpen((open) => !open)}><PanelRight size={18} /></button></div>
@@ -70,10 +121,12 @@ function App() {
           <div className="bottom-status"><span className="status-live" /> <strong>{selectionActive ? 'SELECTING AREA' : 'GLOBE NAVIGATION'}</strong><i /> {draftVertexCount} {draftVertexCount === 1 ? 'vertex' : 'vertices'}<i /> {cursor ? `${cursor[1].toFixed(4)}°, ${cursor[0].toFixed(4)}°` : 'Move cursor over globe'}</div>
         </main>
 
-        {panelOpen && <InformationPanel selection={selection} draftVertexCount={draftVertexCount} selectionActive={selectionActive} onStart={startSelection} onFinish={() => setSelectionActive(false)} onClear={clearSelection} onSubmit={submit} submitMessage={submitMessage} />}
+        {panelOpen && !dataOpen && !visualizationsOpen && <InformationPanel selection={selection} draftVertexCount={draftVertexCount} selectionActive={selectionActive} onStart={startSelection} onFinish={() => setSelectionActive(false)} onClear={clearSelection} onSubmit={submit} submitMessage={submitMessage} />}
       </div>
 
       {searchOpen && <LocationSearch onSelect={(result) => { setLocation(result); setSearchOpen(false); }} onClose={() => setSearchOpen(false)} />}
+      {dataOpen && selection && <VisualizationWorkspace selection={selection} analysis={analysis} loading={analysisLoading} error={analysisError} onRefresh={() => void openData()} onBack={() => setDataOpen(false)} />}
+      {visualizationsOpen && selection && <VisualizationPage selection={selection} analysis={analysis} loading={analysisLoading} error={analysisError} onBack={() => setVisualizationsOpen(false)} />}
     </div>
   );
 }
