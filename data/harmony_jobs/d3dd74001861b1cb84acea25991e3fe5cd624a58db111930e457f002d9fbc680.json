@@ -1,0 +1,71 @@
+{
+  "state": "running",
+  "collectionId": "C2854338529-ASF",
+  "granuleId": "G4271369893-ASF",
+  "variablePath": "/science/LSAR/GCOV/grids/frequencyA/HVHV",
+  "spatialMode": "bbox",
+  "method": "GET",
+  "endpoint": "https://harmony.earthdata.nasa.gov/C2854338529-ASF/ogc-api-coverages/1.0.0/collections/%2Fscience%2FLSAR%2FGCOV%2Fgrids%2FfrequencyA%2FHVHV/coverage/rangeset",
+  "parameters": [
+    [
+      "granuleId",
+      "G4271369893-ASF"
+    ],
+    [
+      "format",
+      "image/tiff"
+    ],
+    [
+      "forceAsync",
+      "true"
+    ],
+    [
+      "ignoreErrors",
+      "false"
+    ],
+    [
+      "subset",
+      "lat(23.042009391296713:23.077902594044705)"
+    ],
+    [
+      "subset",
+      "lon(72.51649057865735:72.57839659201268)"
+    ]
+  ],
+  "studyId": "c33614bbb59e4ccf",
+  "observation": {
+    "id": "G4271369893-ASF",
+    "provider": "NASA ASF DAAC",
+    "title": "NISAR_L2_PR_GCOV_005_113_A_013_4005_DHDH_A_20251118T003554_20251118T003629_P05023_N_F_J_001",
+    "mission": "NISAR",
+    "productShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+    "acquiredAt": "2025-11-18T00:35:54.000Z",
+    "startAt": "2025-11-18T00:35:54.000Z",
+    "endAt": "2025-11-18T00:36:29.999Z",
+    "productType": "GCOV",
+    "processingMaturity": "PROVISIONAL",
+    "frequencies": [],
+    "polarizations": [],
+    "bbox": null
+  },
+  "startedAt": "2026-11-14T20:51:45.494205+00:00",
+  "httpStatus": 303,
+  "durationSeconds": 1.323,
+  "response": {
+    "httpStatus": 303,
+    "contentType": "text/plain; charset=utf-8",
+    "locationPath": "/jobs/<job-id>",
+    "bodyExcerpt": "See Other. Redirecting to /jobs/9a3c0df5-4d0d-4533-b699-2eaf34bab63b"
+  },
+  "updatedAt": "2026-11-14T20:57:33.646316+00:00",
+  "jobId": "9a3c0df5-4d0d-4533-b699-2eaf34bab63b",
+  "retryAllowed": false,
+  "jobStatus": {
+    "status": "running",
+    "progress": 9,
+    "message": "The job is being processed",
+    "createdAt": "2026-11-14T20:51:46.471Z",
+    "updatedAt": "2026-11-14T20:51:46.949Z",
+    "dataExpiration": "2026-12-14T20:51:46.471Z"
+  }
+}

@@ -1,0 +1,13 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.egg-info/
+*.py[cod]
+.pytest_cache/
+Frontend/node_modules/
+Frontend/dist/
+data/granules/
+data/study_areas/
+data/manifests/
+!data/.gitkeep

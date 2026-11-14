@@ -1,0 +1,64 @@
+{
+  "state": "completed",
+  "collectionId": "C2854338529-ASF",
+  "granuleId": "G4271586108-ASF",
+  "variablePath": "/science/LSAR/GCOV/grids/frequencyA/HHHH",
+  "spatialMode": "bbox",
+  "method": "GET",
+  "endpoint": "https://harmony.earthdata.nasa.gov/C2854338529-ASF/ogc-api-coverages/1.0.0/collections/%2Fscience%2FLSAR%2FGCOV%2Fgrids%2FfrequencyA%2FHHHH/coverage/rangeset",
+  "parameters": [
+    [
+      "granuleId",
+      "G4271586108-ASF"
+    ],
+    [
+      "format",
+      "image/tiff"
+    ],
+    [
+      "forceAsync",
+      "true"
+    ],
+    [
+      "ignoreErrors",
+      "false"
+    ],
+    [
+      "subset",
+      "lat(32.995:33.005)"
+    ],
+    [
+      "subset",
+      "lon(-89.005:-88.995)"
+    ]
+  ],
+  "startedAt": "2026-11-14T20:14:49.775163+00:00",
+  "previousAttemptRecord": "8f38181fcc9809a193362c58b3fa91abf9611ced5af0e8ed837567e25d2fc449.previous.json",
+  "httpStatus": 303,
+  "durationSeconds": 1.613,
+  "response": {
+    "httpStatus": 303,
+    "contentType": "text/plain; charset=utf-8",
+    "locationPath": "/jobs/<job-id>",
+    "bodyExcerpt": "See Other. Redirecting to /jobs/4029f318-0fec-4433-b00b-43b4691e1a18"
+  },
+  "updatedAt": "2026-11-14T20:22:36.081134+00:00",
+  "jobId": "4029f318-0fec-4433-b00b-43b4691e1a18",
+  "retryAllowed": false,
+  "jobStatus": {
+    "status": "successful",
+    "progress": 100,
+    "message": "The job has completed successfully",
+    "createdAt": "2026-11-14T20:14:51.061Z",
+    "updatedAt": "2026-11-14T20:21:11.989Z",
+    "dataExpiration": "2026-12-14T20:14:51.061Z"
+  },
+  "stacAssets": [
+    {
+      "host": "harmony-prod-staging",
+      "path": "/public/4029f318-0fec-4433-b00b-43b4691e1a18/464984888/NISAR_L2_PR_GCOV_004_156_D_072_4005_DHDH_A_20251109T004436_20251109T004511_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif",
+      "title": "NISAR_L2_PR_GCOV_004_156_D_072_4005_DHDH_A_20251109T004436_20251109T004511_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif",
+      "mediaType": "image/tiff"
+    }
+  ]
+}

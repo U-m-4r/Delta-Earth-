@@ -1,0 +1,68 @@
+{
+  "state": "successful",
+  "collectionId": "C2854338529-ASF",
+  "granuleId": "G4383743441-ASF",
+  "variablePath": "/science/LSAR/GCOV/grids/frequencyA/HHHH",
+  "spatialMode": "bbox",
+  "method": "GET",
+  "endpoint": "https://harmony.earthdata.nasa.gov/C2854338529-ASF/ogc-api-coverages/1.0.0/collections/%2Fscience%2FLSAR%2FGCOV%2Fgrids%2FfrequencyA%2FHHHH/coverage/rangeset",
+  "parameters": [
+    [
+      "granuleId",
+      "G4383743441-ASF"
+    ],
+    [
+      "format",
+      "image/tiff"
+    ],
+    [
+      "forceAsync",
+      "true"
+    ],
+    [
+      "ignoreErrors",
+      "false"
+    ],
+    [
+      "subset",
+      "lat(14.83080799571653:14.895094549415289)"
+    ],
+    [
+      "subset",
+      "lon(-15.9177638202539:-15.856901875243905)"
+    ]
+  ],
+  "startedAt": "2026-11-14T20:23:34.456745+00:00",
+  "httpStatus": 303,
+  "durationSeconds": 1.426,
+  "response": {
+    "httpStatus": 303,
+    "contentType": "text/plain; charset=utf-8",
+    "locationPath": "/jobs/<job-id>",
+    "bodyExcerpt": "See Other. Redirecting to /jobs/b2e73fe0-c568-4b24-aa20-e9b252fb2e50"
+  },
+  "updatedAt": "2026-11-14T20:46:01.630788+00:00",
+  "jobId": "b2e73fe0-c568-4b24-aa20-e9b252fb2e50",
+  "retryAllowed": false,
+  "jobStatus": {
+    "status": "successful",
+    "progress": 100,
+    "message": "The job has completed successfully",
+    "createdAt": "2026-11-14T20:23:35.587Z",
+    "updatedAt": "2026-11-14T20:25:33.229Z",
+    "dataExpiration": "2026-12-14T20:23:35.587Z"
+  },
+  "studyId": "beb29e2705ccb1bb",
+  "completedAt": "2026-11-14T20:25:33.229Z",
+  "stacAssets": [
+    {
+      "scheme": "https",
+      "host": "harmony.earthdata.nasa.gov",
+      "path": "/service-results/harmony-prod-staging/public/b2e73fe0-c568-4b24-aa20-e9b252fb2e50/464992410/NISAR_L2_PR_GCOV_033_124_D_081_2005_DHDH_M_20261020T193319_20261020T193354_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif",
+      "title": "NISAR_L2_PR_GCOV_033_124_D_081_2005_DHDH_M_20261020T193319_20261020T193354_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyA_HHHH_subsetted.tif",
+      "mediaType": "image/tiff"
+    }
+  ],
+  "resultRetrievalChecked": true,
+  "resultRetrievalVersion": 2
+}

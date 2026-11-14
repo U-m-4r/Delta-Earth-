@@ -1,21 +1,40 @@
-import { useEffect, useRef } from 'react';
-import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, ScreenSpaceEventHandler, ScreenSpaceEventType, UrlTemplateImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
+import { useEffect, useRef, useState } from 'react';
+import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, UrlTemplateImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
 import type { GeoJsonFeature, Position } from '../../types/geojson';
 import type { LocationResult } from '../../services/locationSearchService';
+import type { RasterOverlay } from '../../types/visualization';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
 
-type Props = { selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange: (cursor: [number, number] | null) => void };
+type Props = { selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange: (cursor: [number, number] | null) => void };
 
 const MINIMUM_ZOOM_DISTANCE = 35_000;
 
-export function EarthGlobe({ selectionActive, draftVertexCount, location, clearSignal, undoSignal, homeSignal, focusRequest, onDraftChange, onSelectionChange, onCursorChange }: Props) {
+export function EarthGlobe({ selectionActive, draftVertexCount, location, clearSignal, undoSignal, homeSignal, focusRequest, rasterOverlay, onRasterClick, onDraftChange, onSelectionChange, onCursorChange }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
   const handlerRef = useRef<ScreenSpaceEventHandler | null>(null);
   const positionsRef = useRef<Position[]>([]);
   const activeRef = useRef(selectionActive);
+  const rasterClickRef = useRef(onRasterClick);
+  const [viewerReady, setViewerReady] = useState(false);
 
   useEffect(() => { activeRef.current = selectionActive; }, [selectionActive]);
+  useEffect(() => { rasterClickRef.current = onRasterClick; }, [onRasterClick]);
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    if (!viewer || viewer.isDestroyed()) return;
+    viewer.imageryLayers.removeAll();
+    viewer.imageryLayers.add(new ImageryLayer(new UrlTemplateImageryProvider({ url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' })));
+    if (rasterOverlay) {
+      const [west, south, east, north] = rasterOverlay.boundsWgs84;
+      const provider = new SingleTileImageryProvider({
+        url: rasterOverlay.url,
+        rectangle: Rectangle.fromDegrees(west, south, east, north),
+      });
+      const layer = viewer.imageryLayers.addImageryProvider(provider);
+      layer.alpha = rasterOverlay.opacity ?? 0.9;
+    }
+  }, [rasterOverlay, viewerReady]);
   useEffect(() => {
     const viewer = viewerRef.current;
     if (viewer && !viewer.isDestroyed()) {
@@ -33,6 +52,7 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
       navigationHelpButton: false, fullscreenButton: false, baseLayerPicker: false, infoBox: false, selectionIndicator: false,
     });
     viewerRef.current = viewer;
+    setViewerReady(true);
     viewer.scene.globe.depthTestAgainstTerrain = false;
     viewer.scene.requestRenderMode = false;
     viewer.camera.setView({
@@ -80,11 +100,14 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
       return ray ? viewer.scene.globe.pick(ray, viewer.scene) : undefined;
     };
     handler.setInputAction((movement: { position: Cartesian2 }) => {
-      if (!activeRef.current) return;
       const cartesian = pickSurface(movement.position);
       if (!defined(cartesian)) return;
       const cartographic = Cartographic.fromCartesian(cartesian);
       const point: Position = [CesiumMath.toDegrees(cartographic.longitude), CesiumMath.toDegrees(cartographic.latitude)];
+      if (!activeRef.current) {
+        rasterClickRef.current?.(point);
+        return;
+      }
       positionsRef.current = [...positionsRef.current, point];
       onDraftChange(positionsRef.current.length);
       if (positionsRef.current.length >= 3) onSelectionChange(createFeature(positionsRef.current));
@@ -95,7 +118,7 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
       const cartographic = Cartographic.fromCartesian(cartesian);
       onCursorChange([CesiumMath.toDegrees(cartographic.longitude), CesiumMath.toDegrees(cartographic.latitude)]);
     }, ScreenSpaceEventType.MOUSE_MOVE);
-    return () => { canvas.removeEventListener('wheel', handleTrackpadZoom); handler.destroy(); viewer.destroy(); };
+    return () => { canvas.removeEventListener('wheel', handleTrackpadZoom); handler.destroy(); viewer.destroy(); setViewerReady(false); };
   }, [onCursorChange, onDraftChange, onSelectionChange]);
 
   useEffect(() => {

@@ -15,8 +15,8 @@ export async function submitStudyArea(geoJson: GeoJsonFeature): Promise<Submissi
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    const result = await response.json() as { error?: string; observations?: unknown[]; acquisitionDates?: string[] };
-    if (!response.ok) return { ok: false, message: result.error ?? 'Study area analysis failed.' };
+    const result = await response.json() as { error?: string; detail?: string; observations?: unknown[]; acquisitionDates?: string[] };
+    if (!response.ok) return { ok: false, message: result.detail ?? result.error ?? 'Study area analysis failed.' };
     const observationCount = result.observations?.length ?? 0;
     const dateCount = result.acquisitionDates?.length ?? 0;
     return {

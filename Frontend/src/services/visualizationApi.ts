@@ -10,7 +10,7 @@ export async function analyzeStudyArea(geoJson: GeoJsonFeature, signal?: AbortSi
     body: JSON.stringify(geoJson),
     signal,
   });
-  const body = await response.json() as AnalysisResult & { error?: string };
-  if (!response.ok) throw new Error(body.error ?? 'Study area analysis failed.');
+  const body = await response.json() as AnalysisResult & { error?: string; detail?: string };
+  if (!response.ok) throw new Error(body.detail ?? body.error ?? 'Study area analysis failed.');
   return body;
 }

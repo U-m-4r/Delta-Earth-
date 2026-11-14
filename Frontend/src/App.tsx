@@ -7,9 +7,9 @@ import { submitStudyArea } from './services/studyAreaService';
 import type { GeoJsonFeature } from './types/geojson';
 import type { LocationResult } from './services/locationSearchService';
 import { analyzeStudyArea } from './services/visualizationApi';
-import { VisualizationWorkspace } from './components/visualizations/VisualizationWorkspace';
 import { VisualizationPage } from './components/visualizations/VisualizationPage';
-import type { AnalysisResult } from './types/visualization';
+import { NisarDataPanel } from './components/Layout/NisarDataPanel';
+import type { AnalysisResult, RasterOverlay } from './types/visualization';
 
 function App() {
   const [selectionActive, setSelectionActive] = useState(false);
@@ -29,6 +29,8 @@ function App() {
   const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
   const [analysisLoading, setAnalysisLoading] = useState(false);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
+  const [rasterOverlay, setRasterOverlay] = useState<RasterOverlay | null>(null);
+  const [rasterClick, setRasterClick] = useState<[number, number] | null>(null);
 
   const startSelection = () => {
     setSubmitMessage(null);
@@ -39,6 +41,8 @@ function App() {
 
   const clearSelection = () => {
     setSelection(null);
+    setRasterOverlay(null);
+    setRasterClick(null);
     setDraftVertexCount(0);
     setSelectionActive(false);
     setSubmitMessage(null);
@@ -72,15 +76,6 @@ function App() {
     if (!selection) return;
     setVisualizationsOpen(false);
     setDataOpen(true);
-    setAnalysisLoading(true);
-    setAnalysisError(null);
-    try {
-      setAnalysis(await analyzeStudyArea(selection));
-    } catch (error) {
-      setAnalysisError(error instanceof Error ? error.message : 'Unable to load data.');
-    } finally {
-      setAnalysisLoading(false);
-    }
   };
 
   return (
@@ -107,7 +102,7 @@ function App() {
         </aside>
 
         <main className="globe-workspace">
-          <EarthGlobe selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} onCursorChange={setCursor} />
+          <EarthGlobe selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={setRasterClick} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} onCursorChange={setCursor} />
           <div className="globe-hint"><Crosshair size={14} /> {selectionActive ? 'Click the globe to add polygon vertices' : 'Click and drag to rotate · Pinch or two-finger scroll to zoom · Right-drag to pan'}</div>
           <div className="bottom-status"><span className="status-live" /> <strong>{selectionActive ? 'SELECTING AREA' : 'GLOBE NAVIGATION'}</strong><i /> {draftVertexCount} {draftVertexCount === 1 ? 'vertex' : 'vertices'}<i /> {cursor ? `${cursor[1].toFixed(4)}°, ${cursor[0].toFixed(4)}°` : 'Move cursor over globe'}</div>
         </main>
@@ -116,8 +111,8 @@ function App() {
       </div>
 
       {searchOpen && <LocationSearch onSelect={(result) => { setLocation(result); setSearchOpen(false); }} onClose={() => setSearchOpen(false)} />}
-      {dataOpen && selection && <VisualizationWorkspace selection={selection} analysis={analysis} loading={analysisLoading} error={analysisError} onRefresh={() => void openData()} onBack={() => setDataOpen(false)} />}
-      {visualizationsOpen && selection && <VisualizationPage selection={selection} analysis={analysis} loading={analysisLoading} error={analysisError} onBack={() => setVisualizationsOpen(false)} />}
+      {dataOpen && selection && <NisarDataPanel selection={selection} onBack={() => setDataOpen(false)} />}
+      {visualizationsOpen && selection && <VisualizationPage selection={selection} analysis={analysis} loading={analysisLoading} error={analysisError} rasterClick={rasterClick} onRasterOverlayChange={setRasterOverlay} onBack={() => { setRasterOverlay(null); setVisualizationsOpen(false); }} />}
     </div>
   );
 }

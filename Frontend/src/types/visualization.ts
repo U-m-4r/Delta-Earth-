@@ -66,12 +66,19 @@ export type AnalysisResult = {
 };
 
 export type ProcessedObservation = Observation & {
-  processingStatus: 'downloaded' | 'processing' | 'processed' | 'failed' | 'unsupported_product_format';
+  processingStatus: 'downloaded' | 'downloading' | 'processing' | 'processed' | 'ready' | 'failed' | 'unsupported_product_format';
   processingError?: string;
+  download?: {
+    path: string;
+    bytes: number;
+    complete: boolean;
+    validated: boolean;
+  };
   raster?: {
     url?: string;
     previewUrl?: string;
     bounds: [number, number, number, number];
+    boundsWgs84: [number, number, number, number];
     crs?: string;
     width: number;
     height: number;
@@ -80,7 +87,17 @@ export type ProcessedObservation = Observation & {
     units?: string;
     validPixelCount: number;
     nodataPixelCount: number;
+    minimum: number;
+    maximum: number;
+    mean: number;
+    median: number;
   };
+};
+
+export type RasterOverlay = {
+  url: string;
+  boundsWgs84: [number, number, number, number];
+  opacity?: number;
 };
 
 export type VisualizationWorkspaceProps = {

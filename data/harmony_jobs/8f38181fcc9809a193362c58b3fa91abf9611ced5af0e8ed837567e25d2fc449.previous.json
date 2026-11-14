@@ -1,0 +1,51 @@
+{
+  "state": "reconciled_not_found",
+  "collectionId": "C2854338529-ASF",
+  "granuleId": "G4271586108-ASF",
+  "variablePath": "/science/LSAR/GCOV/grids/frequencyA/HHHH",
+  "spatialMode": "bbox",
+  "method": "GET",
+  "endpoint": "https://harmony.earthdata.nasa.gov/C2854338529-ASF/ogc-api-coverages/1.0.0/parameter_vars/coverage/rangeset",
+  "parameters": [
+    [
+      "variable",
+      "/science/LSAR/GCOV/grids/frequencyA/HHHH"
+    ],
+    [
+      "granuleId",
+      "G4271586108-ASF"
+    ],
+    [
+      "format",
+      "image/tiff"
+    ],
+    [
+      "forceAsync",
+      "true"
+    ],
+    [
+      "ignoreErrors",
+      "false"
+    ],
+    [
+      "subset",
+      "lat(32.995:33.005)"
+    ],
+    [
+      "subset",
+      "lon(-89.005:-88.995)"
+    ]
+  ],
+  "startedAt": "2026-11-14T20:09:51.614540+00:00",
+  "durationSeconds": 180.803,
+  "errorType": "ReadTimeout",
+  "error": "",
+  "retryAllowed": "manual after reconciliation only",
+  "updatedAt": "2026-11-14T20:14:30.975864+00:00",
+  "reconciliation": {
+    "checkedAt": "2026-11-14T20:14:30.975847+00:00",
+    "source": "authenticated Harmony /jobs list, page 1 limit 100, checked after timeout",
+    "matchingJobsFound": false,
+    "previousEndpointWasIncorrect": true
+  }
+}

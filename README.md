@@ -571,3 +571,55 @@ This is an independent hackathon project and is not an official NASA or ISRO pro
 ---
 
 **Delta Earth — See the change. Understand the evidence. Explore the planet.**
+
+## Running the NISAR retrieval backend
+
+Phase 1 provides a Python API for validating WGS84 polygons, discovering provisional NISAR GCOV granules in ASF CMR, checking the live Harmony capabilities for the selected collection, and extracting individual variables as GeoTIFFs. Retrieval is available from the frontend **Data** action after selecting an area.
+
+### Install and start
+
+```bash
+cd Backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev]'
+cp .env.example .env
+uvicorn app.main:app --reload --port 8787
+```
+
+Set `EDL_TOKEN` to your NASA Earthdata bearer token in the ignored local `Backend/.env`. Harmony requests use `Authorization: Bearer …`; a `~/.netrc` file is not required. Never commit credentials. The default collection is ASF's provisional GCOV collection `C2854338529-ASF`; set `NISAR_GCOV_COLLECTION` to the desired collection concept ID to change it.
+
+Start the frontend in another terminal:
+
+```bash
+cd Frontend
+npm install
+npm run dev
+```
+
+Set `VITE_BACKEND_URL` if the API is not at `http://localhost:8787`.
+
+### API and CLI
+
+- `GET /api/health` — service check.
+- `GET /api/nisar/capabilities` — reports Harmony's configured services, variables, and operations for this collection.
+- `POST /api/nisar/scenes/search` — accepts `{ "studyArea": <GeoJSON Feature>, "startDate": "YYYY-MM-DD", "endDate": "YYYY-MM-DD" }` (dates optional) and returns matching CMR granules.
+- `POST /api/study-areas/analyze` — frontend-compatible discovery endpoint, also returning polygon area and bounds.
+- `POST /api/nisar/extractions` — accepts `granuleId`, `studyArea`, `variables`, and `frequency` (`frequencyA` or `frequencyB`); submits a distinct Harmony job per variable and waits for the GeoTIFF results.
+- `GET /api/data/{path}` — serves validated local rasters and metadata.
+
+CLI examples (from `Backend/`):
+
+```bash
+python -m app.cli capabilities
+python -m app.cli search ../data/study_area.geojson
+python -m app.cli extract GRANULE_ID ../data/study_area.geojson --variables HHHH,HVHV
+```
+
+Outputs are stored under `data/study_areas/` and `data/granules/{GRANULE_ID}/`. Each granule includes a manifest and acquisition metadata, with measurement and auxiliary TIFFs in separate folders. Every GeoTIFF is opened with Rasterio before it is marked as complete; CRS, transform, dimensions, resolution, NoData, and data type are retained in the manifest. Scientific values are not transformed into display imagery.
+
+The extractor checks Harmony's **service-level** capabilities and requires a single service that reports variable selection, polygon subsetting, and GeoTIFF output together. It will stop with a clear message if the live collection configuration does not confirm that combination. The official NISAR guide says selected variables absent from a product are ignored by Harmony, so each requested variable is submitted separately and absent output is recorded. An end-to-end live extraction still requires valid Earthdata access and a granule whose available datasets overlap the selected variables.
+
+### Tests
+
+From `Backend/`, run `pytest`. CMR and Harmony HTTP interactions in the test suite use mocked responses; a live Earthdata Login is only needed for a real catalog-to-GeoTIFF run.
