@@ -118,3 +118,25 @@ export type ProcessingStatus = {
   failedObservationIds: string[];
   errors: string[];
 };
+
+export type ObservationProcessingStatus = 'downloaded' | 'processing' | 'processed' | 'failed' | 'unsupported_product_format';
+
+export type ProcessedObservation = Observation & {
+  processingStatus: ObservationProcessingStatus;
+  processingError?: string;
+  raster?: {
+    path?: string;
+    previewPath?: string;
+    url?: string;
+    previewUrl?: string;
+    bounds: [number, number, number, number];
+    crs?: string;
+    width: number;
+    height: number;
+    resolution: [number, number];
+    measurement: string;
+    units?: string;
+    validPixelCount: number;
+    nodataPixelCount: number;
+  };
+};

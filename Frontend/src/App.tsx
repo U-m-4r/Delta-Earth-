@@ -66,15 +66,6 @@ function App() {
     } finally {
       setAnalysisLoading(false);
     }
-    setAnalysisLoading(true);
-    setAnalysisError(null);
-    try {
-      setAnalysis(await analyzeStudyArea(selection));
-    } catch (error) {
-      setAnalysisError(error instanceof Error ? error.message : 'Unable to load visualization data.');
-    } finally {
-      setAnalysisLoading(false);
-    }
   };
 
   const openData = async () => {

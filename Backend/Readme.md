@@ -27,6 +27,8 @@ npm run dev
 
 ## API
 
+Health checks are available at `GET /health` and `GET /api/health`.
+
 `POST /api/study-areas/analyze` accepts a GeoJSON Feature with Polygon geometry and
 returns the validated area, centroid, bounds, available acquisition dates,
 frequencies, polarizations, and catalog observation metadata.
@@ -37,10 +39,30 @@ curl -X POST http://localhost:8787/api/study-areas/analyze \
   --data @polygon.json
 ```
 
-Set `CMR_BASE_URL`, `CMR_PAGE_SIZE`, `REQUEST_TIMEOUT_MS`, and `PORT` through the
-environment when deploying.
+Set `CMR_BASE_URL`, `CMR_PAGE_SIZE`, `REQUEST_TIMEOUT_MS`, `PORT`, `DATA_DIR`,
+`PYTHON_BIN`, and `EARTHDATA_TOKEN` through the environment when deploying.
 
-## Processing API status
+## Processing pipeline
+
+Each analysis queues every discovered granule for processing. Source HDF5 files
+are downloaded to `DATA_DIR/studies/{study_id}/observations/`, then
+`src/processing/process_nisar.py` selects an actual numeric 2-D measurement
+dataset, finds its coordinate axes, reprojects the GeoJSON polygon into the
+raster CRS, and writes a clipped GeoTIFF plus PNG preview. No synthetic values
+are created.
+
+Install the raster runtime before starting the backend:
+
+```bash
+python3 -m pip install -r processing-requirements.txt
+```
+
+Products without a numeric 2-D measurement and georeferencing axes are returned
+as `unsupported_product_format`; download and processing errors are returned as
+`failed`. Configure `EARTHDATA_TOKEN` when the CMR data link requires bearer
+authentication.
+
+## Processing API
 
 The following study-scoped routes are available after the analysis request returns
 its `studyId`:
@@ -55,10 +77,12 @@ GET /api/studies/{study_id}/context
 GET /api/studies/{study_id}/story
 GET /api/studies/{study_id}/observations
 GET /api/studies/{study_id}/observations/{observation_id}/metadata
+GET /api/studies/{study_id}/observations/{observation_id}/preview
+GET /api/studies/{study_id}/observations/{observation_id}/raster
+GET /api/studies/{study_id}/observations/{observation_id}/pixel?longitude={lon}&latitude={lat}
 ```
 
-These routes currently expose discovery records and explicit unavailable states.
-Raster processing is not silently simulated: a real HDF5/GDAL worker, secure
-Earthdata authentication, polygon clipping, GeoTIFF/COG generation, previews,
-statistics, and retryable jobs still need to be added before the first processing
-milestone can be considered complete.
+`processed-observations` reports the explicit state of every catalog observation,
+including processing errors, raster bounds, CRS, resolution, valid-pixel count,
+NoData count, measurement name, and asset URLs. `preview` is a quick-look PNG;
+`raster` is the clipped GeoTIFF for downstream analysis.

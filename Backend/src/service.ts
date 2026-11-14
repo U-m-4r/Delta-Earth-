@@ -1,6 +1,7 @@
 import { polygonAreaKm2, polygonBounds, polygonCentroid, validatePolygon } from './geometry.js';
 import { searchCatalogs } from './providers.js';
-import type { AnalysisResponse, AvailabilityReport, GeoJsonPolygon, ProcessingStatus } from './types.js';
+import { processObservation, type ProcessingConfig, type StoredProcessing } from './processing.js';
+import type { AnalysisResponse, AvailabilityReport, GeoJsonPolygon, ProcessedObservation, ProcessingStatus } from './types.js';
 
 type StudyRecord = {
   id: string;
@@ -8,6 +9,7 @@ type StudyRecord = {
   analysis: AnalysisResponse;
   createdAt: string;
   processing: ProcessingStatus;
+  processed: Map<string, StoredProcessing>;
 };
 
 const studies = new Map<string, StudyRecord>();
@@ -16,7 +18,7 @@ function createStudyId(): string {
   return `study_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
-export async function analyzeStudyArea(input: unknown, config: { baseUrl: string; timeoutMs: number; pageSize: number }): Promise<AnalysisResponse & { studyId: string }> {
+export async function analyzeStudyArea(input: unknown, config: { baseUrl: string; timeoutMs: number; pageSize: number; dataDir: string }): Promise<AnalysisResponse & { studyId: string }> {
   const polygon = validatePolygon(input);
   const catalog = await searchCatalogs(polygon, config);
   const observations = catalog.observations;
@@ -40,9 +42,29 @@ export async function analyzeStudyArea(input: unknown, config: { baseUrl: string
     polygon,
     analysis,
     createdAt: new Date().toISOString(),
-    processing: { studyId, status: 'discovered', progress: 0, processedObservationIds: [], failedObservationIds: [], errors: ['Raster processing is not configured: no HDF5/GDAL processing worker is installed.'] },
+    processing: { studyId, status: 'queued', progress: 0, processedObservationIds: [], failedObservationIds: [], errors: [] },
+    processed: new Map(),
   });
+  void processStudy(studyId, { dataDir: config.dataDir, timeoutMs: config.timeoutMs, baseUrl: config.baseUrl });
   return { ...analysis, studyId };
+}
+
+async function processStudy(studyId: string, config: ProcessingConfig): Promise<void> {
+  const study = studies.get(studyId);
+  if (!study) return;
+  study.processing.status = 'processing';
+  study.processing.progress = 0;
+  for (const [index, observation] of study.analysis.observations.entries()) {
+    const result = await processObservation(studyId, observation, study.polygon, config);
+    study.processed.set(observation.id, result);
+    if (result.status === 'processed') study.processing.processedObservationIds.push(observation.id);
+    else {
+      study.processing.failedObservationIds.push(observation.id);
+      if (result.processingError) study.processing.errors.push(`${observation.title}: ${result.processingError}`);
+    }
+    study.processing.progress = Math.round(((index + 1) / study.analysis.observations.length) * 100);
+  }
+  study.processing.status = study.processing.failedObservationIds.length && !study.processing.processedObservationIds.length ? 'failed' : 'completed';
 }
 
 export function getAvailability(studyId: string): AvailabilityReport | undefined {
@@ -98,11 +120,20 @@ export function getProcessingStatus(studyId: string): ProcessingStatus | undefin
 export function getProcessedObservations(studyId: string): Array<Record<string, unknown>> | undefined {
   const study = studies.get(studyId);
   if (!study) return undefined;
-  return study.analysis.observations.map((observation) => ({
+  return study.analysis.observations.map((observation): ProcessedObservation => ({
     ...observation,
-    processingStatus: 'not_processed',
-    layers: [],
-    statistics: null,
-    methodology: null,
+    ...study.processed.get(observation.id),
+    processingStatus: study.processed.get(observation.id)?.status ?? 'downloaded',
   }));
+}
+
+export function getProcessedObservation(studyId: string, observationId: string): ProcessedObservation | undefined {
+  const study = studies.get(studyId);
+  const observation = study?.analysis.observations.find((item) => item.id === observationId);
+  if (!study || !observation) return undefined;
+  return {
+    ...observation,
+    ...study.processed.get(observation.id),
+    processingStatus: study.processed.get(observation.id)?.status ?? 'downloaded',
+  };
 }
