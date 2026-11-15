@@ -1,0 +1,5 @@
+{
+  "type": "Feature",
+  "properties": {"name": "Bangalore: Bellandur–Varthur lake corridor", "owner": "Umar"},
+  "geometry": {"type": "Polygon", "coordinates": [[[77.62,12.90],[77.77,12.90],[77.77,12.98],[77.62,12.98],[77.62,12.90]]]}
+}

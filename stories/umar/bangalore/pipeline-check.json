@@ -1,0 +1,236 @@
+{
+  "checkedAt": "2026-11-15T14:27:32.274646+00:00",
+  "steps": [
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/scenes/search",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/extractions/batch",
+      "statusCode": 202
+    },
+    {
+      "method": "GET",
+      "path": "/api/retrieval-sessions/65884aa77f40455fba480d969838148e",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/extractions",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/17bc8136564c7b47/raster/G4243038533-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/17bc8136564c7b47/preview/G4243038533-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/extractions",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/17bc8136564c7b47/raster/G4366260007-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/17bc8136564c7b47/preview/G4366260007-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/visualization/sessions",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/catalog",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/timeline",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/compare",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/products/3bfc87545b885a08723cb4c207a21821",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/changes",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/exports/a8b5f65625064bd79745be2a4ddc9312",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/timeline/exports",
+      "statusCode": 202
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/timeline/exports/ac200af867a64e58beeed3985e099706",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9/exports/f9a7119f424145ebb98445e32c4110f7",
+      "statusCode": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/visualization/sessions/cb4f41ef07a140b192d8dfab36d6a0f9",
+      "statusCode": 200
+    }
+  ],
+  "candidate": {
+    "geometry": "012_A_008_4005_DHDH_A",
+    "frequency": "frequencyA",
+    "variable": "HHHH",
+    "observationCount": 9,
+    "before": "G4243038533-ASF",
+    "after": "G4366260007-ASF",
+    "dates": [
+      "2026-06-27T00:24:49.000Z",
+      "2026-07-09T00:24:48.000Z",
+      "2026-07-21T00:24:47.000Z",
+      "2026-08-14T00:24:46.000Z",
+      "2026-08-26T00:24:46.000Z",
+      "2026-09-07T00:24:46.000Z",
+      "2026-09-19T00:24:46.000Z",
+      "2026-10-01T00:24:46.000Z",
+      "2026-10-13T00:24:46.000Z"
+    ]
+  },
+  "status": "passed: discovery, retrieval, individual GeoTIFF downloads, previews, session catalog, timeline, comparison, change export, animated timeline export and session cleanup",
+  "studyId": "17bc8136564c7b47",
+  "retrievalStatus": "completed",
+  "downloads": [
+    {
+      "label": "before",
+      "observationId": "G4243038533-ASF",
+      "date": "2026-06-27T00:24:49.000Z",
+      "status": "already_present",
+      "bytes": 5269824,
+      "error": "",
+      "sha256": "39e95c9cbc28ebd69bb4752e0ee8108fd1d998ebfef85aa809e8fdb11594799b",
+      "localFile": ".local-run/story-downloads/bangalore/before.tif",
+      "previewLegend": {
+        "palette": "viridis",
+        "stops": [
+          "#440154",
+          "#3b528b",
+          "#21918c",
+          "#5ec962",
+          "#fde725"
+        ],
+        "ticks": [
+          0.047469997853040694,
+          1.1543948606029144,
+          2.261319723352788,
+          3.368244586102662,
+          4.475169448852536
+        ],
+        "minimum": 0.047469997853040694,
+        "maximum": 4.475169448852536,
+        "bands": 0,
+        "bandColors": null,
+        "normalizationScale": null
+      }
+    },
+    {
+      "label": "after",
+      "observationId": "G4366260007-ASF",
+      "date": "2026-10-13T00:24:46.000Z",
+      "status": "already_present",
+      "bytes": 5267760,
+      "error": "",
+      "sha256": "008aa1b14d95733ceb198ac67526922350ebde384325e6a508aa867b1081d0a8",
+      "localFile": ".local-run/story-downloads/bangalore/after.tif",
+      "previewLegend": {
+        "palette": "viridis",
+        "stops": [
+          "#440154",
+          "#3b528b",
+          "#21918c",
+          "#5ec962",
+          "#fde725"
+        ],
+        "ticks": [
+          0.04812817633152008,
+          1.22119695469737,
+          2.39426573306322,
+          3.5673345114290704,
+          4.74040328979492
+        ],
+        "minimum": 0.04812817633152008,
+        "maximum": 4.74040328979492,
+        "bands": 0,
+        "bandColors": null,
+        "normalizationScale": null
+      }
+    }
+  ],
+  "sessionCreated": true,
+  "changeExport": {
+    "bytes": 6048406,
+    "sha256": "1d65323e9d8450d848ddf2c36dd044f70d7cceff6aacfc55903d24b7dc64744b",
+    "localFile": ".local-run/story-downloads/bangalore/changes.zip",
+    "legend": {
+      "minimum": -1.8608478546142573,
+      "maximum": 1.8608478546142573,
+      "palette": "blue-neutral-red",
+      "units": "1",
+      "zero": 0
+    },
+    "boundsWgs84": [
+      77.61917581179571,
+      12.898462379789526,
+      77.77080442969984,
+      12.981495841135015
+    ]
+  },
+  "timelineExport": {
+    "bytes": 391122,
+    "sha256": "e42654f528752e93f378caef6e00d733826cda8093e646a26aa30a481580084a",
+    "localFile": ".local-run/story-downloads/bangalore/timeline.zip",
+    "members": [
+      "timeline.gif",
+      "timeline_report.pdf",
+      "timeline_metadata.json"
+    ],
+    "display": {
+      "palette": "viridis",
+      "stretch": "linear",
+      "bands": 0,
+      "lowerPercentile": 2,
+      "upperPercentile": 98,
+      "minimum": 0.034482479095458984,
+      "maximum": 4.361595458984368
+    }
+  }
+}
