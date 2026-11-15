@@ -1,0 +1,27 @@
+{
+  "eventVerified": true,
+  "scope": "Echuca–Moama, Murray River, Australia",
+  "references": [
+    {
+      "title": "NASA: Flooding in Eastern Australia (October 2022)",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flooding-in-eastern-australia-150542/"
+    },
+    {
+      "title": "Murray–Darling Basin Authority: River Murray 2022–23 flood review",
+      "url": "https://www.mdba.gov.au/sites/default/files/publications/river-murray-2022-2023-flood-review-final-report.pdf"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "selectedDates": [
+    "2022-09-25",
+    "2022-10-07",
+    "2022-10-31",
+    "2022-11-12"
+  ],
+  "dateGapsDisclosed": true,
+  "source": "Public Sentinel-1 C-band VV RTC; no NISAR existed for these historical dates",
+  "independentPixelAccuracy": "not established"
+}

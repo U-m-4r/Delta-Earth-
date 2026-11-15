@@ -36,3 +36,6 @@ Frontend/public/saved/
 /stories/
 Backend/scripts/finish-latest-story-pull.py
 Frontend/tests/all-stories.browser.mjs
+
+Backend/.env
+

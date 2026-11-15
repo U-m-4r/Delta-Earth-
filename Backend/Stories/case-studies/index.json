@@ -110,5 +110,61 @@
     "description": "Use the baseline comparison to inspect persistent river-corridor and mountain-surface patterns. Shadow, layover, snow and ice complicate mountain radar. These views do not independently confirm a collapse mechanism or delineate the full debris-flow footprint.",
     "mission": "NISAR",
     "previewSha256": "3b5764680424bae6f9e0907f3c1c9ee3cbec9f61081e9401ba0754408c74393b"
+  },
+  {
+    "slug": "australia-murray-2022",
+    "title": "When the Murray Spread Beyond Its Banks",
+    "location": "Echuca–Moama, Murray River, Australia",
+    "changeType": "Documented river flood · radar observations",
+    "preview": "frame-2.png",
+    "previewSha256": "d4b471ba5f233abfd7648fb2ebccd16e91b177133bc517f5dcf93fbd202e7d85",
+    "observationCount": 4,
+    "period": "2022-09-25 – 2022-11-12",
+    "owner": "sk",
+    "description": "The dates bracket the documented flood period, but there is no compatible 19 October frame in this selected orbit sequence: the record jumps from 7 to 31 October. The 31 October image follows the reported local crest and must not be labelled the peak itself. Radar response can change with standing water, wet soil, crops, flooded woodland and viewing geometry. This story does not calculate flood depth, damage or validated inundation area.",
+    "mission": "Sentinel-1 RTC",
+    "continent": "Oceania"
+  },
+  {
+    "slug": "usa-arkansas-2019",
+    "title": "The Arkansas River Under Pressure",
+    "location": "Dardanelle floodplain, Arkansas, USA",
+    "changeType": "Documented river flood · radar observations",
+    "preview": "frame-2.png",
+    "previewSha256": "f771d49b33e4f63daa574250f0918430b583b94a3fd97134e5f1c1e1c518742e",
+    "observationCount": 4,
+    "period": "2019-05-17 – 2019-06-22",
+    "owner": "sk",
+    "description": "The 29 May acquisition is during the flood emergency, not a measurement of the eventual river crest. Later observations provide follow-up views; they do not establish that all land or communities had recovered. NASA’s regional optical imagery corroborates the broader disaster, while the NWS report supplies local Dardanelle context. Brightness alone cannot distinguish every wet field, reservoir margin or flooded woodland. No flood-area accuracy, water depth or damage estimate is claimed.",
+    "mission": "Sentinel-1 RTC",
+    "continent": "North America"
+  },
+  {
+    "slug": "australia-manning-2025",
+    "title": "Record Water on the Manning",
+    "location": "Taree–Wingham, Manning River, New South Wales, Australia",
+    "changeType": "Documented river flood · radar observations",
+    "preview": "frame-2.png",
+    "previewSha256": "a3702d3f3e7a5195e473def901b0a68164b35a7d1343822c55fca7c11526549f",
+    "observationCount": 4,
+    "period": "2025-05-09 – 2025-06-26",
+    "owner": "sk",
+    "description": "The 21 May acquisition falls on the documented crest day at Taree; it is still a radar brightness map, not a measured water depth or validated inundation polygon. Later frames show follow-up landscape response and must not be read as a full recovery certificate. Standing water, wet soil, crops and viewing geometry all affect brightness. No flood-area accuracy or damage estimate is claimed.",
+    "mission": "Sentinel-1 RTC",
+    "continent": "Oceania"
+  },
+  {
+    "slug": "usa-white-river-2026",
+    "title": "When the White River Broke Its Century Mark",
+    "location": "Noblesville corridor, White River, Indiana, USA",
+    "changeType": "Documented river flood · radar observations",
+    "preview": "frame-2.png",
+    "previewSha256": "e7c1828995fba6d5b88a4b29aebc0fff8d6bd64217b6705f5ab916f0497b6b8b",
+    "observationCount": 4,
+    "period": "2026-07-23 – 2026-09-09",
+    "owner": "sk",
+    "description": "The 16 August acquisition falls during the documented crest window; it measures radar response on a common grid and does not itself prove flood depth or mapped inundation extent. Later acquisitions provide follow-up views only. Vegetation, wet soil, urban surfaces and geometry also change brightness. This story does not estimate flooded area, damage or evacuation needs.",
+    "mission": "NISAR",
+    "continent": "North America"
   }
 ]

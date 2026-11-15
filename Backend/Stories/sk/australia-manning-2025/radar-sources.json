@@ -1,0 +1,306 @@
+[
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\australia-manning-2025\\S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc",
+    "date": "2025-05-09T19:07:17.704898Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/9/IW/DV/S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 74,
+    "direction": "descending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2025-05-09T19:07:17.704898Z",
+      "platform": "sentinel-1a",
+      "s1:shape": [
+        29655,
+        23563
+      ],
+      "proj:bbox": [
+        368440.0,
+        6381890.0,
+        664990.0,
+        6617520.0
+      ],
+      "proj:epsg": 32756,
+      "proj:shape": [
+        23563,
+        29655
+      ],
+      "end_datetime": "2025-05-09T19:07:30.204209Z",
+      "constellation": "Sentinel-1",
+      "proj:centroid": {
+        "lat": -31.63363,
+        "lon": 153.18452
+      },
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        368440.0,
+        0.0,
+        -10.0,
+        6617520.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "480729",
+      "start_datetime": "2025-05-09T19:07:05.205586Z",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "5",
+      "s1:total_slices": "9",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "descending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 59121,
+      "sat:relative_orbit": 74,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84",
+      "s1:product_timeliness": "Fast-24h",
+      "s1:processing_datetime": "2025-05-09T20:37:02.000000Z",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\australia-manning-2025\\S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc",
+    "date": "2025-05-21T19:07:17.288739Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/21/IW/DV/S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 74,
+    "direction": "descending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2025-05-21T19:07:17.288739Z",
+      "platform": "sentinel-1a",
+      "s1:shape": [
+        29656,
+        23563
+      ],
+      "proj:bbox": [
+        368490.0,
+        6381890.0,
+        665050.0,
+        6617520.0
+      ],
+      "proj:epsg": 32756,
+      "proj:shape": [
+        23563,
+        29656
+      ],
+      "end_datetime": "2025-05-21T19:07:29.788132Z",
+      "constellation": "Sentinel-1",
+      "proj:centroid": {
+        "lat": -31.63368,
+        "lon": 153.18511
+      },
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        368490.0,
+        0.0,
+        -10.0,
+        6617520.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "482278",
+      "start_datetime": "2025-05-21T19:07:04.789347Z",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "5",
+      "s1:total_slices": "9",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "descending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 59296,
+      "sat:relative_orbit": 74,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A",
+      "s1:product_timeliness": "Fast-24h",
+      "s1:processing_datetime": "2025-05-21T20:28:42.000000Z",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\australia-manning-2025\\S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc",
+    "date": "2025-06-02T19:07:16.897468Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/2/IW/DV/S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_FEB4/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 74,
+    "direction": "descending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2025-06-02T19:07:16.897468Z",
+      "platform": "SENTINEL-1A",
+      "s1:shape": [
+        29654,
+        23563
+      ],
+      "proj:bbox": [
+        368480.0,
+        6381880.0,
+        665020.0,
+        6617510.0
+      ],
+      "proj:epsg": 32756,
+      "proj:shape": [
+        23563,
+        29654
+      ],
+      "end_datetime": "2025-06-02 19:07:29.396777+00:00",
+      "constellation": "Sentinel-1",
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        368480.0,
+        0.0,
+        -10.0,
+        6617510.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "483832",
+      "start_datetime": "2025-06-02 19:07:04.398159+00:00",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "5",
+      "s1:total_slices": "9",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "descending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 59471,
+      "sat:relative_orbit": 74,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_timeliness": "Fast-24h",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\australia-manning-2025\\S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc",
+    "date": "2025-06-26T19:07:15.653511Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/26/IW/DV/S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_AD4A/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 74,
+    "direction": "descending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2025-06-26T19:07:15.653511Z",
+      "platform": "SENTINEL-1A",
+      "s1:shape": [
+        29654,
+        23562
+      ],
+      "proj:bbox": [
+        368540.0,
+        6381860.0,
+        665080.0,
+        6617480.0
+      ],
+      "proj:epsg": 32756,
+      "proj:shape": [
+        23562,
+        29654
+      ],
+      "end_datetime": "2025-06-26 19:07:28.152804+00:00",
+      "constellation": "Sentinel-1",
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        368540.0,
+        0.0,
+        -10.0,
+        6617480.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "486913",
+      "start_datetime": "2025-06-26 19:07:03.154219+00:00",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "5",
+      "s1:total_slices": "9",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "descending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 59821,
+      "sat:relative_orbit": 74,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_timeliness": "Fast-24h",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  }
+]

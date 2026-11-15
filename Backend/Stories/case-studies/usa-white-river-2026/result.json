@@ -1,0 +1,179 @@
+{
+  "kind": "sequence",
+  "slug": "usa-white-river-2026",
+  "title": "When the White River Broke Its Century Mark",
+  "location": "Noblesville corridor, White River, Indiana, USA",
+  "changeType": "Documented river flood · radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Noblesville corridor, White River, Indiana, USA across 4 real radar observations",
+  "introduction": "From 11–17 August 2026 repeated thunderstorms dropped more than a foot of rain across parts of central Indiana. The White River set new records at Anderson and Noblesville, exceeding crests not seen since 1913, and Indianapolis declared a local disaster emergency. These four NISAR observations follow a focused corridor near Noblesville from late July through early September on one ascending track.",
+  "conclusion": "The 16 August acquisition falls during the documented crest window; it measures radar response on a common grid and does not itself prove flood depth or mapped inundation extent. Later acquisitions provide follow-up views only. Vegetation, wet soil, urban surfaces and geometry also change brightness. This story does not estimate flooded area, damage or evacuation needs.",
+  "references": [
+    {
+      "title": "NWS Indianapolis: Record Flooding of August 2026",
+      "url": "https://www.weather.gov/ind/august2026flooding"
+    },
+    {
+      "title": "IndyStar: How high did Indiana rivers get? (17 Aug 2026)",
+      "url": "https://www.indystar.com/story/weather/2026/08/17/how-high-did-indiana-rivers-get-see-new-records-during-floods/91337753007/"
+    },
+    {
+      "title": "CBS News: Indiana White River breaks 1913 flooding record",
+      "url": "https://www.cbsnews.com/news/indiana-white-river-flooding-record-emergency/"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-07-23T10:48:35.000Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2026-07-23: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4260446179-ASF",
+      "productId": "NISAR_L2_PR_GCOV_026_047_A_022_2005_QPDH_A_20260723T104835_20260723T104910_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_047_A_022_2005_QPDH_A_20260723T104835_20260723T104910_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_047_A_022_2005_QPDH_A_20260723T104835_20260723T104910_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "4db602a11bdbd1833dcdd954af6237cf6e02abbf8b1a5401c8e6a49e7825e84d",
+      "imageSha256": "5b3c3a2323c4d3b6473b0cd9cbff9b62b7aa31978b41cc26ee7b260083abde57",
+      "meanDb": -8.1951322555542,
+      "medianDb": -7.731446743011475,
+      "validPixelCount": 946716,
+      "validFraction": 0.9800859670045716
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-08-16T10:48:34.000Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2026-08-16: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4284760682-ASF",
+      "productId": "NISAR_L2_PR_GCOV_028_047_A_022_2005_QPDH_A_20260816T104834_20260816T104909_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_047_A_022_2005_QPDH_A_20260816T104834_20260816T104909_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_047_A_022_2005_QPDH_A_20260816T104834_20260816T104909_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "c6048fd7dad17ddbde7d361fcd389739f5cc52ece3a862076b5a24a9092264ac",
+      "imageSha256": "e7c1828995fba6d5b88a4b29aebc0fff8d6bd64217b6705f5ab916f0497b6b8b",
+      "meanDb": -6.5155510902404785,
+      "medianDb": -5.878037452697754,
+      "validPixelCount": 946716,
+      "validFraction": 0.9800859670045716,
+      "changeFromPrevious": {
+        "meanDb": 1.6795812845230103,
+        "medianDb": 1.5559194087982178,
+        "validPixelCount": 946716
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-28T10:48:34.000Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2026-08-28: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4292412895-ASF",
+      "productId": "NISAR_L2_PR_GCOV_029_047_A_022_2005_QPDH_A_20260828T104834_20260828T104909_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_029_047_A_022_2005_QPDH_A_20260828T104834_20260828T104909_P05023_N_F_J_001/NISAR_L2_PR_GCOV_029_047_A_022_2005_QPDH_A_20260828T104834_20260828T104909_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "b4228c91424e40a3818938b754742f78f86470715d87c684cbd0944fa4b96cdc",
+      "imageSha256": "512cb35b1789702390d9b3582e80c6fa840735295938caae67e2f0c5ab3810fa",
+      "meanDb": -6.799828052520752,
+      "medianDb": -6.167538642883301,
+      "validPixelCount": 946716,
+      "validFraction": 0.9800859670045716,
+      "changeFromPrevious": {
+        "meanDb": -0.2842777669429779,
+        "medianDb": -0.30304670333862305,
+        "validPixelCount": 946716
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2026-09-09T10:48:34.000Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2026-09-09: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4311620404-ASF",
+      "productId": "NISAR_L2_PR_GCOV_030_047_A_022_2005_QPDH_A_20260909T104834_20260909T104908_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_030_047_A_022_2005_QPDH_A_20260909T104834_20260909T104908_P05023_N_F_J_001/NISAR_L2_PR_GCOV_030_047_A_022_2005_QPDH_A_20260909T104834_20260909T104908_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "e2d0c43a1fe1a082109f85b592901a9f2e8d18544eeb48129e14eae73e71afd6",
+      "imageSha256": "35fd86b41fe06db97a43269918cfd7d1ac7a1f77170823d145369457f895da60",
+      "meanDb": -7.768505573272705,
+      "medianDb": -7.127638339996338,
+      "validPixelCount": 946716,
+      "validFraction": 0.9800859670045716,
+      "changeFromPrevious": {
+        "meanDb": -0.9686762690544128,
+        "medianDb": -0.8904697895050049,
+        "validPixelCount": 946716
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Noblesville corridor, White River, Indiana, USA",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -86.15,
+            39.95
+          ],
+          [
+            -85.95,
+            39.95
+          ],
+          [
+            -85.95,
+            40.15
+          ],
+          [
+            -86.15,
+            40.15
+          ],
+          [
+            -86.15,
+            39.95
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 864,
+      "height": 1118,
+      "crs": "EPSG:32616",
+      "transform": [
+        20.0,
+        0.0,
+        572400.0,
+        0.0,
+        -20.0,
+        4444920.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null,
+  "continent": "North America",
+  "eventEvidence": "Documented by NWS Indianapolis and contemporaneous Indiana reporting; radar observations are not a validated flood classification."
+}

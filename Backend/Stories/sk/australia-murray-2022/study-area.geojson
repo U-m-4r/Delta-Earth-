@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "properties": {
+    "owner": "sk",
+    "name": "Echuca–Moama, Murray River, Australia",
+    "scope": "Focused river corridor, not the entire disaster"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          144.6,
+          -36.2
+        ],
+        [
+          144.9,
+          -36.2
+        ],
+        [
+          144.9,
+          -35.9
+        ],
+        [
+          144.6,
+          -35.9
+        ],
+        [
+          144.6,
+          -36.2
+        ]
+      ]
+    ]
+  }
+}

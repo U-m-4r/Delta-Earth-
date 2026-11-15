@@ -1,0 +1,179 @@
+{
+  "kind": "sequence",
+  "slug": "usa-arkansas-2019",
+  "title": "The Arkansas River Under Pressure",
+  "location": "Dardanelle floodplain, Arkansas, USA",
+  "changeType": "Multi-date radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Dardanelle floodplain, Arkansas, USA across 4 real radar observations",
+  "introduction": "Repeated spring storms and upstream runoff drove historic flooding along the Arkansas River in May and June 2019. The National Weather Service documents record or near-record crests and a levee breach near Dardanelle. Four radar observations follow the selected local floodplain from 17 May through 22 June, with a 29 May acquisition during the documented river-flood emergency.",
+  "conclusion": "The 29 May acquisition is during the flood emergency, not a measurement of the eventual river crest. Later observations provide follow-up views; they do not establish that all land or communities had recovered. NASA’s regional optical imagery corroborates the broader disaster, while the NWS report supplies local Dardanelle context. Brightness alone cannot distinguish every wet field, reservoir margin or flooded woodland. No flood-area accuracy, water depth or damage estimate is claimed.",
+  "references": [
+    {
+      "title": "NASA: Flooding Along the Arkansas River (May 2019)",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flooding-along-the-arkansas-river-145108/"
+    },
+    {
+      "title": "National Weather Service: Historic Arkansas River flooding in 2019",
+      "url": "https://www.weather.gov/lzk/flood2019.htm"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2019-05-17T00:12:03.635625Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2019-05-17: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20190517T001151_20190517T001216_027260_0312D8_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20190517T001151_20190517T001216_027260_0312D8_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/5/17/IW/DV/S1A_IW_GRDH_1SDV_20190517T001151_20190517T001216_027260_0312D8_B3DB/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "755b75e6fadcd2abaa09556b140779539fb5eafa7156051fa6ad0003633a0bca",
+      "imageSha256": "8c88a188fa3855c9bc618f01ef233299766d19a99b33ef8ca1df77a33a98d084",
+      "meanDb": -9.544425010681152,
+      "medianDb": -8.667375564575195,
+      "validPixelCount": 1265429,
+      "validFraction": 1.0
+    },
+    {
+      "key": "frame-2",
+      "date": "2019-05-29T00:12:04.155902Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2019-05-29: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20190529T001151_20190529T001216_027435_03184E_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20190529T001151_20190529T001216_027435_03184E_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/5/29/IW/DV/S1A_IW_GRDH_1SDV_20190529T001151_20190529T001216_027435_03184E_547A/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "28ae94bc229216ec05903d0aa04ef26f89db919e9beec885c2d8188c659f34f4",
+      "imageSha256": "f771d49b33e4f63daa574250f0918430b583b94a3fd97134e5f1c1e1c518742e",
+      "meanDb": -10.077842712402344,
+      "medianDb": -9.016155242919922,
+      "validPixelCount": 1265429,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -0.533420741558075,
+        "medianDb": -0.3790621757507324,
+        "validPixelCount": 1265429
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2019-06-10T00:12:04.724170Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2019-06-10: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20190610T001152_20190610T001217_027610_031DB0_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20190610T001152_20190610T001217_027610_031DB0_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/6/10/IW/DV/S1A_IW_GRDH_1SDV_20190610T001152_20190610T001217_027610_031DB0_64CD/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "dd700febae31b2e2b68bbe392f51db7803f2a8ef54b195dabf5843c88be857e1",
+      "imageSha256": "6ddb8b620287bfc1ea7d6532305203e83e711807f028c6b5c386249f6c2223ee",
+      "meanDb": -9.518106460571289,
+      "medianDb": -8.61197280883789,
+      "validPixelCount": 1265429,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": 0.5597333312034607,
+        "medianDb": 0.41265392303466797,
+        "validPixelCount": 1265429
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2019-06-22T00:12:05.526355Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2019-06-22: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20190622T001153_20190622T001218_027785_0322EA_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20190622T001153_20190622T001218_027785_0322EA_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/6/22/IW/DV/S1A_IW_GRDH_1SDV_20190622T001153_20190622T001218_027785_0322EA_617F/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "9e71833a3c99861332c94889494b66973c2c7486bd9aba67ff3491ba5bc679e6",
+      "imageSha256": "a06225f902fabd8d613009a1d8375c3cd9268d19b71e294f0b2b7530f966dedb",
+      "meanDb": -9.876493453979492,
+      "medianDb": -9.09244155883789,
+      "validPixelCount": 1265429,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -0.35838446021080017,
+        "medianDb": -0.3644847869873047,
+        "validPixelCount": 1265429
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Dardanelle floodplain, Arkansas, USA",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -93.3,
+            35.15
+          ],
+          [
+            -93.05,
+            35.15
+          ],
+          [
+            -93.05,
+            35.35
+          ],
+          [
+            -93.3,
+            35.35
+          ],
+          [
+            -93.3,
+            35.15
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1139,
+      "height": 1111,
+      "crs": "EPSG:32615",
+      "transform": [
+        20.0,
+        0.0,
+        472670.0,
+        0.0,
+        -20.0,
+        3911900.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null,
+  "continent": "North America",
+  "eventEvidence": "Documented by the linked NASA and national/regional authority reports; radar observations are not a validated flood classification."
+}

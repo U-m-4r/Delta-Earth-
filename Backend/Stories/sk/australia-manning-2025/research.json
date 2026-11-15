@@ -1,0 +1,31 @@
+{
+  "eventVerified": true,
+  "scope": "Taree–Wingham, Manning River, New South Wales, Australia",
+  "references": [
+    {
+      "title": "NSW SES: Highest flood on record for Taree (21 May 2025)",
+      "url": "https://www.ses.nsw.gov.au/news/highest-flood-record-taree-rescues-underway-people-trapped-floodwater"
+    },
+    {
+      "title": "ABC News: Manning River rises past 96-year record at Taree",
+      "url": "https://www.abc.net.au/news/2025-05-21/manning-river-rises-past-96-year-record-at-taree/105317780"
+    },
+    {
+      "title": "Wikipedia: 2025 New South Wales floods",
+      "url": "https://en.wikipedia.org/wiki/2025_New_South_Wales_floods"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "selectedDates": [
+    "2025-05-09",
+    "2025-05-21",
+    "2025-06-02",
+    "2025-06-26"
+  ],
+  "dateGapsDisclosed": true,
+  "source": "Public Sentinel-1 C-band VV RTC; NISAR provisional GCOV public release begins mid-2026, after this May 2025 flood",
+  "independentPixelAccuracy": "not established"
+}

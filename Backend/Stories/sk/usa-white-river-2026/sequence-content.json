@@ -1,0 +1,86 @@
+{
+  "kind": "sequence",
+  "slug": "usa-white-river-2026",
+  "title": "When the White River Broke Its Century Mark",
+  "location": "Noblesville corridor, White River, Indiana, USA",
+  "changeType": "Documented river flood · radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Noblesville corridor, White River, Indiana, USA across 4 real radar observations",
+  "introduction": "From 11–17 August 2026 repeated thunderstorms dropped more than a foot of rain across parts of central Indiana. The White River set new records at Anderson and Noblesville, exceeding crests not seen since 1913, and Indianapolis declared a local disaster emergency. These four NISAR observations follow a focused corridor near Noblesville from late July through early September on one ascending track.",
+  "conclusion": "The 16 August acquisition falls during the documented crest window; it measures radar response on a common grid and does not itself prove flood depth or mapped inundation extent. Later acquisitions provide follow-up views only. Vegetation, wet soil, urban surfaces and geometry also change brightness. This story does not estimate flooded area, damage or evacuation needs.",
+  "references": [
+    {
+      "title": "NWS Indianapolis: Record Flooding of August 2026",
+      "url": "https://www.weather.gov/ind/august2026flooding"
+    },
+    {
+      "title": "IndyStar: How high did Indiana rivers get? (17 Aug 2026)",
+      "url": "https://www.indystar.com/story/weather/2026/08/17/how-high-did-indiana-rivers-get-see-new-records-during-floods/91337753007/"
+    },
+    {
+      "title": "CBS News: Indiana White River breaks 1913 flooding record",
+      "url": "https://www.cbsnews.com/news/indiana-white-river-flooding-record-emergency/"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Noblesville corridor, White River, Indiana, USA",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -86.15,
+            39.95
+          ],
+          [
+            -85.95,
+            39.95
+          ],
+          [
+            -85.95,
+            40.15
+          ],
+          [
+            -86.15,
+            40.15
+          ],
+          [
+            -86.15,
+            39.95
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 864,
+      "height": 1118,
+      "crs": "EPSG:32616",
+      "transform": [
+        20.0,
+        0.0,
+        572400.0,
+        0.0,
+        -20.0,
+        4444920.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null,
+  "continent": "North America",
+  "eventEvidence": "Documented by NWS Indianapolis and contemporaneous Indiana reporting; radar observations are not a validated flood classification."
+}

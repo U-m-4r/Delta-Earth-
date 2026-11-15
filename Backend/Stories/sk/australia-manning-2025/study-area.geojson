@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "properties": {
+    "owner": "sk",
+    "name": "Taree–Wingham, Manning River, New South Wales, Australia",
+    "scope": "Focused river corridor, not the entire disaster"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          152.35,
+          -32.05
+        ],
+        [
+          152.55,
+          -32.05
+        ],
+        [
+          152.55,
+          -31.85
+        ],
+        [
+          152.35,
+          -31.85
+        ],
+        [
+          152.35,
+          -32.05
+        ]
+      ]
+    ]
+  }
+}

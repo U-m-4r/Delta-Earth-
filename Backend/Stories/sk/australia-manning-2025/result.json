@@ -1,0 +1,183 @@
+{
+  "kind": "sequence",
+  "slug": "australia-manning-2025",
+  "title": "Record Water on the Manning",
+  "location": "Taree–Wingham, Manning River, New South Wales, Australia",
+  "changeType": "Documented river flood · radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Taree–Wingham, Manning River, New South Wales, Australia across 4 real radar observations",
+  "introduction": "From 20–25 May 2025 a slow-moving trough produced a documented 1-in-500-year flood on the NSW Mid North Coast. The Manning River at Taree peaked near 6.4 m on 21 May, above the 1929 record, with major flooding at Wingham and widespread rescues. These four Sentinel-1 radar visits follow a focused Manning corridor around Taree and Wingham from before the crest through late June.",
+  "conclusion": "The 21 May acquisition falls on the documented crest day at Taree; it is still a radar brightness map, not a measured water depth or validated inundation polygon. Later frames show follow-up landscape response and must not be read as a full recovery certificate. Standing water, wet soil, crops and viewing geometry all affect brightness. No flood-area accuracy or damage estimate is claimed.",
+  "references": [
+    {
+      "title": "NSW SES: Highest flood on record for Taree (21 May 2025)",
+      "url": "https://www.ses.nsw.gov.au/news/highest-flood-record-taree-rescues-underway-people-trapped-floodwater"
+    },
+    {
+      "title": "ABC News: Manning River rises past 96-year record at Taree",
+      "url": "https://www.abc.net.au/news/2025-05-21/manning-river-rises-past-96-year-record-at-taree/105317780"
+    },
+    {
+      "title": "Wikipedia: 2025 New South Wales floods",
+      "url": "https://en.wikipedia.org/wiki/2025_New_South_Wales_floods"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2025-05-09T19:07:17.704898Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2025-05-09: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/9/IW/DV/S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "83f14bc301ed9a6e27ca08e591c8f1b1ad0b5a0143c3cf15b68799100f4075e8",
+      "imageSha256": "5724c08aa3fdc396987426cb41382ee0383c2de5ef5f9641e44f59c2ce54d55c",
+      "meanDb": -8.855904579162598,
+      "medianDb": -8.709821701049805,
+      "validPixelCount": 1057350,
+      "validFraction": 1.0
+    },
+    {
+      "key": "frame-2",
+      "date": "2025-05-21T19:07:17.288739Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2025-05-21: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/21/IW/DV/S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "05165cfd8c4408ee0223d0b65f057d4c75ccc441305db310c42883b3749f3016",
+      "imageSha256": "a3702d3f3e7a5195e473def901b0a68164b35a7d1343822c55fca7c11526549f",
+      "meanDb": -8.797391891479492,
+      "medianDb": -7.961940765380859,
+      "validPixelCount": 1057350,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": 0.058515094220638275,
+        "medianDb": 0.6244657039642334,
+        "validPixelCount": 1057350
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2025-06-02T19:07:16.897468Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2025-06-02: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/2/IW/DV/S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_FEB4/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "945c00948bd83966ae56bda75558ac95eaa508f77a984243d99208aecb70f59d",
+      "imageSha256": "e0c9bcfa7195a24eb9ceb821aab816bee713f8974085b629ed9edabacc44af89",
+      "meanDb": -9.277050971984863,
+      "medianDb": -9.047635078430176,
+      "validPixelCount": 1057350,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -0.47965940833091736,
+        "medianDb": -1.004197120666504,
+        "validPixelCount": 1057350
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2025-06-26T19:07:15.653511Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2025-06-26: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/26/IW/DV/S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_AD4A/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "f0ecbdb05d55a50306b842d42e8c99913ea1cf03a9c4286b68e5fe4984cbb56e",
+      "imageSha256": "848ab0e50eb37858f16c65d03436bbed874207c186f459fc5eb5ba28931fb8ca",
+      "meanDb": -9.965181350708008,
+      "medianDb": -9.794195175170898,
+      "validPixelCount": 1057350,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -0.6881261467933655,
+        "medianDb": -0.6997072696685791,
+        "validPixelCount": 1057350
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Taree–Wingham, Manning River, New South Wales, Australia",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            152.35,
+            -32.05
+          ],
+          [
+            152.55,
+            -32.05
+          ],
+          [
+            152.55,
+            -31.85
+          ],
+          [
+            152.35,
+            -31.85
+          ],
+          [
+            152.35,
+            -32.05
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 950,
+      "height": 1113,
+      "crs": "EPSG:32756",
+      "transform": [
+        20.010526315789473,
+        0.0,
+        438500.0,
+        0.0,
+        -20.0,
+        6476110.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null,
+  "continent": "Oceania",
+  "eventEvidence": "Documented by NSW SES, ABC News and the 2025 NSW floods summary; radar observations are not a validated flood classification."
+}

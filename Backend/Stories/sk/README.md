@@ -8,6 +8,10 @@ Canonical location after the Story-design pull: Backend/Stories/sk. These six st
 - nepal-glacier-flood-2026 — 3 observations; NISAR; 2026-08-19, 2026-08-31, 2026-10-06
 - punjab-floods-2025 — 4 observations; Sentinel-1 RTC; 2025-08-01, 2025-08-13, 2025-08-25, 2025-09-18
 - pakistan-floods-2022 — 4 observations; Sentinel-1 RTC; 2022-08-03, 2022-08-15, 2022-08-27, 2022-09-20
+- australia-manning-2025 — 4 observations; Sentinel-1 RTC; 2025-05-09, 2025-05-21, 2025-06-02, 2025-06-26
+- usa-white-river-2026 — 4 observations; NISAR; 2026-07-23, 2026-08-16, 2026-08-28, 2026-09-09
+- australia-murray-2022 — 4 observations; Sentinel-1 RTC; 2022-09-25, 2022-10-07, 2022-10-31, 2022-11-12
+- usa-arkansas-2019 — 4 observations; Sentinel-1 RTC; 2019-05-17, 2019-05-29, 2019-06-10, 2019-06-22
 
 The older optical research and independent flood evidence remain preserved in the original stories/sk directory. They are not substituted for these real radar frames. Nepal's old optical year conflict is separate from these catalogued NISAR acquisition timestamps. The 2022 and 2025 stories use Sentinel-1 C-band VV terrain-corrected data, not NISAR. Those two stories focus on explicitly defined subregions, not the entire country or province.
 

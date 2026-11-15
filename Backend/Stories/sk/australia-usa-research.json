@@ -1,0 +1,68 @@
+{
+  "checkedAt": "2026-11-15T17:40:00Z",
+  "selectionReason": "Documented river floods with four same-orbit calibrated radar acquisitions over focused study corridors. Older Murray/Arkansas events use Sentinel-1 because they predate NISAR. The 2025 Manning flood also uses Sentinel-1 because public NISAR provisional GCOV begins mid-2026. The August 2026 Indiana White River flood uses NISAR provisional GCOV on ascending track 047.",
+  "stories": [
+    {
+      "slug": "australia-murray-2022",
+      "event": "Murray River flood around Echuca–Moama, Oct 2022",
+      "sensor": "Sentinel-1 RTC VV"
+    },
+    {
+      "slug": "usa-arkansas-2019",
+      "event": "Arkansas River flood near Dardanelle, May–Jun 2019",
+      "sensor": "Sentinel-1 RTC VV"
+    },
+    {
+      "slug": "australia-manning-2025",
+      "event": "NSW Mid North Coast / Manning River record flood at Taree, 20–25 May 2025",
+      "sensor": "Sentinel-1 RTC VV",
+      "crestAcquisition": "2025-05-21",
+      "whyNotNisar": "NISAR provisional public GCOV release covers acquisitions from mid-2026 onward."
+    },
+    {
+      "slug": "usa-white-river-2026",
+      "event": "Indiana White River record flood near Noblesville, mid-August 2026",
+      "sensor": "NISAR provisional GCOV HHHH frequencyA",
+      "geometry": "047_A_022",
+      "crestAcquisition": "2026-08-16"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.ses.nsw.gov.au/news/highest-flood-record-taree-rescues-underway-people-trapped-floodwater",
+      "title": "NSW SES: Highest flood on record for Taree",
+      "role": "Documented event context; not independent pixel-level ground truth"
+    },
+    {
+      "url": "https://www.abc.net.au/news/2025-05-21/manning-river-rises-past-96-year-record-at-taree/105317780",
+      "title": "ABC News: Manning River rises past 96-year record at Taree",
+      "role": "Documented event context; not independent pixel-level ground truth"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/2025_New_South_Wales_floods",
+      "title": "Wikipedia: 2025 New South Wales floods",
+      "role": "Documented event context; not independent pixel-level ground truth"
+    },
+    {
+      "url": "https://www.weather.gov/ind/august2026flooding",
+      "title": "NWS Indianapolis: Record Flooding of August 2026",
+      "role": "Documented event context; not independent pixel-level ground truth"
+    },
+    {
+      "url": "https://www.indystar.com/story/weather/2026/08/17/how-high-did-indiana-rivers-get-see-new-records-during-floods/91337753007/",
+      "title": "IndyStar: How high did Indiana rivers get?",
+      "role": "Documented event context; not independent pixel-level ground truth"
+    },
+    {
+      "url": "https://www.cbsnews.com/news/indiana-white-river-flooding-record-emergency/",
+      "title": "CBS News: Indiana White River breaks 1913 flooding record",
+      "role": "Documented event context; not independent pixel-level ground truth"
+    }
+  ],
+  "limits": [
+    "Radar brightness alone is not a validated flood classification, depth or damage estimate.",
+    "Study areas are focused corridors, not statewide disaster extents.",
+    "Australia May 2025 uses Sentinel-1 because NISAR provisional GCOV was not yet publicly available for that date.",
+    "USA 16 August 2026 is during the documented crest window, not an independent crest-height measurement."
+  ]
+}

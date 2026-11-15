@@ -1,0 +1,2523 @@
+{
+  "query": {
+    "collections": [
+      "sentinel-1-rtc"
+    ],
+    "bbox": [
+      152.3,
+      -32.1,
+      152.6,
+      -31.8
+    ],
+    "datetime": "2025-04-15T00:00:00Z/2025-07-15T23:59:59Z",
+    "limit": 100
+  },
+  "response": {
+    "type": "FeatureCollection",
+    "links": [
+      {
+        "rel": "root",
+        "type": "application/json",
+        "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+      },
+      {
+        "rel": "self",
+        "type": "application/geo+json",
+        "href": "https://planetarycomputer.microsoft.com/api/stac/v1/search?collections=sentinel-1-rtc"
+      }
+    ],
+    "features": [
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc",
+        "bbox": [
+          151.66550953824265,
+          -32.68550608144397,
+          154.70232480068165,
+          -30.586623861666304
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/26/IW/DV/S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_AD4A/measurement/iw-vh.rtc.tiff",
+            "file:size": 1838192048,
+            "file:checksum": "2416d0c1afebe2663b1b3a1cc55789ac",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/26/IW/DV/S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_AD4A/measurement/iw-vv.rtc.tiff",
+            "file:size": 1861227341,
+            "file:checksum": "34574bce173222c7bdbe7200ee069d0b",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250626T190703_20250626T190728_059821_076E01_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                154.38775843534927,
+                -32.20100353483548
+              ],
+              [
+                154.70232480068165,
+                -31.194265822094774
+              ],
+              [
+                152.16189533052258,
+                -30.586623861666304
+              ],
+              [
+                151.66550953824265,
+                -32.069200440409254
+              ],
+              [
+                154.2378278233565,
+                -32.68550608144397
+              ],
+              [
+                154.38775843534927,
+                -32.20100353483548
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-06-26T19:07:15.653511Z",
+          "platform": "SENTINEL-1A",
+          "s1:shape": [
+            29654,
+            23562
+          ],
+          "proj:bbox": [
+            368540.0,
+            6381860.0,
+            665080.0,
+            6617480.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23562,
+            29654
+          ],
+          "end_datetime": "2025-06-26 19:07:28.152804+00:00",
+          "constellation": "Sentinel-1",
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            368540.0,
+            0.0,
+            -10.0,
+            6617480.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "486913",
+          "start_datetime": "2025-06-26 19:07:03.154219+00:00",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "5",
+          "s1:total_slices": "9",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59821,
+          "sat:relative_orbit": 74,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_timeliness": "Fast-24h",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71_rtc",
+        "bbox": [
+          149.69175547584962,
+          -32.43069358130967,
+          152.71950182084245,
+          -30.334013190116828
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/19/IW/DV/S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71_225B/measurement/iw-vh.rtc.tiff",
+            "file:size": 1867009179,
+            "file:checksum": "237a8948125e922e1cf491a8a2a17fdf",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/19/IW/DV/S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71_225B/measurement/iw-vv.rtc.tiff",
+            "file:size": 1868999822,
+            "file:checksum": "74d893d91c09d53e106e0410b2c8aac4",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250619T191512_20250619T191537_059719_076A71_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                152.41732048695707,
+                -31.945743836937243
+              ],
+              [
+                152.71950182084245,
+                -30.939493076563313
+              ],
+              [
+                150.18796474652422,
+                -30.334013190116828
+              ],
+              [
+                149.69175547584962,
+                -31.81648795888752
+              ],
+              [
+                152.25600143220692,
+                -32.43069358130967
+              ],
+              [
+                152.41732048695707,
+                -31.945743836937243
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-06-19T19:15:25.292341Z",
+          "platform": "SENTINEL-1A",
+          "s1:shape": [
+            30146,
+            23366
+          ],
+          "proj:bbox": [
+            177490.0,
+            6409850.0,
+            478950.0,
+            6643510.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23366,
+            30146
+          ],
+          "end_datetime": "2025-06-19 19:15:37.791515+00:00",
+          "constellation": "Sentinel-1",
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            177490.0,
+            0.0,
+            -10.0,
+            6643510.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "486001",
+          "start_datetime": "2025-06-19 19:15:12.793167+00:00",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "8",
+          "s1:total_slices": "16",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59719,
+          "sat:relative_orbit": 147,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_timeliness": "Fast-24h",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_rtc",
+        "bbox": [
+          149.69196644294016,
+          -32.43078441381158,
+          152.71960623942422,
+          -30.334202398114535
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/7/IW/DV/S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_076476_2A09/measurement/iw-vh.rtc.tiff",
+            "file:size": 1864445745,
+            "file:checksum": "d9e2a0aac9116098201c0628bbc97dc8",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/7/IW/DV/S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_076476_2A09/measurement/iw-vv.rtc.tiff",
+            "file:size": 1865327699,
+            "file:checksum": "9c4af0dfa6d92464c3135b8d2e503bda",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                152.4175320917313,
+                -31.94574480766914
+              ],
+              [
+                152.71960623942422,
+                -30.939583535650662
+              ],
+              [
+                150.18837522231468,
+                -30.334202398114535
+              ],
+              [
+                149.69196644294016,
+                -31.816493448409133
+              ],
+              [
+                152.25610705296873,
+                -32.43078441381158
+              ],
+              [
+                152.4175320917313,
+                -31.94574480766914
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-06-07T19:15:26.023100Z",
+          "platform": "sentinel-1a",
+          "s1:shape": [
+            30146,
+            23365
+          ],
+          "proj:bbox": [
+            177500.0,
+            6409850.0,
+            478960.0,
+            6643500.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23365,
+            30146
+          ],
+          "end_datetime": "2025-06-07T19:15:38.522279Z",
+          "constellation": "Sentinel-1",
+          "proj:centroid": {
+            "lat": -31.37653,
+            "lon": 151.19389
+          },
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            177500.0,
+            0.0,
+            -10.0,
+            6643500.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "484470",
+          "start_datetime": "2025-06-07T19:15:13.523922Z",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "8",
+          "s1:total_slices": "16",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59544,
+          "sat:relative_orbit": 147,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250607T191513_20250607T191538_059544_076476_2A09",
+          "s1:product_timeliness": "Fast-24h",
+          "s1:processing_datetime": "2025-06-07T20:30:19.000000Z",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc",
+        "bbox": [
+          151.66498124417663,
+          -32.68533096769822,
+          154.7016920747861,
+          -30.58634914543586
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/2/IW/DV/S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_FEB4/measurement/iw-vh.rtc.tiff",
+            "file:size": 1838579292,
+            "file:checksum": "d51f0798cd713754e3738720094313db",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/6/2/IW/DV/S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_FEB4/measurement/iw-vv.rtc.tiff",
+            "file:size": 1860650674,
+            "file:checksum": "c92eb7888df5c83a91935059a95e8f41",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250602T190704_20250602T190729_059471_0761F8_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                154.38722260489766,
+                -32.200648600291885
+              ],
+              [
+                154.7016920747861,
+                -31.194093771213847
+              ],
+              [
+                152.16127191608444,
+                -30.58634914543586
+              ],
+              [
+                151.66498124417663,
+                -32.069104668946494
+              ],
+              [
+                154.2372921034038,
+                -32.68533096769822
+              ],
+              [
+                154.38722260489766,
+                -32.200648600291885
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-06-02T19:07:16.897468Z",
+          "platform": "SENTINEL-1A",
+          "s1:shape": [
+            29654,
+            23563
+          ],
+          "proj:bbox": [
+            368480.0,
+            6381880.0,
+            665020.0,
+            6617510.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23563,
+            29654
+          ],
+          "end_datetime": "2025-06-02 19:07:29.396777+00:00",
+          "constellation": "Sentinel-1",
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            368480.0,
+            0.0,
+            -10.0,
+            6617510.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "483832",
+          "start_datetime": "2025-06-02 19:07:04.398159+00:00",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "5",
+          "s1:total_slices": "9",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59471,
+          "sat:relative_orbit": 74,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_timeliness": "Fast-24h",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70_rtc",
+        "bbox": [
+          149.69175547584962,
+          -32.430691067823126,
+          152.7193968752882,
+          -30.33410108657878
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/26/IW/DV/S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70_5459/measurement/iw-vh.rtc.tiff",
+            "file:size": 1863193960,
+            "file:checksum": "4c8355a9d5310b889be3d0752ca86787",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/26/IW/DV/S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70_5459/measurement/iw-vv.rtc.tiff",
+            "file:size": 1873374930,
+            "file:checksum": "36dd170967a543f0e3ed0a51a0bec2d5",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250526T191514_20250526T191539_059369_075E70_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                152.41732048695707,
+                -31.945743836937243
+              ],
+              [
+                152.7193968752882,
+                -30.93958308141813
+              ],
+              [
+                150.18785826121373,
+                -30.33410108657878
+              ],
+              [
+                149.69175547584962,
+                -31.81648795888752
+              ],
+              [
+                152.25557598676525,
+                -32.430691067823126
+              ],
+              [
+                152.41732048695707,
+                -31.945743836937243
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-05-26T19:15:26.678805Z",
+          "platform": "SENTINEL-1A",
+          "s1:shape": [
+            30146,
+            23365
+          ],
+          "proj:bbox": [
+            177490.0,
+            6409850.0,
+            478950.0,
+            6643500.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23365,
+            30146
+          ],
+          "end_datetime": "2025-05-26 19:15:39.177988+00:00",
+          "constellation": "Sentinel-1",
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            177490.0,
+            0.0,
+            -10.0,
+            6643500.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "482928",
+          "start_datetime": "2025-05-26 19:15:14.179622+00:00",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "8",
+          "s1:total_slices": "16",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59369,
+          "sat:relative_orbit": 147,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_timeliness": "Fast-24h",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc",
+        "bbox": [
+          151.6650884754958,
+          -32.68532781157505,
+          154.70211173875765,
+          -30.58635183327248
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/21/IW/DV/S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A/measurement/iw-vh.rtc.tiff",
+            "file:size": 1851063661,
+            "file:checksum": "1c301bf55e2f7d136612eff40e6fd694",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/21/IW/DV/S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A/measurement/iw-vv.rtc.tiff",
+            "file:size": 1872068921,
+            "file:checksum": "26a05a7901cd5f9de553493875ef00c3",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                154.38753944768624,
+                -32.2005549196175
+              ],
+              [
+                154.70211173875765,
+                -31.194088219387588
+              ],
+              [
+                152.16168907830408,
+                -30.58635183327248
+              ],
+              [
+                151.6650884754958,
+                -32.06901559231094
+              ],
+              [
+                154.2376120420913,
+                -32.68532781157505
+              ],
+              [
+                154.38753944768624,
+                -32.2005549196175
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-05-21T19:07:17.288739Z",
+          "platform": "sentinel-1a",
+          "s1:shape": [
+            29656,
+            23563
+          ],
+          "proj:bbox": [
+            368490.0,
+            6381890.0,
+            665050.0,
+            6617520.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23563,
+            29656
+          ],
+          "end_datetime": "2025-05-21T19:07:29.788132Z",
+          "constellation": "Sentinel-1",
+          "proj:centroid": {
+            "lat": -31.63368,
+            "lon": 153.18511
+          },
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            368490.0,
+            0.0,
+            -10.0,
+            6617520.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "482278",
+          "start_datetime": "2025-05-21T19:07:04.789347Z",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "5",
+          "s1:total_slices": "9",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59296,
+          "sat:relative_orbit": 74,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250521T190704_20250521T190729_059296_075BE6_852A",
+          "s1:product_timeliness": "Fast-24h",
+          "s1:processing_datetime": "2025-05-21T20:28:42.000000Z",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_rtc",
+        "bbox": [
+          149.69091160806292,
+          -32.43059771961036,
+          152.7186646293954,
+          -30.33400200944357
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/14/IW/DV/S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_07585D_DC28/measurement/iw-vh.rtc.tiff",
+            "file:size": 1865990620,
+            "file:checksum": "91e6a62b5b21a4fc6567e89a2e536547",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/14/IW/DV/S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_07585D_DC28/measurement/iw-vv.rtc.tiff",
+            "file:size": 1867601843,
+            "file:checksum": "257e1972beef1a7dd3c9009fe957a905",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                152.41658044038587,
+                -31.945650222380774
+              ],
+              [
+                152.7186646293954,
+                -30.93940102491914
+              ],
+              [
+                150.18744520884312,
+                -30.33400200944357
+              ],
+              [
+                149.69091160806292,
+                -31.816465997312584
+              ],
+              [
+                152.25504492169998,
+                -32.43059771961036
+              ],
+              [
+                152.41658044038587,
+                -31.945650222380774
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-05-14T19:15:27.117715Z",
+          "platform": "sentinel-1a",
+          "s1:shape": [
+            30146,
+            23367
+          ],
+          "proj:bbox": [
+            177430.0,
+            6409860.0,
+            478890.0,
+            6643530.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23367,
+            30146
+          ],
+          "end_datetime": "2025-05-14T19:15:39.616927Z",
+          "constellation": "Sentinel-1",
+          "proj:centroid": {
+            "lat": -31.37638,
+            "lon": 151.19314
+          },
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            177430.0,
+            0.0,
+            -10.0,
+            6643530.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "481373",
+          "start_datetime": "2025-05-14T19:15:14.618503Z",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "8",
+          "s1:total_slices": "16",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59194,
+          "sat:relative_orbit": 147,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250514T191514_20250514T191539_059194_07585D_DC28",
+          "s1:product_timeliness": "Fast-24h",
+          "s1:processing_datetime": "2025-05-14T20:29:46.000000Z",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc",
+        "bbox": [
+          151.6647720241723,
+          -32.685244987357024,
+          154.70137571264596,
+          -30.586256227958227
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/9/IW/DV/S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84/measurement/iw-vh.rtc.tiff",
+            "file:size": 1839347524,
+            "file:checksum": "e5ba89b7f4d2c3f04f20c755670a793b",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/9/IW/DV/S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84/measurement/iw-vv.rtc.tiff",
+            "file:size": 1859643796,
+            "file:checksum": "ed99a282a8fe44d5d182c2deb6f6d8fe",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                154.38679832228522,
+                -32.2006532549676
+              ],
+              [
+                154.70137571264596,
+                -31.194007744573206
+              ],
+              [
+                152.16085553118378,
+                -30.586256227958227
+              ],
+              [
+                151.6647720241723,
+                -32.06892205163325
+              ],
+              [
+                154.23686427496474,
+                -32.685244987357024
+              ],
+              [
+                154.38679832228522,
+                -32.2006532549676
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-05-09T19:07:17.704898Z",
+          "platform": "sentinel-1a",
+          "s1:shape": [
+            29655,
+            23563
+          ],
+          "proj:bbox": [
+            368440.0,
+            6381890.0,
+            664990.0,
+            6617520.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23563,
+            29655
+          ],
+          "end_datetime": "2025-05-09T19:07:30.204209Z",
+          "constellation": "Sentinel-1",
+          "proj:centroid": {
+            "lat": -31.63363,
+            "lon": 153.18452
+          },
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            368440.0,
+            0.0,
+            -10.0,
+            6617520.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "480729",
+          "start_datetime": "2025-05-09T19:07:05.205586Z",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "5",
+          "s1:total_slices": "9",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59121,
+          "sat:relative_orbit": 74,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250509T190705_20250509T190730_059121_0755D9_9A84",
+          "s1:product_timeliness": "Fast-24h",
+          "s1:processing_datetime": "2025-05-09T20:37:02.000000Z",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_rtc",
+        "bbox": [
+          149.69018608880833,
+          -32.430135361605544,
+          152.71751392504197,
+          -30.333812798682228
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/2/IW/DV/S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_0751F3_CC8C/measurement/iw-vh.rtc.tiff",
+            "file:size": 1864400856,
+            "file:checksum": "77a44b0e93fd55c723c3638ddbf26582",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/5/2/IW/DV/S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_0751F3_CC8C/measurement/iw-vv.rtc.tiff",
+            "file:size": 1864749878,
+            "file:checksum": "c71dad67030a4598fa1707d4b0a906cd",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                152.4157403019283,
+                -31.944653974666103
+              ],
+              [
+                152.71751392504197,
+                -30.93912781806592
+              ],
+              [
+                150.187034735894,
+                -30.333812798682228
+              ],
+              [
+                149.69018608880833,
+                -31.816086497442786
+              ],
+              [
+                152.25313413786245,
+                -32.430135361605544
+              ],
+              [
+                152.4157403019283,
+                -31.944653974666103
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-05-02T19:15:27.333217Z",
+          "platform": "sentinel-1a",
+          "s1:shape": [
+            30145,
+            23372
+          ],
+          "proj:bbox": [
+            177350.0,
+            6409880.0,
+            478800.0,
+            6643600.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23372,
+            30145
+          ],
+          "end_datetime": "2025-05-02T19:15:39.832348Z",
+          "constellation": "Sentinel-1",
+          "proj:centroid": {
+            "lat": -31.37611,
+            "lon": 151.19219
+          },
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            177350.0,
+            0.0,
+            -10.0,
+            6643600.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "479731",
+          "start_datetime": "2025-05-02T19:15:14.834087Z",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "8",
+          "s1:total_slices": "16",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 59019,
+          "sat:relative_orbit": 147,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250502T191514_20250502T191539_059019_0751F3_CC8C",
+          "s1:product_timeliness": "Fast-24h",
+          "s1:processing_datetime": "2025-05-02T20:29:16.000000Z",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_rtc",
+        "bbox": [
+          151.66276256227326,
+          -32.68517581270218,
+          154.6992757805099,
+          -30.586059608403897
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/4/27/IW/DV/S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_074F12_2C9E/measurement/iw-vh.rtc.tiff",
+            "file:size": 1834521636,
+            "file:checksum": "c35ec8698effddb3f45702256ef89f28",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/4/27/IW/DV/S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_074F12_2C9E/measurement/iw-vv.rtc.tiff",
+            "file:size": 1869092560,
+            "file:checksum": "69804dbb49694d2d2054373ee564b4c5",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                154.38467417519524,
+                -32.200496129314566
+              ],
+              [
+                154.6992757805099,
+                -31.1939452882496
+              ],
+              [
+                152.15835412085173,
+                -30.586059608403897
+              ],
+              [
+                151.66276256227326,
+                -32.06141372876065
+              ],
+              [
+                154.23473010950812,
+                -32.68517581270218
+              ],
+              [
+                154.38467417519524,
+                -32.200496129314566
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-04-27T19:07:18.274506Z",
+          "platform": "sentinel-1a",
+          "s1:shape": [
+            29656,
+            23563
+          ],
+          "proj:bbox": [
+            368230.0,
+            6381900.0,
+            664790.0,
+            6617530.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23563,
+            29656
+          ],
+          "end_datetime": "2025-04-27T19:07:30.773816Z",
+          "constellation": "Sentinel-1",
+          "proj:centroid": {
+            "lat": -31.63355,
+            "lon": 153.18238
+          },
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            368230.0,
+            0.0,
+            -10.0,
+            6617530.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "478994",
+          "start_datetime": "2025-04-27T19:07:05.775196Z",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "5",
+          "s1:total_slices": "9",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 58946,
+          "sat:relative_orbit": 74,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250427T190705_20250427T190730_058946_074F12_2C9E",
+          "s1:product_timeliness": "Fast-24h",
+          "s1:processing_datetime": "2025-04-27T22:25:14.000000Z",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_rtc",
+        "bbox": [
+          149.68977380659672,
+          -32.429955583552385,
+          152.71761913709668,
+          -30.333441085045482
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/4/20/IW/DV/S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_074ADF_0707/measurement/iw-vh.rtc.tiff",
+            "file:size": 1865856211,
+            "file:checksum": "1efa27dc446881f61987d8ed673ddd6a",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/4/20/IW/DV/S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_074ADF_0707/measurement/iw-vv.rtc.tiff",
+            "file:size": 1866413966,
+            "file:checksum": "c6aec76e5de1ee6b9630ace8d2e93e43",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                152.41584781528098,
+                -31.9443838187076
+              ],
+              [
+                152.71761913709668,
+                -30.938947582734468
+              ],
+              [
+                150.1865255154176,
+                -30.333441085045482
+              ],
+              [
+                149.68977380659672,
+                -31.815805303187375
+              ],
+              [
+                152.2532419853872,
+                -32.429955583552385
+              ],
+              [
+                152.41584781528098,
+                -31.9443838187076
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-04-20T19:15:27.326166Z",
+          "platform": "sentinel-1a",
+          "s1:shape": [
+            30146,
+            23373
+          ],
+          "proj:bbox": [
+            177330.0,
+            6409900.0,
+            478790.0,
+            6643630.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23373,
+            30146
+          ],
+          "end_datetime": "2025-04-20T19:15:39.825434Z",
+          "constellation": "Sentinel-1",
+          "proj:centroid": {
+            "lat": -31.37584,
+            "lon": 151.19206
+          },
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            177330.0,
+            0.0,
+            -10.0,
+            6643630.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "477919",
+          "start_datetime": "2025-04-20T19:15:14.826898Z",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "8",
+          "s1:total_slices": "16",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 58844,
+          "sat:relative_orbit": 147,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250420T191514_20250420T191539_058844_074ADF_0707",
+          "s1:product_timeliness": "Fast-24h",
+          "s1:processing_datetime": "2025-04-20T20:32:24.000000Z",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      },
+      {
+        "id": "S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9_rtc",
+        "bbox": [
+          151.66477464576582,
+          -32.68488528987606,
+          154.70126434084185,
+          -30.58580441393075
+        ],
+        "type": "Feature",
+        "links": [
+          {
+            "rel": "collection",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "parent",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc"
+          },
+          {
+            "rel": "root",
+            "type": "application/json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/"
+          },
+          {
+            "rel": "self",
+            "type": "application/geo+json",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-rtc/items/S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9_rtc"
+          },
+          {
+            "rel": "license",
+            "href": "https://sentinel.esa.int/documents/247904/690755/Sentinel_Data_Legal_Notice"
+          },
+          {
+            "rel": "derived_from",
+            "href": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-1-grd/items/S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9",
+            "type": "application/json",
+            "title": "Sentinel 1 GRD Item"
+          },
+          {
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/map?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9_rtc",
+            "title": "Map of item",
+            "type": "text/html"
+          }
+        ],
+        "assets": {
+          "vh": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/4/15/IW/DV/S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9_5227/measurement/iw-vh.rtc.tiff",
+            "file:size": 1839609455,
+            "file:checksum": "4d41c6be2b25a477ee22bc4863c88154",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VH: vertical transmit, horizontal receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with horizontal polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "vv": {
+            "href": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/4/15/IW/DV/S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9_5227/measurement/iw-vv.rtc.tiff",
+            "file:size": 1864685836,
+            "file:checksum": "babed0c75bea98a64ae1f37797b013a0",
+            "type": "image/tiff; application=geotiff; profile=cloud-optimized",
+            "roles": [
+              "data"
+            ],
+            "title": "VV: vertical transmit, vertical receive",
+            "description": "Terrain-corrected gamma naught values of signal transmitted with vertical polarization and received with vertical polarization with radiometric terrain correction applied.",
+            "raster:bands": [
+              {
+                "nodata": -32768,
+                "data_type": "float32",
+                "spatial_resolution": 10
+              }
+            ]
+          },
+          "tilejson": {
+            "title": "TileJSON with default rendering",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/tilejson.json?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "type": "application/json",
+            "roles": [
+              "tiles"
+            ]
+          },
+          "rendered_preview": {
+            "title": "Rendered preview",
+            "rel": "preview",
+            "href": "https://planetarycomputer.microsoft.com/api/data/v1/item/preview.png?collection=sentinel-1-rtc&item=S1A_IW_GRDH_1SDV_20250415T190704_20250415T190729_058771_0747E9_rtc&assets=vv&assets=vh&tile_format=png&expression=0.03%20%2B%20log%20(10e-4%20-%20log%20(0.05%20%2F%20(0.02%20%2B%202%20*%20vv)));0.05%20%2B%20exp%20(0.25%20*%20(log%20(0.01%20%2B%202%20*%20vv)%20%2B%20log%20(0.02%20%2B%205%20*%20vh)));1%20-%20log%20(0.05%20%2F%20(0.045%20-%200.9%20*%20vv))&asset_as_band=True&rescale=0,.8000&rescale=0,1.000&rescale=0,1.000&format=png",
+            "roles": [
+              "overview"
+            ],
+            "type": "image/png"
+          }
+        },
+        "geometry": {
+          "type": "Polygon",
+          "coordinates": [
+            [
+              [
+                154.38668814682563,
+                -32.20038385211191
+              ],
+              [
+                154.70126434084185,
+                -31.193648373570653
+              ],
+              [
+                152.1607551274925,
+                -30.58580441393075
+              ],
+              [
+                151.66477464576582,
+                -32.068741666479454
+              ],
+              [
+                154.2367526555148,
+                -32.68488528987606
+              ],
+              [
+                154.38668814682563,
+                -32.20038385211191
+              ]
+            ]
+          ]
+        },
+        "collection": "sentinel-1-rtc",
+        "properties": {
+          "datetime": "2025-04-15T19:07:17.489778Z",
+          "platform": "SENTINEL-1A",
+          "s1:shape": [
+            29653,
+            23563
+          ],
+          "proj:bbox": [
+            368450.0,
+            6381930.0,
+            664980.0,
+            6617560.0
+          ],
+          "proj:epsg": 32756,
+          "proj:shape": [
+            23563,
+            29653
+          ],
+          "end_datetime": "2025-04-15 19:07:29.989042+00:00",
+          "constellation": "Sentinel-1",
+          "s1:resolution": "high",
+          "proj:transform": [
+            10.0,
+            0.0,
+            368450.0,
+            0.0,
+            -10.0,
+            6617560.0,
+            0.0,
+            0.0,
+            1.0
+          ],
+          "s1:datatake_id": "477161",
+          "start_datetime": "2025-04-15 19:07:04.990514+00:00",
+          "s1:orbit_source": "RESORB",
+          "s1:slice_number": "5",
+          "s1:total_slices": "9",
+          "sar:looks_range": 5,
+          "sat:orbit_state": "descending",
+          "sar:product_type": "GRD",
+          "sar:looks_azimuth": 1,
+          "sar:polarizations": [
+            "VV",
+            "VH"
+          ],
+          "sar:frequency_band": "C",
+          "sat:absolute_orbit": 58771,
+          "sat:relative_orbit": 74,
+          "s1:processing_level": "1",
+          "sar:instrument_mode": "IW",
+          "sar:center_frequency": 5.405,
+          "sar:resolution_range": 20,
+          "s1:product_timeliness": "Fast-24h",
+          "sar:resolution_azimuth": 22,
+          "sar:pixel_spacing_range": 10,
+          "sar:observation_direction": "right",
+          "sar:pixel_spacing_azimuth": 10,
+          "sar:looks_equivalent_number": 4.4,
+          "s1:instrument_configuration_ID": "7",
+          "sat:platform_international_designator": "2014-016A"
+        },
+        "stac_extensions": [
+          "https://stac-extensions.github.io/sar/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/sat/v1.0.0/schema.json",
+          "https://stac-extensions.github.io/projection/v1.1.0/schema.json",
+          "https://stac-extensions.github.io/file/v2.0.0/schema.json",
+          "https://stac-extensions.github.io/raster/v1.1.0/schema.json"
+        ],
+        "stac_version": "1.0.0"
+      }
+    ],
+    "numberReturned": 12
+  }
+}
