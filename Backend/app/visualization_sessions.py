@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 SESSION_ID_RE = re.compile(r"^[a-f0-9]{32}$")
 PRODUCT_ID_RE = re.compile(r"^[a-f0-9]{32}$")
 POLARIZATION_LABELS = {"HHHH": "HH", "HVHV": "HV", "VHVH": "VH", "VVVV": "VV"}
-SESSION_DIRECTORIES = ("rgb", "aligned", "comparisons", "previews", "products")
+SESSION_DIRECTORIES = ("rgb", "aligned", "comparisons", "previews", "products", "exports")
 
 
 class VisualizationSessionError(RuntimeError):

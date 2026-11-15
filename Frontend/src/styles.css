@@ -163,10 +163,10 @@ button { cursor: pointer; }
 .timeline-frame-heading small, .timeline-request-status { color: #8daeb0; font-size: 11px; }
 .timeline-request-status { margin-left: auto; }
 .timeline-raster-frame { position: relative; display: grid; place-items: center; width: 100%; height: clamp(260px, 38vh, 420px); overflow: hidden; border: 1px solid #284851; border-radius: 7px; background: #071c27; }
-.timeline-frame-image { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 1; transition: opacity 200ms ease; }
-.timeline-frame-outgoing { opacity: 0; }
-.timeline-frame-incoming { opacity: 0; }
-.timeline-frame-incoming.is-visible { opacity: 1; }
+.timeline-frame-image { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 1; }
+.timeline-frame-visible { z-index: 2; }
+.timeline-frame-incoming { z-index: 1; visibility: hidden; }
+.timeline-frame-incoming.timeline-frame-retiring { visibility: visible; }
 .timeline-loading-indicator { position: absolute; z-index: 2; top: 9px; right: 9px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid #315764; border-radius: 4px; color: #c2d9d8; background: #081b28dd; font: 9px 'DM Mono'; }
 .timeline-load-error { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-height: 38px; margin-top: 6px; color: #e2ae91; font-size: 11px; }
 .timeline-checkpoint-scroll { width: 100%; overflow-x: auto; overflow-y: hidden; margin: 10px 0 2px; padding: 4px 0 8px; overscroll-behavior-x: contain; }
@@ -196,7 +196,6 @@ button { cursor: pointer; }
 .timeline-checkpoint-indexes small.active { color: #73dfd2; }
 .timeline-navigation { display: flex; align-items: center; justify-content: space-between; min-height: 36px; }
 .timeline-navigation > span { color: #78969b; font: 9px 'DM Mono'; }
-@media (prefers-reduced-motion: reduce) { .timeline-frame-image { transition: none; } }
 .comparison-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
 .comparison-panels figure { min-width: 0; margin: 0; padding: 10px; border: 1px solid #284851; border-radius: 8px; background: #071c27; overflow: auto; }
 .comparison-panels figcaption { margin-bottom: 8px; color: #b9d4d4; font-size: 12px; }

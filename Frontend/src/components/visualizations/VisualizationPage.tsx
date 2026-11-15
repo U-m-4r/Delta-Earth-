@@ -12,14 +12,19 @@ type RasterMetadata = { units?: string; minimum?: number | null; maximum?: numbe
   boundsWgs84?: [number, number, number, number]; width?: number; height?: number;
   crs?: string; calibration?: string; [key: string]: unknown };
 type DisplayLegend = { palette: string; stops: string[]; ticks: number[]; minimum: number; maximum: number;
-  bands?: number; bandColors?: string[] | null };
+  bands?: number; bandColors?: string[] | null; normalizationScale?: number };
 type DisplaySettings = { palette: string; minimum: string; maximum: string; lowerPercentile: string;
-  upperPercentile: string; stretch: 'linear' | 'log'; bands: string };
+  upperPercentile: string; stretch: 'linear' | 'log'; bands: string; normalizationScale?: number };
 type RasterSnapshot = { id: string; raster: Raster; imageUrl: string; legend: DisplayLegend; settings: DisplaySettings };
 type PixelInfo = { longitude: number; latitude: number; value: number | null; units: string;
   displayColor: string | null; polarization: string; sourceVariable: string; acquisitionDate?: string; nodata: boolean };
 type Timeline = { frames: Raster[]; settings: DisplaySettings; index: number };
+type VizSession = { sessionId: string; sessionToken: string; studyId: string };
+type ChangeResult = { productId: string; productUrl: string; downloadUrl: string; downloadFilename: string;
+  statistics: Record<string, number | string | null>; legend: { minimum: number; maximum: number; palette: string; units: string };
+  boundsWgs84: [number, number, number, number] };
 type TimelinePreview = { key: string; raster: Raster; imageUrl: string; legend: DisplayLegend };
+const headersFor = (session: VizSession) => ({ 'X-Visualization-Session-Token': session.sessionToken });
 type Retrieval = { status: string };
 type LocalCatalog = { observations: Array<{ observationId: string; granuleId?: string; acquisitionDate?: string;
   acquiredAt?: string; [key: string]: unknown; variables: Array<{ name: string; sourceVariable: string; frequency: string;
@@ -37,6 +42,11 @@ const boundsOf = (raster: Raster): [number, number, number, number] | null => {
   return Array.isArray(bounds) && bounds.length === 4 && bounds.every((value) => typeof value === 'number')
     ? bounds as [number, number, number, number] : null;
 };
+const boundsOverlap = (left: Raster, right: Raster) => {
+  const a = boundsOf(left), b = boundsOf(right);
+  return Boolean(a && b && Math.min(a[2], b[2]) > Math.max(a[0], b[0]) &&
+    Math.min(a[3], b[3]) > Math.max(a[1], b[1]));
+};
 const legendGradient = (legend: DisplayLegend) => legend.bands && legend.bandColors?.length
   ? `linear-gradient(90deg, ${legend.bandColors.map((color, index) => `${color} ${index * 100 / legend.bandColors!.length}%, ${color} ${(index + 1) * 100 / legend.bandColors!.length}%`).join(', ')})`
   : `linear-gradient(90deg, ${legend.stops.join(', ')})`;
@@ -45,6 +55,19 @@ const displayLabel = (raster: Raster) => `${raster.frequency.replace('frequency'
 const snapshotId = (raster: Raster) => `${raster.studyId}/${raster.observationId}/${raster.frequency}/${raster.sourceVariable}`;
 const checkpointLabel = (value?: string) => value
   ? new Date(value).toLocaleDateString(undefined, { day: '2-digit', month: 'short', year: 'numeric' }) : 'Date unavailable';
+const calibrationOf = (raster: Raster) => String(raster.raster.calibration ?? raster.acquisitionMetadata?.calibration ??
+  raster.acquisitionMetadata?.productType ?? '').trim().toLowerCase();
+function saveBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob), anchor = document.createElement('a');
+  anchor.href = url; anchor.download = filename; document.body.appendChild(anchor); anchor.click(); anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function filenameFromResponse(response: Response, fallback: string) {
+  const header = response.headers.get('Content-Disposition') ?? '';
+  const encoded = header.match(/filename\*=UTF-8''([^;]+)/i)?.[1];
+  if (encoded) { try { return decodeURIComponent(encoded); } catch { return fallback; } }
+  return header.match(/filename="?([^";]+)"?/i)?.[1] ?? fallback;
+}
 
 function requestUrl(raster: Raster, settings: DisplaySettings, pixel = false, maxDimension?: number, x?: number, y?: number) {
   const query = new URLSearchParams({ palette: settings.palette, stretch: settings.stretch,
@@ -52,6 +75,8 @@ function requestUrl(raster: Raster, settings: DisplaySettings, pixel = false, ma
     bands: settings.bands, frequency: raster.frequency });
   if (settings.minimum.trim()) query.set('minimum', settings.minimum);
   if (settings.maximum.trim()) query.set('maximum', settings.maximum);
+  if (settings.normalizationScale !== undefined && Number.isFinite(settings.normalizationScale))
+    query.set('normalization_scale', String(settings.normalizationScale));
   if (maxDimension) query.set('max_dimension', String(maxDimension));
   if (pixel) { query.set('x', String(x)); query.set('y', String(y)); }
   const suffix = pixel ? '/pixel' : '';
@@ -114,6 +139,7 @@ function compatibleTimelineRasters(reference: Raster, collection: Raster[]): Ras
 
 export function VisualizationPage({ selection, retrievalSessionId, studyId, onRasterOverlayChange, onBack }: Props) {
   const [retrieval, setRetrieval] = useState<Retrieval | null>(null);
+  const [vizSession, setVizSession] = useState<VizSession | null>(null);
   const [rasters, setRasters] = useState<Raster[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [actionMessage, setActionMessage] = useState<string | null>(null);
@@ -141,12 +167,18 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
   const [timelineLoading, setTimelineLoading] = useState(false);
   const [timelineError, setTimelineError] = useState<string | null>(null);
   const [timelineRetry, setTimelineRetry] = useState(0);
+  const [timelineExportBusy, setTimelineExportBusy] = useState(false);
+  const [timelineExportStatus, setTimelineExportStatus] = useState('');
+  const [tiffDownloadBusy, setTiffDownloadBusy] = useState(false);
+  const [changeBusy, setChangeBusy] = useState(false);
+  const [changeResult, setChangeResult] = useState<ChangeResult | null>(null);
+  const [changeImageUrl, setChangeImageUrl] = useState('');
+  const [changeDownloadBusy, setChangeDownloadBusy] = useState(false);
   const snapshotUrls = useRef(new Set<string>());
   const timelineCache = useRef(new Map<string, TimelinePreview>());
   const timelineCacheSignature = useRef('');
   const displayedTimelineRef = useRef<TimelinePreview | null>(null);
   const requestSequence = useRef(0);
-  const transitionTimer = useRef<number | null>(null);
   const transitionFrame = useRef<number | null>(null);
 
   const dates = useMemo(() => [...new Set(rasters.map((item) => (item.acquisitionDate ?? '').slice(0, 10)).filter(Boolean))].sort(), [rasters]);
@@ -167,9 +199,17 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
     comparison[0].settings.upperPercentile !== comparison[1].settings.upperPercentile ||
     comparison[0].legend.minimum !== comparison[1].legend.minimum ||
     comparison[0].legend.maximum !== comparison[1].legend.maximum);
+  const changeCompatibilityError = comparison.length < 2 ? 'Add two raster snapshots first.' :
+    comparison[0].raster.sourceVariable !== comparison[1].raster.sourceVariable ? 'Changes require the same polarization / measurement in both snapshots.' :
+    comparison[0].raster.frequency !== comparison[1].raster.frequency ? 'Changes require the same frequency in both snapshots.' :
+    !String(comparison[0].raster.raster.units ?? '').trim() ||
+      String(comparison[0].raster.raster.units).toLowerCase() !== String(comparison[1].raster.raster.units ?? '').toLowerCase() ? 'Changes require matching known measurement units.' :
+    !calibrationOf(comparison[0].raster) || calibrationOf(comparison[0].raster) !== calibrationOf(comparison[1].raster) ? 'Changes require matching calibration or product metadata.' :
+    !boundsOverlap(comparison[0].raster, comparison[1].raster) ? 'Changes require overlapping geographic coverage.' : null;
 
   useEffect(() => {
     let cancelled = false;
+    let sessionValue: VizSession | null = null;
     const load = async () => {
       setLoading(true); setError(null);
       try {
@@ -180,6 +220,17 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
         if (!catalogResponse.ok) throw new Error('Locally processed raster catalog could not be loaded.');
         const catalog = await catalogResponse.json() as LocalCatalog;
         const retrievalValue = retrievalResponse.ok ? await retrievalResponse.json() as Retrieval : null;
+        const sessionResponse = await fetch(`${baseUrl}/api/visualization/sessions`, { method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ studyId, retrievalSessionId }) });
+        if (!sessionResponse.ok) throw new Error('A temporary visualization session could not be opened for exports.');
+        sessionValue = await sessionResponse.json() as VizSession;
+        if (cancelled) {
+          void fetch(`${baseUrl}/api/visualization/sessions/${sessionValue.sessionId}`, { method: 'DELETE',
+            headers: { 'X-Visualization-Session-Token': sessionValue.sessionToken }, keepalive: true });
+          return;
+        }
+        setVizSession(sessionValue);
         const flattened: Raster[] = catalog.observations.flatMap((observation) => observation.variables.map((item) => ({
           studyId, observationId: observation.observationId, granuleId: observation.granuleId ?? observation.observationId,
           acquisitionDate: observation.acquisitionDate ?? observation.acquiredAt, variable: item.name,
@@ -199,7 +250,12 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
       finally { if (!cancelled) setLoading(false); }
     };
     void load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      if (sessionValue) void fetch(`${baseUrl}/api/visualization/sessions/${sessionValue.sessionId}`, {
+        method: 'DELETE', headers: { 'X-Visualization-Session-Token': sessionValue.sessionToken }, keepalive: true,
+      }).catch(() => {});
+    };
   }, [retrievalSessionId, studyId]);
 
   useEffect(() => {
@@ -255,7 +311,6 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
     const neighborControllers = new Map<string, AbortController>();
     let cancelled = false;
     setTimelineLoading(true); setTimelineError(null); setIncomingTimeline(null); setTimelineTransitionStarted(false);
-    if (transitionTimer.current !== null) window.clearTimeout(transitionTimer.current);
     if (transitionFrame.current !== null) window.cancelAnimationFrame(transitionFrame.current);
 
     const frame = timeline.frames[timeline.index];
@@ -300,25 +355,22 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
         setTimelineLoading(false);
       } else {
         setIncomingTimeline(preview);
-        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reducedMotion) {
+        transitionFrame.current = window.requestAnimationFrame(() => {
+          if (cancelled || requestId !== requestSequence.current) return;
           setDisplayedTimeline(preview); displayedTimelineRef.current = preview;
-          if (previous.imageUrl !== preview.imageUrl && !timelineCache.current.has(previous.key)) URL.revokeObjectURL(previous.imageUrl);
-          setIncomingTimeline(null); setTimelineLoading(false);
-        } else {
-          transitionFrame.current = window.requestAnimationFrame(() => setTimelineTransitionStarted(true));
-          transitionTimer.current = window.setTimeout(() => {
+          setIncomingTimeline(previous); setTimelineTransitionStarted(true); setTimelineLoading(false);
+          transitionFrame.current = window.requestAnimationFrame(() => {
             if (cancelled || requestId !== requestSequence.current) return;
-            setDisplayedTimeline(preview); displayedTimelineRef.current = preview;
+            setIncomingTimeline((current) => current === previous ? null : current);
+            setTimelineTransitionStarted(false);
             if (previous.imageUrl !== preview.imageUrl && !timelineCache.current.has(previous.key)) URL.revokeObjectURL(previous.imageUrl);
-            setIncomingTimeline(null); setTimelineTransitionStarted(false); setTimelineLoading(false);
             const keep = new Set([timeline.frames[timeline.index - 1], timeline.frames[timeline.index],
               timeline.frames[timeline.index + 1]].filter((item): item is Raster => Boolean(item)).map(snapshotId));
             timelineCache.current.forEach((entry, entryKey) => {
               if (!keep.has(entryKey)) { URL.revokeObjectURL(entry.imageUrl); timelineCache.current.delete(entryKey); }
             });
-          }, 220);
-        }
+          });
+        });
       }
       preload(timeline.index - 1); preload(timeline.index + 1);
     }).catch((reason) => {
@@ -331,7 +383,6 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
     return () => {
       cancelled = true; activeController.abort(); neighborControllers.forEach((controller) => controller.abort());
       if (requestId === requestSequence.current) requestSequence.current += 1;
-      if (transitionTimer.current !== null) window.clearTimeout(transitionTimer.current);
       if (transitionFrame.current !== null) window.cancelAnimationFrame(transitionFrame.current);
     };
   }, [timeline?.index, timeline?.frames, timeline?.settings, timelineRetry]);
@@ -353,7 +404,9 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
     const x = Math.floor((event.clientX - rect.left - (rect.width - renderedWidth) / 2) / fit);
     const y = Math.floor((event.clientY - rect.top - (rect.height - renderedHeight) / 2) / fit);
     if (x < 0 || y < 0 || x >= image.naturalWidth || y >= image.naturalHeight) return;
-    const response = await fetch(requestUrl(raster, currentSettings, true, Math.max(image.naturalWidth, image.naturalHeight), x, y));
+    const response = await fetch(requestUrl(raster, { ...currentSettings,
+      normalizationScale: displayLegend?.normalizationScale }, true,
+      Math.max(image.naturalWidth, image.naturalHeight), x, y));
     const body = await response.json() as PixelInfo & { detail?: string };
     if (!response.ok) { setError(body.detail ?? 'Pixel inspection failed.'); return; }
     setPixelInfo(body);
@@ -368,7 +421,8 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
       const legend = JSON.parse(response.headers.get('X-Raster-Legend') ?? 'null') as DisplayLegend;
       const imageUrl = URL.createObjectURL(await response.blob());
       snapshotUrls.current.add(imageUrl);
-      const next: RasterSnapshot = { id: snapshotId(raster), raster, imageUrl, legend, settings: { ...currentSettings } };
+      const next: RasterSnapshot = { id: snapshotId(raster), raster, imageUrl, legend,
+        settings: { ...currentSettings, normalizationScale: legend.normalizationScale } };
       setComparison((current) => current.length < 2 ? [...current, next] : current);
     } catch (reason) { setError(reason instanceof Error ? reason.message : 'Comparison snapshot failed.'); }
     finally { setComparisonBusy(false); }
@@ -376,7 +430,88 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
 
   const clearComparison = () => {
     comparison.forEach((snapshot) => { URL.revokeObjectURL(snapshot.imageUrl); snapshotUrls.current.delete(snapshot.imageUrl); });
+    if (changeImageUrl) URL.revokeObjectURL(changeImageUrl);
+    setChangeImageUrl(''); setChangeResult(null);
     setComparison([]);
+  };
+
+  const downloadCurrentTiff = async () => {
+    if (!raster || tiffDownloadBusy) return;
+    setTiffDownloadBusy(true); setError(null);
+    try {
+      const response = await fetch(`${baseUrl}${raster.rasterUrl}`);
+      if (!response.ok) throw new Error('Saved GeoTIFF could not be downloaded.');
+      saveBlob(await response.blob(), filenameFromResponse(response, `${raster.granuleId}_${raster.sourceVariable}.tif`));
+    } catch (reason) { setError(reason instanceof Error ? reason.message : 'GeoTIFF download failed.'); }
+    finally { setTiffDownloadBusy(false); }
+  };
+
+  const calculateChanges = async () => {
+    if (!vizSession || comparison.length !== 2 || changeCompatibilityError || changeBusy) return;
+    setChangeBusy(true); setError(null);
+    if (changeImageUrl) URL.revokeObjectURL(changeImageUrl);
+    setChangeImageUrl(''); setChangeResult(null);
+    const rasterRef = (item: RasterSnapshot) => ({ observationId: item.raster.observationId,
+      sourceVariable: item.raster.sourceVariable, frequency: item.raster.frequency });
+    try {
+      const response = await fetch(`${baseUrl}/api/visualization/sessions/${vizSession.sessionId}/changes`, {
+        method: 'POST', headers: { ...headersFor(vizSession), 'Content-Type': 'application/json' },
+        body: JSON.stringify({ left: rasterRef(comparison[0]), right: rasterRef(comparison[1]) }),
+      });
+      const body = await response.json() as ChangeResult & { detail?: string };
+      if (!response.ok) throw new Error(body.detail ?? 'Change calculation failed.');
+      const imageResponse = await fetch(`${baseUrl}${body.productUrl}`, { headers: headersFor(vizSession) });
+      if (!imageResponse.ok) throw new Error('Change image could not be loaded.');
+      setChangeResult(body); setChangeImageUrl(URL.createObjectURL(await imageResponse.blob()));
+    } catch (reason) { setError(reason instanceof Error ? reason.message : 'Change calculation failed.'); }
+    finally { setChangeBusy(false); }
+  };
+
+  const downloadChanges = async () => {
+    if (!vizSession || !changeResult || changeDownloadBusy) return;
+    setChangeDownloadBusy(true); setError(null);
+    try {
+      const response = await fetch(`${baseUrl}${changeResult.downloadUrl}`, { headers: headersFor(vizSession) });
+      if (!response.ok) throw new Error((await response.json()).detail ?? 'Change export could not be downloaded.');
+      saveBlob(await response.blob(), filenameFromResponse(response, changeResult.downloadFilename));
+    } catch (reason) { setError(reason instanceof Error ? reason.message : 'Change download failed.'); }
+    finally { setChangeDownloadBusy(false); }
+  };
+
+  const downloadTimeline = async () => {
+    if (!vizSession || !timeline || timelineExportBusy) return;
+    setTimelineExportBusy(true); setTimelineExportStatus('Preparing GIF, report, and metadata…'); setError(null);
+    try {
+      const body = { frames: timeline.frames.map((frame) => ({ observationId: frame.observationId,
+        sourceVariable: frame.sourceVariable, frequency: frame.frequency })),
+        settings: { palette: timeline.settings.palette, minimum: Number(timeline.settings.minimum),
+          maximum: Number(timeline.settings.maximum), lowerPercentile: Number(timeline.settings.lowerPercentile),
+          upperPercentile: Number(timeline.settings.upperPercentile), stretch: timeline.settings.stretch,
+          bands: Number(timeline.settings.bands), normalizationScale: timeline.settings.normalizationScale } };
+      const started = await fetch(`${baseUrl}/api/visualization/sessions/${vizSession.sessionId}/timeline/exports`, {
+        method: 'POST', headers: { ...headersFor(vizSession), 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+      });
+      const startedBody = await started.json() as { exportId?: string; detail?: string };
+      if (!started.ok || !startedBody.exportId) throw new Error(startedBody.detail ?? 'Timeline export could not be started.');
+      const completion: { value: { status: string; filename?: string; downloadUrl?: string; error?: string } | null } = { value: null };
+      for (let attempt = 0; attempt < 600; attempt += 1) {
+        const statusResponse = await fetch(`${baseUrl}/api/visualization/sessions/${vizSession.sessionId}/timeline/exports/${startedBody.exportId}`, { headers: headersFor(vizSession) });
+        const status = await statusResponse.json() as typeof completed & { detail?: string };
+        if (!statusResponse.ok) throw new Error(status.detail ?? 'Timeline export status could not be read.');
+        if (status.status === 'completed' || status.status === 'failed') { completion.value = status; break; }
+        setTimelineExportStatus(status.status === 'processing' ? 'Rendering frames and calculating changes…' : 'Queued for export…');
+        await new Promise((resolve) => window.setTimeout(resolve, 1000));
+      }
+      const completed = completion.value;
+      if (!completed) throw new Error('Timeline export is taking longer than expected; retry from the Timeline section.');
+      if (completed.status !== 'completed' || !completed.downloadUrl) throw new Error(completed.error ?? 'Timeline export failed.');
+      setTimelineExportStatus('Downloading GIF, PDF report, and JSON metadata…');
+      const download = await fetch(`${baseUrl}${completed.downloadUrl}`, { headers: headersFor(vizSession) });
+      if (!download.ok) throw new Error((await download.json()).detail ?? 'Timeline export file could not be downloaded.');
+      saveBlob(await download.blob(), filenameFromResponse(download, completed.filename ?? 'DeltaEarth_Timeline.zip'));
+      setTimelineExportStatus('Timeline export downloaded.');
+    } catch (reason) { setError(reason instanceof Error ? reason.message : 'Timeline export failed.'); setTimelineExportStatus(''); }
+    finally { setTimelineExportBusy(false); }
   };
 
   const createTimeline = () => {
@@ -389,7 +524,8 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
       return;
     }
     const fixedSettings: DisplaySettings = { ...currentSettings,
-      minimum: String(displayLegend.minimum), maximum: String(displayLegend.maximum) };
+      minimum: String(displayLegend.minimum), maximum: String(displayLegend.maximum),
+      normalizationScale: displayLegend.normalizationScale };
     setTimeline({ frames: matching, settings: fixedSettings,
       index: Math.max(0, matching.findIndex((item) => item.observationId === raster.observationId && item.sourceVariable === raster.sourceVariable)) });
     setActionMessage(null);
@@ -452,12 +588,14 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
             <a href={`${baseUrl}${raster.rasterUrl}`} target="_blank" rel="noreferrer">Open saved source GeoTIFF</a>
           </div>}
           <div className="viewer-actions"><button className="primary-action" onClick={() => void addToComparison()} disabled={!raster || comparison.length >= 2 || comparisonBusy || !displayLegend}>{comparisonBusy ? 'Capturing…' : 'Add to Comparison'}</button>
-            <button className="secondary-action" onClick={createTimeline} disabled={!raster || !displayLegend}>Create Timeline</button></div>
+            <button className="secondary-action" onClick={createTimeline} disabled={!raster || !displayLegend}>Create Timeline</button>
+            <button className="secondary-action" onClick={() => void downloadCurrentTiff()} disabled={!raster || tiffDownloadBusy}>{tiffDownloadBusy ? 'Preparing TIFF…' : 'Download TIFF'}</button></div>
         </section>
 
         {comparison.length > 0 && <section className="visual-card comparison-snapshots">
           <div className="visual-card-heading"><div><span className="section-kicker">Comparison</span><h2>Saved display snapshots</h2></div>
-            <button className="secondary-action" onClick={clearComparison}>Clear Comparison</button></div>
+            <div className="comparison-actions"><button className="primary-action" onClick={() => void calculateChanges()} disabled={Boolean(changeCompatibilityError) || changeBusy} title={changeCompatibilityError ?? 'Calculate right raster minus left raster'}>{changeBusy ? 'Calculating…' : 'Changes'}</button><button className="secondary-action" onClick={clearComparison}>Clear Comparison</button></div></div>
+          {comparison.length === 2 && changeCompatibilityError && <p className="data-note">Changes unavailable: {changeCompatibilityError}</p>}
           {comparisonColorsDiffer && <div className="visual-info-message">These images use different palettes, normalization, or intensity ranges. Their colors are not directly comparable.</div>}
           <div className="comparison-panels">{[0, 1].map((index) => {
             const snapshot = comparison[index];
@@ -470,19 +608,26 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
                 : <div className="comparison-empty-slot">{index === 0 ? 'Image 1 slot' : 'Image 2 slot'}<small>Select a raster configuration in the Main Viewer and add it.</small></div>}
             </figure>;
           })}</div>
+          {changeResult && <div className="change-result-panel"><div className="visual-card-heading"><div><span className="section-kicker">Scientific raster difference</span><h3>Right − Left</h3></div><button className="secondary-action" onClick={() => void downloadChanges()} disabled={changeDownloadBusy}>{changeDownloadBusy ? 'Preparing ZIP…' : 'Download Changes'}</button></div>
+            <p>Positive values mean the right raster is higher; negative values mean lower values. Near-zero changes are within {String(changeResult.statistics.unchangedTolerance)} {changeResult.legend.units}. This measurement difference alone does not confirm an environmental event.</p>
+            {changeImageUrl && <img className="change-result-image" src={changeImageUrl} alt="Right raster minus left raster" />}
+            <div className="change-result-legend"><span>−{Math.abs(changeResult.legend.minimum).toPrecision(4)} {changeResult.legend.units}</span><i /><span>0</span><i /><span>+{changeResult.legend.maximum.toPrecision(4)} {changeResult.legend.units}</span></div>
+            <div className="change-stat-grid">{[['Mean', 'meanDifference'], ['Median', 'medianDifference'], ['Minimum', 'minimumDifference'], ['Maximum', 'maximumDifference'], ['Valid overlapping pixels', 'validOverlappingPixelCount'], ['Valid overlapping area (km²)', 'validOverlappingAreaKm2'], ['Increased', 'percentageIncreased'], ['Decreased', 'percentageDecreased'], ['Unchanged', 'percentageUnchanged']].map(([labelText, key]) => <div key={key}><small>{labelText}</small><strong>{changeResult.statistics[key] == null ? 'Unavailable' : Number(changeResult.statistics[key]).toLocaleString(undefined, { maximumFractionDigits: 4 })}{key.startsWith('percentage') ? '%' : ''}</strong></div>)}</div>
+          </div>}
         </section>}
 
         {timeline && <section className="visual-card timeline-snapshot">
           <div className="visual-card-heading"><div><span className="section-kicker">Timeline</span><h2>Compatible processed acquisitions</h2></div>
-            <button className="secondary-action" onClick={clearTimeline}>Clear Timeline</button></div>
+            <div className="comparison-actions"><button className="primary-action" onClick={() => void downloadTimeline()} disabled={timelineExportBusy || !vizSession}>{timelineExportBusy ? 'Exporting…' : 'Download Timeline'}</button><button className="secondary-action" onClick={clearTimeline}>Clear Timeline</button></div></div>
+          {timelineExportStatus && <p className="timeline-export-status">{timelineExportStatus}</p>}
           {timelineRaster && <>
             <div className="timeline-frame-heading"><div><span>Currently displayed</span><strong>{formatDate(displayedTimeline?.raster.acquisitionDate)}</strong>
               <small>{displayedTimeline ? `${displayedTimeline.raster.granuleId} · ${displayLabel(displayedTimeline.raster)}` : 'Loading first frame…'}</small></div>
               {timeline.index !== timeline.frames.findIndex((frame) => snapshotId(frame) === displayedTimeline?.key) && <span className="timeline-request-status">{timelineLoading ? `Loading ${checkpointLabel(timelineRaster.acquisitionDate)} · ${timelineRaster.granuleId}` : timelineError ? `Could not display ${checkpointLabel(timelineRaster.acquisitionDate)}` : ''}</span>}
             </div>
             <div className="timeline-raster-frame" aria-live="polite">
-              {displayedTimeline && <img className={`timeline-frame-image ${incomingTimeline && timelineTransitionStarted ? 'timeline-frame-outgoing' : ''}`} src={displayedTimeline.imageUrl} alt={`Currently displayed acquisition ${checkpointLabel(displayedTimeline.raster.acquisitionDate)}`} />}
-              {incomingTimeline && <img className={`timeline-frame-image timeline-frame-incoming ${timelineTransitionStarted ? 'is-visible' : ''}`} src={incomingTimeline.imageUrl} alt={`Loading acquisition ${checkpointLabel(incomingTimeline.raster.acquisitionDate)}`} />}
+              {displayedTimeline && <img className="timeline-frame-image timeline-frame-visible" src={displayedTimeline.imageUrl} alt={`Currently displayed acquisition ${checkpointLabel(displayedTimeline.raster.acquisitionDate)}`} />}
+              {incomingTimeline && <img className={`timeline-frame-image timeline-frame-incoming ${timelineTransitionStarted ? 'timeline-frame-retiring' : ''}`} src={incomingTimeline.imageUrl} alt={timelineTransitionStarted ? `Previous acquisition ${checkpointLabel(incomingTimeline.raster.acquisitionDate)}` : `Preparing acquisition ${checkpointLabel(incomingTimeline.raster.acquisitionDate)}`} />}
               {!displayedTimeline && timelineLoading && <LoaderCircle className="spin" size={22} />}
               {timelineLoading && <span className="timeline-loading-indicator"><LoaderCircle className="spin" size={13} /> Loading selected frame</span>}
             </div>
