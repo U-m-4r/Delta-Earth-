@@ -341,7 +341,6 @@
       "rasterAvailable": true,
       "visualizationAvailable": true,
       "rasterPath": "studies/41156c73bf373c93/observations/G4384893073-ASF/rasters/HVHV.tif",
-      "previewPath": "studies/41156c73bf373c93/observations/G4384893073-ASF/visualizations/HVHV.png",
       "raster": {
         "crs": "EPSG:32642",
         "transform": [

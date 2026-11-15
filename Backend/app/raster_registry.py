@@ -19,7 +19,6 @@ from uuid import uuid4
 
 import numpy as np
 import rasterio
-from rasterio.enums import Resampling
 from rasterio.warp import transform_bounds
 
 log = logging.getLogger(__name__)
@@ -72,6 +71,7 @@ def raster_summary(path: Path) -> dict[str, Any]:
         if dataset.crs is None:
             raise ValueError("Stored GeoTIFF has no CRS.")
         nodata = dataset.nodata
+        band_tags = dataset.tags(1)
         nodata_state = None
         if isinstance(nodata, (float, np.floating)) and not np.isfinite(nodata):
             nodata_state = "nan" if np.isnan(nodata) else "positive_infinity" if nodata > 0 else "negative_infinity"
@@ -102,6 +102,8 @@ def raster_summary(path: Path) -> dict[str, Any]:
             "crs": dataset.crs.to_string(), "transform": list(dataset.transform)[:6],
             "width": dataset.width, "height": dataset.height,
             "resolution": list(dataset.res), "nodata": nodata,
+            "units": band_tags.get("units"),
+            "description": band_tags.get("long_name") or band_tags.get("description"),
             "nodataNonFinite": nodata_state, "bounds": bounds,
             "boundsWgs84": bounds_wgs84, "dtype": dataset.dtypes[0],
             "validPixelCount": valid_count,
@@ -149,17 +151,23 @@ def _atomic_raster_publish(source: Path, destination: Path) -> bool:
 def persist_processed_raster(data_root: Path, study_id: str, observation_id: str,
                              acquisition_metadata: dict[str, Any], variable: str,
                              source_path: Path, study_feature: dict[str, Any],
-                             processed_at: str | None = None) -> dict[str, Any]:
+                             processed_at: str | None = None,
+                             retrieval_session_id: str | None = None,
+                             frequency: str | None = None) -> dict[str, Any]:
     """Save a study-scoped raster and manifest, then rebuild the persistent index."""
     if not STUDY_ID_RE.fullmatch(study_id):
         raise ValueError("Invalid stable study identifier.")
     observation_id = _safe_id(observation_id)
     variable = _safe_id(variable)
+    frequency = frequency or acquisition_metadata.get("frequency") or "frequencyA"
+    if frequency not in {"frequencyA", "frequencyB"}:
+        raise ValueError("Invalid NISAR frequency.")
     if not source_path.is_file():
         raise FileNotFoundError("Processed raster is missing from local storage.")
     study_dir = data_root / "studies" / study_id
     observation_dir = study_dir / "observations" / observation_id
-    raster_path = observation_dir / "rasters" / f"{variable}.tif"
+    raster_path = observation_dir / "rasters" / (f"{variable}.tif" if frequency == "frequencyA"
+                                                   else f"{frequency}/{variable}.tif")
     feature_path = study_dir / "study.geojson"
     if not feature_path.exists():
         _atomic_json(feature_path, study_feature)
@@ -176,28 +184,41 @@ def persist_processed_raster(data_root: Path, study_id: str, observation_id: str
         manifest = {}
     manifest.update({
         "studyId": study_id, "observationId": observation_id,
+        "retrievalSessionId": retrieval_session_id or manifest.get("retrievalSessionId"),
         "acquisitionDate": acquisition_metadata.get("acquiredAt") or acquisition_metadata.get("startAt") or acquisition_metadata.get("time_start"),
         "acquisitionMetadata": acquisition_metadata,
         "updatedAt": datetime.now(timezone.utc).isoformat(),
     })
-    variables = [item for item in manifest.get("variables", []) if item.get("name") != variable]
+    existing_variables = manifest.get("variables", [])
+    previous_variable = next((item for item in existing_variables if item.get("name") == variable
+                              and item.get("frequency", "frequencyA") == frequency), {})
+    variables = [item for item in existing_variables if not (item.get("name") == variable
+                 and item.get("frequency", "frequencyA") == frequency)]
+    retrieval_session_ids = set(previous_variable.get("retrievalSessionIds", []))
+    if previous_variable.get("retrievalSessionId"):
+        retrieval_session_ids.add(previous_variable["retrievalSessionId"])
+    if retrieval_session_id:
+        retrieval_session_ids.add(retrieval_session_id)
     variables.append({
         "name": variable, "available": True, "rasterAvailable": True,
         "visualizationAvailable": True,
+        "sourceVariable": variable, "frequency": frequency,
+        "polarization": variable,
+        "retrievalSessionId": retrieval_session_id or previous_variable.get("retrievalSessionId"),
+        "retrievalSessionIds": sorted(retrieval_session_ids),
         "rasterPath": raster_path.relative_to(data_root).as_posix(),
-        "previewPath": (observation_dir / "visualizations" / f"{variable}.png").relative_to(data_root).as_posix(),
         "raster": summary, "processingTimestamp": processed_at or datetime.now(timezone.utc).isoformat(),
         "bytes": raster_path.stat().st_size,
     })
-    manifest["variables"] = sorted(variables, key=lambda item: item["name"])
+    manifest["variables"] = sorted(variables, key=lambda item: (item.get("frequency", "frequencyA"), item["name"]))
     _atomic_json(manifest_path, manifest)
     rebuild_registry(data_root)
-    return next(item for item in variables if item["name"] == variable)
+    return next(item for item in variables if item["name"] == variable and item.get("frequency") == frequency)
 
 
 def _manifest_entries(data_root: Path):
     # New study-scoped records take precedence over legacy granule manifests.
-    entries: dict[tuple[str, str, str], dict[str, Any]] = {}
+    entries: dict[tuple[str, str, str, str], dict[str, Any]] = {}
     for manifest_path in (data_root / "studies").glob("*/observations/*/manifest.json"):
         try:
             manifest = json.loads(manifest_path.read_text())
@@ -211,12 +232,17 @@ def _manifest_entries(data_root: Path):
                 if not _openable_tiff(path):
                     continue
                 summary = item.get("raster") or raster_summary(path)
-                key = (study_id, observation_id, item["name"])
+                frequency = item.get("frequency", (manifest.get("acquisitionMetadata") or {}).get("frequency", "frequencyA"))
+                key = (study_id, observation_id, frequency, item["name"])
                 entries[key] = {"studyId": study_id, "observationId": observation_id,
+                                "retrievalSessionId": item.get("retrievalSessionId"),
+                                "retrievalSessionIds": item.get("retrievalSessionIds", []),
                                 "acquisitionDate": manifest.get("acquisitionDate"),
                                 "acquisitionMetadata": manifest.get("acquisitionMetadata", {}),
-                                "variable": item["name"], "rasterPath": path.relative_to(data_root.resolve()).as_posix(),
-                                "previewPath": item.get("previewPath"), "raster": summary,
+                                "variable": item["name"], "sourceVariable": item.get("sourceVariable", item["name"]),
+                                "frequency": frequency,
+                                "rasterPath": path.relative_to(data_root.resolve()).as_posix(),
+                                "raster": summary,
                                 "processingTimestamp": item.get("processingTimestamp"), "bytes": path.stat().st_size}
         except (OSError, ValueError, KeyError, TypeError, rasterio.errors.RasterioError):
             log.warning("Skipping invalid local raster manifest %s", manifest_path)
@@ -243,12 +269,14 @@ def _manifest_entries(data_root: Path):
                 summary = raster_summary(path)
                 if summary["validPixelCount"] == 0:
                     continue
-                key = (study_id, observation_id, item.get("variable", ""))
+                frequency = item.get("frequency") or acquisition.get("frequency", "frequencyA")
+                key = (study_id, observation_id, frequency, item.get("variable", ""))
                 entries.setdefault(key, {"studyId": study_id, "observationId": observation_id,
+                    "frequency": frequency, "sourceVariable": item.get("variable", ""),
                     "acquisitionDate": acquisition.get("acquiredAt") or acquisition.get("startAt"),
                     "acquisitionMetadata": acquisition, "variable": item["variable"],
                     "rasterPath": path.relative_to(data_root.resolve()).as_posix(),
-                    "previewPath": None, "raster": summary,
+                    "raster": summary,
                     "processingTimestamp": manifest.get("processedAt"), "bytes": path.stat().st_size})
         except (OSError, ValueError, KeyError, TypeError, rasterio.errors.RasterioError):
             log.warning("Skipping invalid legacy raster manifest %s", manifest_path)
@@ -264,7 +292,9 @@ def rebuild_registry(data_root: Path) -> list[dict[str, Any]]:
 
 
 def query_registry(data_root: Path, study_id: str, observation_id: str | None = None,
-                   acquisition_date: str | None = None, variable: str | None = None) -> list[dict[str, Any]]:
+                   acquisition_date: str | None = None, variable: str | None = None,
+                   retrieval_session_id: str | None = None,
+                   frequency: str | None = None) -> list[dict[str, Any]]:
     if not STUDY_ID_RE.fullmatch(study_id):
         raise ValueError("Invalid stable study identifier.")
     registry_path = data_root / "raster_registry.json"
@@ -279,105 +309,12 @@ def query_registry(data_root: Path, study_id: str, observation_id: str | None = 
                 raise ValueError("Registry has a missing or invalid raster; rebuilding it.")
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError):
         entries = rebuild_registry(data_root)
+    if variable and ":" in variable and frequency is None:
+        frequency, variable = variable.split(":", 1)
     return [entry for entry in entries if entry["studyId"] == study_id
             and (observation_id is None or entry["observationId"] == observation_id)
             and (acquisition_date is None or str(entry.get("acquisitionDate", "")).startswith(acquisition_date))
-            and (variable is None or entry["variable"] == variable)]
-
-
-def generate_preview(data_root: Path, raster_path: Path, preview_relative_path: str,
-                     max_dimension: int = 1024) -> Path:
-    """Create/reuse a cached transparent RGBA PNG from a local GeoTIFF."""
-    from rasterio.io import MemoryFile
-
-    destination = (data_root / preview_relative_path).resolve()
-    if not destination.is_relative_to(data_root.resolve()):
-        raise ValueError("Invalid preview path.")
-    if destination.is_file() and destination.stat().st_mtime_ns >= raster_path.stat().st_mtime_ns:
-        return destination
-    with rasterio.open(raster_path) as dataset:
-        scale = min(1.0, max_dimension / max(dataset.width, dataset.height))
-        width, height = max(1, int(dataset.width * scale)), max(1, int(dataset.height * scale))
-        sample = dataset.read(1, out_shape=(height, width), resampling=Resampling.average, masked=True)
-        values = np.asarray(sample.data, dtype=np.float64)
-        valid = ~np.ma.getmaskarray(sample) & np.isfinite(values)
-        if not valid.any():
-            raise ValueError("Cannot visualize an empty or all-NoData raster.")
-        low, high = np.percentile(values[valid], [2, 98])
-        if not np.isfinite(low) or not np.isfinite(high) or high <= low:
-            low, high = float(values[valid].min()), float(values[valid].max())
-        stretched = np.zeros((height, width), dtype=np.uint8)
-        if high > low:
-            stretched[valid] = np.clip((values[valid] - low) / (high - low) * 255, 0, 255).astype(np.uint8)
-        else:
-            stretched[valid] = 180
-        rgba = np.stack((stretched // 3, stretched, np.minimum(255, stretched.astype(np.uint16) + 35).astype(np.uint8),
-                         valid.astype(np.uint8) * 220), axis=0)
-        preview_transform = dataset.transform @ rasterio.Affine.scale(dataset.width / width, dataset.height / height)
-        with MemoryFile() as memory:
-            with memory.open(driver="PNG", width=width, height=height, count=4, dtype="uint8",
-                             transform=preview_transform, crs=dataset.crs) as output:
-                output.write(rgba)
-            content = memory.read()
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    temporary = destination.with_name(f".{destination.name}.{uuid4().hex}.tmp")
-    try:
-        temporary.write_bytes(content)
-        os.replace(temporary, destination)
-    finally:
-        temporary.unlink(missing_ok=True)
-    return destination
-
-
-def generate_difference_preview(data_root: Path, baseline_path: Path, current_path: Path,
-                                preview_relative_path: str, max_dimension: int = 1024) -> Path:
-    """Cache a diverging display of current minus baseline for exactly aligned rasters."""
-    from rasterio.io import MemoryFile
-
-    destination = (data_root / preview_relative_path).resolve()
-    if not destination.is_relative_to(data_root.resolve()):
-        raise ValueError("Invalid difference preview path.")
-    newest_input = max(baseline_path.stat().st_mtime_ns, current_path.stat().st_mtime_ns)
-    if destination.is_file() and destination.stat().st_mtime_ns >= newest_input:
-        return destination
-    with rasterio.open(baseline_path) as before, rasterio.open(current_path) as after:
-        if (before.crs != after.crs or before.transform != after.transform or
-                before.width != after.width or before.height != after.height):
-            raise ValueError("These rasters do not share a grid and cannot be compared directly.")
-        scale = min(1.0, max_dimension / max(before.width, before.height))
-        width, height = max(1, int(before.width * scale)), max(1, int(before.height * scale))
-        first = before.read(1, out_shape=(height, width), resampling=Resampling.average, masked=True)
-        second = after.read(1, out_shape=(height, width), resampling=Resampling.average, masked=True)
-        a, b = np.asarray(first.data, dtype=np.float64), np.asarray(second.data, dtype=np.float64)
-        valid = (~np.ma.getmaskarray(first) & ~np.ma.getmaskarray(second) & np.isfinite(a) & np.isfinite(b))
-        if not valid.any():
-            raise ValueError("The rasters have no overlapping finite, valid pixels.")
-        difference = b - a
-        limit = float(np.percentile(np.abs(difference[valid]), 98))
-        if not np.isfinite(limit) or limit <= 0:
-            limit = float(np.max(np.abs(difference[valid])))
-        intensity = np.zeros((height, width), dtype=np.uint8)
-        if limit > 0:
-            intensity[valid] = np.clip(np.abs(difference[valid]) / limit * 255, 0, 255).astype(np.uint8)
-        positive = valid & (difference >= 0)
-        negative = valid & (difference < 0)
-        rgba = np.zeros((4, height, width), dtype=np.uint8)
-        rgba[0, positive] = intensity[positive]
-        rgba[1, positive] = intensity[positive] // 5
-        rgba[1, negative] = intensity[negative] // 3
-        rgba[2, negative] = intensity[negative]
-        rgba[3, valid] = 220
-        transform = before.transform @ rasterio.Affine.scale(before.width / width, before.height / height)
-        with MemoryFile() as memory:
-            with memory.open(driver="PNG", width=width, height=height, count=4, dtype="uint8",
-                             transform=transform, crs=before.crs) as output:
-                output.write(rgba)
-            content = memory.read()
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    temporary = destination.with_name(f".{destination.name}.{uuid4().hex}.tmp")
-    try:
-        temporary.write_bytes(content)
-        os.replace(temporary, destination)
-    finally:
-        temporary.unlink(missing_ok=True)
-    return destination
+            and (variable is None or entry["variable"] == variable)
+            and (frequency is None or entry.get("frequency", "frequencyA") == frequency)
+            and (retrieval_session_id is None or retrieval_session_id in entry.get("retrievalSessionIds", [])
+                 or retrieval_session_id == entry.get("retrievalSessionId"))]

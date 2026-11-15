@@ -135,6 +135,16 @@ button { cursor: pointer; }
 .nisar-result-status { color: #9bb6b8; text-transform: capitalize; }
 .nisar-result-status.downloaded, .nisar-result-status.already_present { color: #65d6ca; }
 .nisar-result-status.failed, .nisar-result-status.missing, .nisar-result-status.missing_or_rejected { color: #f0ab83; }
+.variable-unavailable { opacity: .42; }
+.visual-raster-display { width: 100%; margin: 14px auto 0; padding: 14px; border: 1px solid #284851; border-radius: 8px; background: #071c27; text-align: center; overflow: auto; }
+.visual-raster-display img { display: block; width: min(100%, 1100px); max-height: 68vh; object-fit: contain; margin: auto; image-rendering: auto; }
+.visual-raster-display p { max-width: 1000px; margin: 12px auto; color: #9bb6b8; font-size: 12px; line-height: 1.6; }
+.visual-raster-display a { color: #65d6ca; font-size: 12px; }
+.comparison-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.comparison-panels figure { min-width: 0; margin: 0; padding: 10px; border: 1px solid #284851; border-radius: 8px; background: #071c27; overflow: auto; }
+.comparison-panels figcaption { margin-bottom: 8px; color: #b9d4d4; font-size: 12px; }
+.comparison-panels img { display: block; width: 100%; max-height: 62vh; object-fit: contain; }
+.view-visualization-action { margin-top: 16px; }
 .spin { animation: nisar-spin 1s linear infinite; }
 @keyframes nisar-spin { to { transform: rotate(360deg); } }
 @media (max-width: 760px) { .nisar-variable-groups { grid-template-columns: 1fr; } .nisar-date-filters > span { margin-left: 0; width: 100%; } .nisar-result-row { grid-template-columns: 1fr 1fr; } .nisar-result-row small, .nisar-result-row a { grid-column: 1 / -1; } }

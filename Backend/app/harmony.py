@@ -15,7 +15,7 @@ from rasterio.mask import mask as raster_mask
 from rasterio.warp import transform_geom
 from shapely.geometry import shape
 from .geometry import study_id_for_feature
-from .raster_registry import persist_processed_raster
+from .raster_registry import _atomic_json, persist_processed_raster
 from .settings import get_settings
 
 log = logging.getLogger(__name__)
@@ -78,8 +78,9 @@ def _job_error_details(job: dict) -> list[dict]:
     return result
 
 
-def _job_record_path(submission_key: str) -> Path:
-    return get_settings().resolved_data_dir / "harmony_jobs" / f"{submission_key}.json"
+def _job_record_path(submission_key: str, job_records_dir: Path | None = None) -> Path:
+    root = job_records_dir or (get_settings().resolved_data_dir / "harmony_jobs")
+    return root / f"{submission_key}.json"
 
 
 def _write_job_record(path: Path, record: dict) -> None:
@@ -481,7 +482,7 @@ async def _stac_assets(client: httpx.AsyncClient, job_id: str, *, job_response: 
     return assets
 
 
-async def _download(client: httpx.AsyncClient, url: str, target: Path) -> Path:
+async def _download(client: httpx.AsyncClient, url: str, target: Path, *, max_bytes: int | None = None) -> Path:
     cfg = get_settings()
     partial = target.with_suffix(target.suffix + ".part")
     for attempt in range(4):
@@ -501,8 +502,15 @@ async def _download(client: httpx.AsyncClient, url: str, target: Path) -> Path:
                     offset = 0
                 expected = response.headers.get("Content-Length")
                 expected_total = (int(expected) + offset if response.status_code == 206 else int(expected)) if expected else None
+                if max_bytes is not None and expected_total is not None and expected_total > max_bytes:
+                    partial.unlink(missing_ok=True)
+                    raise RuntimeError("Visualization session storage limit exceeded while retrieving a Harmony raster.")
                 with partial.open("ab" if append else "wb") as stream:
                     async for chunk in response.aiter_bytes():
+                        if max_bytes is not None and stream.tell() + len(chunk) > max_bytes:
+                            stream.close()
+                            partial.unlink(missing_ok=True)
+                            raise RuntimeError("Visualization session storage limit exceeded while retrieving a Harmony raster.")
                         stream.write(chunk)
                 if expected_total is not None and partial.stat().st_size != expected_total:
                     raise IOError(f"Incomplete Harmony download: expected {expected_total} bytes, found {partial.stat().st_size}.")
@@ -531,10 +539,14 @@ def _validate_raster(path: Path) -> dict:
 
 
 def _raster_output_path(data_root: Path, granule_dir: Path, study_id: str,
-                        variable_directory: str, variable: str) -> Path:
+                        variable_directory: str, variable: str, *, temporary: bool = False,
+                        frequency: str = "frequencyA") -> Path:
     """Reuse a granule raster only when its manifest ties it to this same study."""
-    shared = granule_dir / variable_directory / f"{variable}.tif"
-    scoped = data_root / "studies" / study_id / "observations" / granule_dir.name / "rasters" / f"{variable}.tif"
+    frequency_dir = Path() if frequency == "frequencyA" else Path(frequency)
+    shared = granule_dir / variable_directory / frequency_dir / f"{variable}.tif"
+    if temporary:
+        return shared
+    scoped = data_root / "studies" / study_id / "observations" / granule_dir.name / "rasters" / frequency_dir / f"{variable}.tif"
     if scoped.exists():
         return scoped
     if not shared.exists():
@@ -572,16 +584,22 @@ def _clip_raster_to_polygon(source: Path, feature: dict, destination: Path) -> N
             output.update_tags(index, **values)
 
 
-async def extract_granule(granule_id: str, feature: dict, variables: list[str], frequency: str = "frequencyA", acquisition_metadata: dict | None = None) -> dict:
+async def extract_granule(granule_id: str, feature: dict, variables: list[str], frequency: str = "frequencyA",
+                          acquisition_metadata: dict | None = None, *, workspace_dir: Path | None = None,
+                          job_records_dir: Path | None = None) -> dict:
     cfg = get_settings()
+    temporary_workspace = workspace_dir is not None
+    data_root = workspace_dir.resolve() if temporary_workspace else cfg.resolved_data_dir
+    if temporary_workspace:
+        data_root.mkdir(parents=True, exist_ok=True)
     capability_report = await inspect_capabilities()
     if not capability_report["variableSubset"]:
         raise RuntimeError(capability_report["message"])
-    area_dir = cfg.resolved_data_dir / "granules" / re.sub(r"[^A-Za-z0-9_.-]", "_", granule_id)
+    area_dir = data_root / "granules" / re.sub(r"[^A-Za-z0-9_.-]", "_", granule_id)
     area_dir.mkdir(parents=True, exist_ok=True)
     raw_geojson = json.dumps(feature, sort_keys=True).encode()
     study_hash = study_id_for_feature(feature)
-    study_dir = cfg.resolved_data_dir / "study_areas"
+    study_dir = data_root / ("study_areas" if not temporary_workspace else "study-areas")
     study_dir.mkdir(parents=True, exist_ok=True)
     (study_dir / f"{study_hash}.geojson").write_bytes(raw_geojson)
     results = []
@@ -590,44 +608,48 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
     async with httpx.AsyncClient(timeout=timeout, follow_redirects=True) as client:
         for variable in variables:
             if variable not in MEASUREMENTS + AUXILIARY:
-                results.append({"variable": variable, "status": "rejected", "error": "Unknown GCOV variable."})
+                results.append({"variable": variable, "frequency": frequency, "status": "rejected", "error": "Unknown GCOV variable."})
                 continue
             var_dir = "measurements" if variable in MEASUREMENTS else "auxiliary"
             out_dir = area_dir / var_dir
             out_dir.mkdir(parents=True, exist_ok=True)
-            target = _raster_output_path(cfg.resolved_data_dir, area_dir, study_hash, var_dir, variable)
+            target = _raster_output_path(data_root, area_dir, study_hash, var_dir, variable,
+                                         temporary=temporary_workspace, frequency=frequency)
             target.parent.mkdir(parents=True, exist_ok=True)
             if target.exists():
                 try:
                     raster_meta = _validate_raster(target)
-                    registry_item = persist_processed_raster(cfg.resolved_data_dir, study_hash, granule_id,
-                        acquisition_metadata or {}, variable, target, feature)
+                    registry_item = None if temporary_workspace else persist_processed_raster(
+                        data_root, study_hash, granule_id, acquisition_metadata or {}, variable, target, feature,
+                        retrieval_session_id=(acquisition_metadata or {}).get("retrievalSessionId"), frequency=frequency)
                     prior_manifest = area_dir / "metadata.json"
                     prior_job_id = None
                     if prior_manifest.is_file():
                         try:
                             prior = json.loads(prior_manifest.read_text())
                             prior_job_id = next((item.get("jobId") for item in prior.get("variables", [])
-                                                 if item.get("variable") == variable and item.get("jobId")), None)
+                                                 if item.get("variable") == variable and item.get("frequency", "frequencyA") == frequency and item.get("jobId")), None)
                         except (OSError, ValueError, TypeError):
                             pass
-                    results.append({"variable": variable, "status": "already_present", "jobId": prior_job_id,
-                                    "path": str(target), "url": f"/api/data/{target.relative_to(cfg.resolved_data_dir).as_posix()}",
-                                    "bytes": target.stat().st_size, "raster": registry_item["raster"],
-                                    "registryPersistence": "success"})
+                    results.append({"variable": variable, "frequency": frequency, "status": "already_present", "jobId": prior_job_id,
+                                    "path": str(target),
+                                    "url": None if temporary_workspace else f"/api/data/{target.relative_to(data_root).as_posix()}",
+                                    "bytes": target.stat().st_size,
+                                    "raster": raster_meta if temporary_workspace else registry_item["raster"],
+                                    "registryPersistence": "temporary" if temporary_workspace else "success"})
                     continue
                 except Exception:
                     target.unlink(missing_ok=True)
             path = _candidate_paths(variable, frequency)[0]
             submission_key = _submission_key(cfg.nisar_gcov_collection, granule_id, path, feature)
-            record_path = _job_record_path(submission_key)
+            record_path = _job_record_path(submission_key, job_records_dir)
             try:
                 job_id, immediate, error = await _submit_variable(
                     client, cfg.nisar_gcov_collection, granule_id, path, feature, spatial_mode,
                     record_path=record_path, observation_metadata=acquisition_metadata,
                 )
                 if error:
-                    results.append({"variable": variable, "variablePath": path, "status": "missing_or_rejected", "error": error})
+                    results.append({"variable": variable, "frequency": frequency, "variablePath": path, "status": "missing_or_rejected", "error": error})
                     continue
                 if immediate:
                     content = immediate["bytes"]
@@ -653,9 +675,17 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
                                                                 "result_retrieval": "success" if assets else "empty", "persistence": "success"}, sort_keys=True))
                     geotiffs = [asset for asset in assets if "tiff" in str(asset.get("mediaType", "")).lower() or str(asset.get("href", "")).lower().endswith((".tif", ".tiff"))]
                     if not geotiffs:
-                        results.append({"variable": variable, "variablePath": path, "status": "missing", "jobId": job_id, "error": "Job completed without a GeoTIFF output for this variable."})
+                        results.append({"variable": variable, "frequency": frequency, "variablePath": path, "status": "missing", "jobId": job_id, "error": "Job completed without a GeoTIFF output for this variable."})
                         continue
-                    temporary = await _download(client, geotiffs[0]["href"], target)
+                    download_limit = None
+                    if temporary_workspace:
+                        session_dir = data_root.parent.parent
+                        partial_path = target.with_suffix(target.suffix + ".part")
+                        used_bytes = sum(item.stat().st_size for item in session_dir.rglob("*") if item.is_file())
+                        remaining = max(0, cfg.visualization_max_storage_bytes - used_bytes +
+                                        (partial_path.stat().st_size if partial_path.exists() else 0))
+                        download_limit = remaining
+                    temporary = await _download(client, geotiffs[0]["href"], target, max_bytes=download_limit)
                     record = json.loads(record_path.read_text())
                     record.update({"resultDownloadOutcome": "success", "downloadedBytes": temporary.stat().st_size,
                                    "updatedAt": datetime.now(timezone.utc).isoformat()})
@@ -666,9 +696,14 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
                     content = None
                     source_job = job_id
                 if content is not None and content[:4] not in (b"II*\x00", b"MM\x00*"):
-                    results.append({"variable": variable, "variablePath": path, "status": "failed", "error": "Downloaded response is not a TIFF; output was discarded."})
+                    results.append({"variable": variable, "frequency": frequency, "variablePath": path, "status": "failed", "error": "Downloaded response is not a TIFF; output was discarded."})
                     continue
                 if content is not None:
+                    if temporary_workspace:
+                        session_dir = data_root.parent.parent
+                        used_bytes = sum(item.stat().st_size for item in session_dir.rglob("*") if item.is_file())
+                        if used_bytes + len(content) > cfg.visualization_max_storage_bytes:
+                            raise RuntimeError("Visualization session storage limit exceeded while retrieving a Harmony raster.")
                     temporary = target.with_suffix(f".{uuid4().hex}.part")
                     temporary.write_bytes(content)
                 if spatial_mode == "bbox":
@@ -687,9 +722,15 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
                 except Exception:
                     temporary.unlink(missing_ok=True)
                     raise
-                registry_item = persist_processed_raster(cfg.resolved_data_dir, study_hash, granule_id,
-                    acquisition_metadata or {}, variable, target, feature)
-                results.append({"variable": variable, "variablePath": path, "status": "downloaded", "jobId": source_job, "path": str(target), "url": f"/api/data/{target.relative_to(cfg.resolved_data_dir).as_posix()}", "bytes": target.stat().st_size, "spatialSubsetMode": spatial_mode, "polygonClipAppliedLocally": spatial_mode == "bbox", "raster": registry_item["raster"], "registryPersistence": "success"})
+                registry_item = None if temporary_workspace else persist_processed_raster(
+                    data_root, study_hash, granule_id, acquisition_metadata or {}, variable, target, feature,
+                    retrieval_session_id=(acquisition_metadata or {}).get("retrievalSessionId"), frequency=frequency)
+                results.append({"variable": variable, "frequency": frequency, "variablePath": path, "status": "downloaded", "jobId": source_job,
+                    "path": str(target), "url": None if temporary_workspace else f"/api/data/{target.relative_to(data_root).as_posix()}",
+                    "bytes": target.stat().st_size, "spatialSubsetMode": spatial_mode,
+                    "polygonClipAppliedLocally": spatial_mode == "bbox",
+                    "raster": raster_meta if temporary_workspace else registry_item["raster"],
+                    "registryPersistence": "temporary" if temporary_workspace else "success"})
             except Exception as exc:
                 stage = "submission" if isinstance(exc, (HarmonySubmissionError, HarmonySubmissionUnknownError)) else "processing"
                 if record_path.exists():
@@ -700,14 +741,27 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
                 log.error("Harmony extraction failure %s", json.dumps({"stage": stage, "granule_id": granule_id,
                                                                         "variable": variable, "job_id": json.loads(record_path.read_text()).get("jobId") if record_path.exists() else None,
                                                                         "failure_reason": _sanitize_text(exc), "result_download_outcome": "failed"}))
-                results.append({"variable": variable, "variablePath": path, "status": "failed", "failureStage": stage,
+                results.append({"variable": variable, "frequency": frequency, "variablePath": path, "status": "failed", "failureStage": stage,
                                 "jobId": json.loads(record_path.read_text()).get("jobId") if record_path.exists() else None,
                                 "submissionRecord": str(record_path), "error": _sanitize_text(exc)})
-    manifest = {"granuleId": granule_id, "collectionId": cfg.nisar_gcov_collection, "studyArea": f"study_areas/{study_hash}.geojson", "crs": "EPSG:4326", "processedAt": datetime.now(timezone.utc).isoformat(), "capabilities": capability_report, "variables": results}
+    manifest = {"granuleId": granule_id, "collectionId": cfg.nisar_gcov_collection,
+                "studyArea": f"{'study-areas' if temporary_workspace else 'study_areas'}/{study_hash}.geojson",
+                "crs": "EPSG:4326", "processedAt": datetime.now(timezone.utc).isoformat(),
+                "capabilities": capability_report, "variables": results}
+    if not temporary_workspace:
+        try:
+            existing_manifest = json.loads((area_dir / "metadata.json").read_text())
+            prior_variables = existing_manifest.get("variables", [])
+        except (OSError, ValueError, TypeError):
+            prior_variables = []
+        keys = {(item.get("frequency", "frequencyA"), item.get("variable")) for item in results}
+        manifest["variables"] = [item for item in prior_variables
+            if (item.get("frequency", "frequencyA"), item.get("variable")) not in keys] + results
+        manifest["retrievalSessionId"] = (acquisition_metadata or {}).get("retrievalSessionId")
     manifest = json_safe(manifest)
-    (area_dir / "metadata.json").write_text(json.dumps(manifest, indent=2, allow_nan=False))
+    _atomic_json(area_dir / "metadata.json", manifest)
     acquisition_record = {"granuleId": granule_id, "collectionId": cfg.nisar_gcov_collection, **(acquisition_metadata or {})}
-    (area_dir / "acquisition_metadata.json").write_text(json.dumps(acquisition_record, indent=2))
+    _atomic_json(area_dir / "acquisition_metadata.json", json_safe(acquisition_record))
     log.info("Harmony extraction manifest persisted %s", json.dumps({"granule_id": granule_id, "study_id": study_hash,
                                                                       "path": str(area_dir / "metadata.json"),
                                                                       "variable_count": len(results), "persistence": "success"}))

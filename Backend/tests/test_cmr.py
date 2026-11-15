@@ -62,6 +62,25 @@ async def test_scene_search_maps_mocked_cmr_feed():
 
 
 @pytest.mark.asyncio
+async def test_automatic_visualization_search_paginates_and_deduplicates_granules():
+    url = "https://cmr.earthdata.nasa.gov/search/granules.json"
+    first = {"feed": {"hits": 3, "entry": [
+        {"id": "G1-ASF", "producer_granule_id": "NISAR_frequencyA_HHHH", "time_start": "2025-01-01T00:00:00Z"},
+        {"id": "G2-ASF", "producer_granule_id": "NISAR_frequencyA_VVVV", "time_start": "2025-01-01T00:00:00Z"}]}}
+    second = {"feed": {"hits": 3, "entry": [
+        {"id": "G2-ASF", "producer_granule_id": "duplicate", "time_start": "2025-01-01T00:00:00Z"},
+        {"id": "G3-ASF", "producer_granule_id": "NISAR_frequencyB_HVHV", "time_start": "2025-02-01T00:00:00Z"}]}}
+    with respx.mock(assert_all_called=True) as router:
+        route = router.get(url).mock(side_effect=[httpx.Response(200, json=first), httpx.Response(200, json=second)])
+        result = await search_granules(Polygon([(-1, 0), (1, 0), (1, 1), (-1, 1), (-1, 0)]),
+                                       page_size=2, all_pages=True)
+    assert len(route.calls) == 2
+    assert [call.request.url.params["page_num"] for call in route.calls] == ["1", "2"]
+    assert result["hits"] == 3
+    assert [item["id"] for item in result["observations"]] == ["G1-ASF", "G2-ASF", "G3-ASF"]
+
+
+@pytest.mark.asyncio
 async def test_polygon_with_hole_uses_geojson_post_without_dropping_ring():
     polygon = Polygon(
         [(0, 0), (4, 0), (4, 4), (0, 4), (0, 0)],

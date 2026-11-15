@@ -6,13 +6,13 @@ import { InformationPanel } from './components/Layout/InformationPanel';
 import { submitStudyArea } from './services/studyAreaService';
 import type { GeoJsonFeature } from './types/geojson';
 import type { LocationResult } from './services/locationSearchService';
-import { analyzeStudyArea } from './services/visualizationApi';
 import { VisualizationPage } from './components/visualizations/VisualizationPage';
 import { NisarDataPanel } from './components/Layout/NisarDataPanel';
 import { StoriesPage } from './components/stories/StoriesPage';
-import type { AnalysisResult, RasterOverlay } from './types/visualization';
+import type { RasterOverlay } from './types/visualization';
 
 function App() {
+  const initialQuery = new URLSearchParams(window.location.search);
   const [selectionActive, setSelectionActive] = useState(false);
   const [panelOpen, setPanelOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -28,20 +28,19 @@ function App() {
   const [homeSignal, setHomeSignal] = useState(0);
   const [focusRequest, setFocusRequest] = useState<{ selection: GeoJsonFeature; id: number } | null>(null);
   const [dataOpen, setDataOpen] = useState(false);
-  const [visualizationsOpen, setVisualizationsOpen] = useState(false);
+  const [visualizationsOpen, setVisualizationsOpen] = useState(Boolean(initialQuery.get('retrievalSessionId')));
+  const [retrievalSessionId, setRetrievalSessionId] = useState(initialQuery.get('retrievalSessionId') ?? '');
+  const [retrievalStudyId, setRetrievalStudyId] = useState(initialQuery.get('studyId') ?? '');
   const [storiesOpen, setStoriesOpen] = useState(false);
   const [storySlug, setStorySlug] = useState<string | null>(null);
-  const [analysis, setAnalysis] = useState<AnalysisResult | null>(null);
-  const [analysisLoading, setAnalysisLoading] = useState(false);
-  const [analysisError, setAnalysisError] = useState<string | null>(null);
   const [rasterOverlay, setRasterOverlay] = useState<RasterOverlay | null>(null);
-  const [rasterClick, setRasterClick] = useState<[number, number] | null>(null);
+  const clearRetrievalUrl = () => window.history.replaceState({}, '', window.location.pathname);
 
   const startSelection = () => {
+    clearRetrievalUrl();
     setSubmitMessage(null);
     setSubmitLoading(false);
     setAnalysisReady(false);
-    setAnalysis(null);
     setSelection(null);
     setDraftVertexCount(0);
     setSelectionActive(true);
@@ -51,13 +50,11 @@ function App() {
   const clearSelection = () => {
     setSelection(null);
     setRasterOverlay(null);
-    setRasterClick(null);
     setDraftVertexCount(0);
     setSelectionActive(false);
     setSubmitMessage(null);
     setSubmitLoading(false);
     setAnalysisReady(false);
-    setAnalysis(null);
     setClearSignal((signal) => signal + 1);
   };
 
@@ -74,31 +71,27 @@ function App() {
   };
 
   const openStories = (slug: string | null = null) => {
+    clearRetrievalUrl();
     setDataOpen(false);
     setVisualizationsOpen(false);
     setStorySlug(slug);
     setStoriesOpen(true);
   };
 
-  const openVisualizations = async () => {
-    if (!selection) return;
+  const openVisualizations = (sessionId = retrievalSessionId, studyId = retrievalStudyId) => {
+    if (!sessionId || !studyId) return;
     setDataOpen(false);
     setStoriesOpen(false);
+    setRetrievalSessionId(sessionId);
+    setRetrievalStudyId(studyId);
     setVisualizationsOpen(true);
-    if (analysis) return;
-    setAnalysisLoading(true);
-    setAnalysisError(null);
-    try {
-      setAnalysis(await analyzeStudyArea(selection));
-    } catch (error) {
-      setAnalysisError(error instanceof Error ? error.message : 'Unable to load visualization data.');
-    } finally {
-      setAnalysisLoading(false);
-    }
+    const query = new URLSearchParams({ retrievalSessionId: sessionId, studyId });
+    window.history.replaceState({}, '', `${window.location.pathname}?${query.toString()}`);
   };
 
   const openData = async () => {
     if (!selection) return;
+    clearRetrievalUrl();
     setVisualizationsOpen(false);
     setStoriesOpen(false);
     setDataOpen(true);
@@ -118,9 +111,11 @@ function App() {
       {storiesOpen ? (
         <StoriesPage initialSlug={storySlug} onBack={() => { setStoriesOpen(false); setStorySlug(null); }} />
       ) : dataOpen && selection ? (
-        <NisarDataPanel selection={selection} onBack={() => setDataOpen(false)} />
+        <NisarDataPanel selection={selection} onBack={() => setDataOpen(false)} onViewVisualization={(sessionId, studyId) => openVisualizations(sessionId, studyId)} />
       ) : visualizationsOpen && selection ? (
-        <VisualizationPage selection={selection} analysis={analysis} loading={analysisLoading} error={analysisError} rasterClick={rasterClick} onRasterOverlayChange={setRasterOverlay} onBack={() => { setRasterOverlay(null); setVisualizationsOpen(false); }} />
+        <VisualizationPage selection={selection} retrievalSessionId={retrievalSessionId} studyId={retrievalStudyId} onRasterOverlayChange={setRasterOverlay} onBack={() => { setRasterOverlay(null); setVisualizationsOpen(false); clearRetrievalUrl(); }} />
+      ) : visualizationsOpen && retrievalSessionId && retrievalStudyId ? (
+        <VisualizationPage retrievalSessionId={retrievalSessionId} studyId={retrievalStudyId} onRasterOverlayChange={setRasterOverlay} onBack={() => { setRasterOverlay(null); setVisualizationsOpen(false); window.history.replaceState({}, '', window.location.pathname); }} />
       ) : (
         <div className="workspace">
           <aside className="floating-toolbar" aria-label="Globe tools">
@@ -129,14 +124,14 @@ function App() {
             <div className="toolbar-divider" />
             <button onClick={() => openStories()} title="Stories"><BookOpen size={18} /><span>Stories</span></button>
             <button className={dataOpen ? 'active' : ''} onClick={() => void openData()} disabled={!selection} title="Data"><Database size={18} /><span>Data</span></button>
-            <button className={visualizationsOpen ? 'active' : ''} onClick={() => void openVisualizations()} disabled={!selection} title="Visualizations"><BarChart3 size={18} /><span>Visualizations</span></button>
+            <button className={visualizationsOpen ? 'active' : ''} onClick={() => void openVisualizations()} disabled={!retrievalSessionId || !retrievalStudyId} title="Visualizations"><BarChart3 size={18} /><span>Visualizations</span></button>
             <button onClick={() => setUndoSignal((signal) => signal + 1)} disabled={!selectionActive || draftVertexCount === 0} title="Undo last point"><Undo2 size={18} /><span>Undo point</span></button>
             <button onClick={clearSelection} disabled={!selection && !selectionActive} title="Clear selection"><X size={18} /><span>Clear</span></button>
             <div className="toolbar-bottom">          <button title="Home view" onClick={() => { setLocation(undefined); setHomeSignal((signal) => signal + 1); }}><Home size={18} /></button><button title="Toggle panel" onClick={() => setPanelOpen((open) => !open)}><PanelRight size={18} /></button></div>
           </aside>
 
           <main className="globe-workspace">
-            <EarthGlobe selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={setRasterClick} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} onCursorChange={setCursor} />
+            <EarthGlobe selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={() => {}} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} onCursorChange={setCursor} />
             <div className="globe-hint"><Crosshair size={14} /> {selectionActive ? 'Click the globe to add polygon vertices' : 'Click and drag to rotate · Pinch or two-finger scroll to zoom · Right-drag to pan'}</div>
             <div className="bottom-status"><span className="status-live" /> <strong>{selectionActive ? 'SELECTING AREA' : 'GLOBE NAVIGATION'}</strong><i /> {draftVertexCount} {draftVertexCount === 1 ? 'vertex' : 'vertices'}<i /> {cursor ? `${cursor[1].toFixed(4)}°, ${cursor[0].toFixed(4)}°` : 'Move cursor over globe'}</div>
           </main>
@@ -154,7 +149,7 @@ function App() {
               submitLoading={submitLoading}
               analysisReady={analysisReady}
               onOpenData={() => void openData()}
-              onOpenVisualizations={() => void openVisualizations()}
+              onOpenVisualizations={retrievalSessionId && retrievalStudyId ? () => void openVisualizations() : undefined}
               onOpenStory={(slug) => openStories(slug)}
             />
           )}

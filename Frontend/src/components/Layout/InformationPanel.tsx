@@ -104,7 +104,7 @@ export function InformationPanel({
 
           {analysisReady && !submitLoading && (
             <div className="next-steps">
-              <p>Next: open <strong>Data</strong> to browse and extract the satellite files, or <strong>Visualizations</strong> to compare dates. You can also use the buttons on the left toolbar.</p>
+              <p>Next: open <strong>Data</strong> to choose acquisitions and retrieve measurements. After processing, use <strong>View Visualization</strong> to explore the saved rasters.</p>
               <div className="next-steps-actions">
                 {onOpenData ? <button className="primary-action" onClick={onOpenData}><Database size={15} /> Open Data</button> : null}
                 {onOpenVisualizations ? <button className="secondary-action" onClick={onOpenVisualizations}><BarChart3 size={15} /> Open Visualizations</button> : null}

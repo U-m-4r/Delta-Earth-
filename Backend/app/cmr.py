@@ -4,7 +4,7 @@ import logging
 import math
 import re
 from datetime import date
-from typing import Any
+from typing import Any, Awaitable, Callable
 
 import httpx
 from shapely.geometry import MultiPolygon, Polygon, mapping
@@ -158,7 +158,9 @@ def _record(entry: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-async def search_granules(polygon: Any, start_date: date | None = None, end_date: date | None = None, page_size: int = 100) -> dict[str, Any]:
+async def search_granules(polygon: Any, start_date: date | None = None, end_date: date | None = None,
+                         page_size: int = 100, *, all_pages: bool = False,
+                         progress_callback: Callable[[int, int], Awaitable[None]] | None = None) -> dict[str, Any]:
     cfg = get_settings()
     _validate_cmr_geometry(polygon)
     temporal = None
@@ -166,9 +168,10 @@ async def search_granules(polygon: Any, start_date: date | None = None, end_date
         temporal = f"{start_date.isoformat()}T00:00:00Z" if start_date else ""
         temporal += ","
         temporal += f"{end_date.isoformat()}T23:59:59Z" if end_date else ""
+    page_size = min(max(page_size, 1), 200)
     params: dict[str, Any] = {
         "collection_concept_id": cfg.nisar_gcov_collection,
-        "page_size": min(max(page_size, 1), 200), "page_num": 1,
+        "page_size": page_size, "page_num": 1,
     }
     if temporal:
         params["temporal"] = temporal
@@ -179,14 +182,33 @@ async def search_granules(polygon: Any, start_date: date | None = None, end_date
         url = f"{cfg.cmr_base_url}/granules.json"
         if isinstance(polygon, Polygon) and not polygon.interiors:
             params["polygon"] = normalize_cmr_polygon(polygon)
-            response = await _get_with_retry(client, url, params=params, headers=headers)
+            geometry_bytes = None
         else:
             # CMR's documented GeoJSON shapefile POST preserves holes and multipart geometries.
             geometry_bytes = _normalized_geojson(polygon)
-            response = await _post_geojson_with_retry(client, url, params, headers, geometry_bytes)
-        payload = response.json()
-    feed = payload.get("feed", {})
-    entries = [_record(entry) for entry in feed.get("entry", [])]
+        entries = []
+        seen: set[str] = set()
+        hits = 0
+        page_num = 1
+        while True:
+            params["page_num"] = page_num
+            if geometry_bytes is None:
+                response = await _get_with_retry(client, url, params=params, headers=headers)
+            else:
+                response = await _post_geojson_with_retry(client, url, params, headers, geometry_bytes)
+            feed = response.json().get("feed", {})
+            hits = int(feed.get("hits", hits) or hits)
+            page_entries = feed.get("entry", [])
+            for entry in page_entries:
+                granule = _record(entry)
+                if granule["id"] and granule["id"] not in seen:
+                    seen.add(granule["id"])
+                    entries.append(granule)
+            if progress_callback is not None:
+                await progress_callback(len(entries), hits)
+            if not all_pages or not page_entries or len(entries) >= hits:
+                break
+            page_num += 1
     for entry in entries:
         entry.pop("_raw", None)
     dates = sorted({item["acquiredAt"][:10] for item in entries if item.get("acquiredAt")})
@@ -195,7 +217,7 @@ async def search_granules(polygon: Any, start_date: date | None = None, end_date
             "collections": [{"id": cfg.nisar_gcov_collection, "shortName": "NISAR_L2_GCOV_PROVISIONAL_V1", "title": "NISAR Provisional Geocoded Polarimetric Covariance Product", "maturity": "PROVISIONAL", "productType": "GCOV", "granuleCount": len(entries)}],
             "frequencies": sorted({v for item in entries for v in item["frequencies"]}),
             "polarizations": sorted({v for item in entries for v in item["polarizations"]}),
-            "hits": int(feed.get("hits", len(entries)) or 0), "warnings": []}
+            "hits": hits or len(entries), "warnings": []}
 
 
 async def _post_geojson_with_retry(client: httpx.AsyncClient, url: str, params: dict[str, Any], headers: dict[str, str], geometry: bytes) -> httpx.Response:

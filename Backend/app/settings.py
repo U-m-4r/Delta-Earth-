@@ -24,6 +24,11 @@ class Settings(BaseSettings):
     harmony_submission_read_timeout_seconds: float = 180
     processing_timeout_seconds: float = 1800
     download_timeout_seconds: float = 300
+    visualization_temp_dir: Path = Path("/tmp/delta-earth/visualization")
+    visualization_session_ttl_seconds: int = 3600
+    visualization_max_sessions: int = 16
+    visualization_max_storage_bytes: int = 1073741824
+    visualization_max_dimension: int = 1024
 
     @property
     def resolved_data_dir(self) -> Path:
@@ -31,6 +36,10 @@ class Settings(BaseSettings):
         if not path.is_absolute():
             path = Path(__file__).resolve().parents[2] / path
         return path.resolve()
+
+    @property
+    def resolved_visualization_temp_dir(self) -> Path:
+        return self.visualization_temp_dir.expanduser().resolve()
 
 
 @lru_cache

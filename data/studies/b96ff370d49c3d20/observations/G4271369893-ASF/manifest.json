@@ -341,7 +341,6 @@
       "rasterAvailable": true,
       "visualizationAvailable": true,
       "rasterPath": "studies/b96ff370d49c3d20/observations/G4271369893-ASF/rasters/HHHH.tif",
-      "previewPath": "studies/b96ff370d49c3d20/observations/G4271369893-ASF/visualizations/HHHH.png",
       "raster": {
         "crs": "EPSG:32643",
         "transform": [

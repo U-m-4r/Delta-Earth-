@@ -68,7 +68,6 @@ export type AnalysisResult = {
 
 export type RasterMetadata = {
   url?: string;
-  previewUrl?: string;
   bounds: [number, number, number, number];
   boundsWgs84: [number, number, number, number];
   crs?: string;
@@ -100,7 +99,7 @@ export type ProcessedObservation = Observation & {
     available: boolean;
     rasterAvailable: boolean;
     visualizationAvailable: boolean;
-    previewUrl: string;
+    previewUrl?: string;
     rasterUrl: string;
     raster: RasterMetadata;
     processingTimestamp?: string;

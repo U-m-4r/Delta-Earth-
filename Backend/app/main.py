@@ -1,25 +1,37 @@
+import asyncio
 import logging
 import json
 import re
-from datetime import date
+from contextlib import asynccontextmanager
+from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
 import rasterio
 import numpy as np
 import httpx
-from rasterio.warp import transform as transform_coordinates
+from rasterio.enums import Resampling
+from rasterio.io import MemoryFile
+from rasterio.warp import transform as transform_coordinates, transform_bounds
 from shapely.geometry import shape
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 
 from .cmr import CMRRequestError, search_granules
 from .geometry import PolygonInputError, study_id_for_feature, validate_geojson
-from .harmony import HarmonyConfigurationError, extract_granule, inspect_capabilities, json_safe, refresh_job_status, _sanitize_text, _write_job_record
-from .raster_registry import generate_difference_preview, generate_preview, query_registry
+from .harmony import (AUXILIARY, MEASUREMENTS, HarmonyConfigurationError, extract_granule,
+    inspect_capabilities, json_safe, refresh_job_status, _sanitize_text, _write_job_record)
+from .raster_registry import persist_processed_raster, query_registry
 from .settings import get_settings
+from .retrieval_sessions import (create_session as create_retrieval_session,
+    now as retrieval_now, read_session as read_retrieval_session,
+    session_path as retrieval_session_path, write_session as write_retrieval_session)
+from .visualization_sessions import (VisualizationSessionError, cleanup_expired_sessions,
+                                    _atomic_json, create_session, delete_session,
+                                    generate_comparison, generate_rgb, product_path,
+                                    read_session_catalog, require_session)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 logging.getLogger("httpx").setLevel(logging.WARNING)
@@ -43,10 +55,31 @@ def _cmr_http_error(error: CMRRequestError) -> HTTPException:
         status_code = 502
     return HTTPException(status_code=status_code, detail=str(error))
 
-app = FastAPI(title="Delta Earth — NISAR Data API", version="0.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=[settings.frontend_origin], allow_credentials=True,
-                   allow_methods=["GET", "POST"], allow_headers=["*"])
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    root = settings.resolved_visualization_temp_dir
+    cleanup_expired_sessions(root, settings.visualization_session_ttl_seconds)
 
+    async def reap():
+        while True:
+            await asyncio.sleep(60)
+            cleanup_expired_sessions(root, settings.visualization_session_ttl_seconds)
+
+    reaper = asyncio.create_task(reap())
+    try:
+        yield
+    finally:
+        reaper.cancel()
+        try:
+            await reaper
+        except asyncio.CancelledError:
+            pass
+
+
+app = FastAPI(title="Delta Earth — NISAR Data API", version="0.1.0", lifespan=lifespan)
+app.add_middleware(CORSMiddleware, allow_origins=[settings.frontend_origin], allow_credentials=True,
+                   allow_methods=["GET", "POST", "DELETE"], allow_headers=["*"],
+                   expose_headers=["X-Raster-Bounds-WGS84", "X-RGB-Channel-Legend"])
 
 class ExtractRequest(BaseModel):
     granuleId: str = Field(min_length=3, max_length=300)
@@ -54,6 +87,19 @@ class ExtractRequest(BaseModel):
     variables: list[str] = Field(min_length=1, max_length=8)
     frequency: str = "frequencyA"
     acquisitionMetadata: dict[str, Any] = Field(default_factory=dict)
+
+
+class VisualizationSessionRequest(BaseModel):
+    studyId: str = Field(pattern=r"^[a-f0-9]{16}$")
+    retrievalSessionId: str | None = Field(default=None, pattern=r"^[a-f0-9]{32}$")
+
+
+class BatchExtractionRequest(BaseModel):
+    studyId: str = Field(pattern=r"^[a-f0-9]{16}$")
+    studyArea: dict[str, Any]
+    startDate: date | None = None
+    endDate: date | None = None
+    combinations: list[dict[str, Any]] = Field(min_length=1, max_length=1000)
 
 
 @app.get("/api/health")
@@ -103,7 +149,7 @@ async def search_scenes(payload: dict[str, Any]):
     except (PolygonInputError, ValueError) as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     try:
-        results = await search_granules(polygon, start, end, int(payload.get("pageSize", 100)))
+        results = await search_granules(polygon, start, end, int(payload.get("pageSize", 100)), all_pages=True)
     except CMRRequestError as exc:
         raise _cmr_http_error(exc) from exc
     except Exception as exc:
@@ -224,6 +270,126 @@ async def extract(request: ExtractRequest):
         raise HTTPException(status_code=502, detail=f"NISAR extraction failed: {safe_error}") from exc
 
 
+_retrieval_tasks: dict[str, asyncio.Task] = {}
+
+
+async def _process_retrieval_batch(session_id: str) -> None:
+    data_root = settings.resolved_data_dir
+    path = retrieval_session_path(data_root, session_id)
+    state = read_retrieval_session(data_root, session_id)
+    state.update({"status": "processing", "updatedAt": retrieval_now()})
+    write_retrieval_session(path, state)
+    for index, item in enumerate(state["combinations"], start=1):
+        item.update({"status": "processing", "updatedAt": retrieval_now()})
+        state.update({"currentGranuleId": item["granuleId"], "currentVariable": item["variable"],
+                      "currentIndex": index, "updatedAt": retrieval_now()})
+        write_retrieval_session(path, state)
+        try:
+            existing = query_registry(data_root, state["studyId"], observation_id=item["granuleId"],
+                                      variable=item["variable"], frequency=item["frequency"])
+            if existing:
+                stored_path = (data_root / existing[0]["rasterPath"]).resolve()
+                registry_item = persist_processed_raster(
+                    data_root, state["studyId"], item["granuleId"],
+                    {**item.get("acquisitionMetadata", {}), "frequency": item["frequency"]},
+                    item["variable"], stored_path, state["studyArea"], retrieval_session_id=session_id,
+                    frequency=item["frequency"])
+                item.update({"status": "completed", "alreadyPresent": True, "jobId": None,
+                             "raster": registry_item["raster"], "bytes": registry_item["bytes"]})
+            else:
+                metadata = {**item.get("acquisitionMetadata", {}), "frequency": item["frequency"],
+                            "retrievalSessionId": session_id}
+                result = await extract_granule(item["granuleId"], state["studyArea"], [item["variable"]],
+                    item["frequency"], metadata)
+                layer = next((row for row in result.get("variables", []) if row.get("variable") == item["variable"]), {})
+                if layer.get("status") in {"downloaded", "already_present"} and layer.get("registryPersistence") == "success":
+                    item.update({"status": "completed", "alreadyPresent": layer.get("status") == "already_present",
+                                 "jobId": layer.get("jobId"), "raster": layer.get("raster"), "bytes": layer.get("bytes")})
+                else:
+                    item.update({"status": "failed", "jobId": layer.get("jobId"),
+                                 "error": layer.get("error") or f"Extraction ended with status {layer.get('status', 'unknown')}."})
+        except Exception as exc:
+            item.update({"status": "failed", "error": _sanitize_text(exc)[:500]})
+            log.exception("Retrieval combination failed %s", json.dumps({"retrieval_session_id": session_id,
+                "granule_id": item["granuleId"], "variable": item["variable"]}))
+        item["updatedAt"] = retrieval_now()
+        state["completedCount"] = sum(row["status"] == "completed" for row in state["combinations"])
+        state["failedCount"] = sum(row["status"] == "failed" for row in state["combinations"])
+        state["updatedAt"] = retrieval_now()
+        write_retrieval_session(path, state)
+    state.update({"status": "completed" if not state["failedCount"] else
+                  "partial" if state["completedCount"] else "failed", "completedAt": retrieval_now(),
+                  "currentGranuleId": None, "currentVariable": None, "updatedAt": retrieval_now()})
+    write_retrieval_session(path, state)
+    _retrieval_tasks.pop(session_id, None)
+
+
+@app.post("/api/nisar/extractions/batch", status_code=202)
+async def start_retrieval_batch(request: BatchExtractionRequest):
+    try:
+        validate_geojson(request.studyArea)
+        if study_id_for_feature(request.studyArea) != request.studyId:
+            raise PolygonInputError("The studyId does not match the submitted study area.")
+        if request.startDate and request.endDate and request.startDate > request.endDate:
+            raise PolygonInputError("Start date must be on or before end date.")
+        combinations = []
+        seen = set()
+        for selected in request.combinations:
+            granule_id = str(selected.get("granuleId", ""))
+            frequency = selected.get("frequency")
+            variable = selected.get("variable")
+            if len(granule_id) < 3 or len(granule_id) > 300:
+                raise PolygonInputError("A selected granule identifier is invalid.")
+            if frequency not in {"frequencyA", "frequencyB"}:
+                raise PolygonInputError("Frequency must be frequencyA or frequencyB.")
+            if not isinstance(variable, str) or variable not in MEASUREMENTS + AUXILIARY:
+                raise PolygonInputError("A selected measurement variable is invalid.")
+            key = (granule_id, frequency, variable)
+            if key in seen:
+                continue
+            seen.add(key)
+            combinations.append({"granuleId": granule_id, "frequency": frequency, "variable": variable,
+                                 "acquisitionMetadata": selected.get("acquisitionMetadata") or {}})
+        if not combinations:
+            raise PolygonInputError("Select at least one available granule and measurement combination.")
+        session = create_retrieval_session(settings.resolved_data_dir, request.studyId, request.studyArea,
+            request.startDate.isoformat() if request.startDate else None,
+            request.endDate.isoformat() if request.endDate else None, combinations)
+        task = asyncio.create_task(_process_retrieval_batch(session["retrievalSessionId"]))
+        _retrieval_tasks[session["retrievalSessionId"]] = task
+        return {key: value for key, value in session.items() if key != "studyArea"}
+    except PolygonInputError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+
+
+@app.get("/api/retrieval-sessions/{session_id}")
+async def retrieval_session(session_id: str):
+    try:
+        session = read_retrieval_session(settings.resolved_data_dir, session_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    return {key: value for key, value in session.items() if key != "studyArea"}
+
+
+@app.get("/api/retrieval-sessions/{session_id}/rasters")
+async def retrieval_session_rasters(session_id: str):
+    try:
+        session = read_retrieval_session(settings.resolved_data_dir, session_id)
+        entries = query_registry(settings.resolved_data_dir, session["studyId"], retrieval_session_id=session_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    results = [{key: value for key, value in entry.items() if key != "rasterPath"} | {
+        "sourceVariable": entry["variable"],
+        "variable": f"{entry.get('frequency', 'frequencyA')}:{entry['variable']}",
+        "rasterUrl": f"/api/visualization/{session['studyId']}/raster/{entry['observationId']}/{entry['variable']}?frequency={entry.get('frequency', 'frequencyA')}"}
+        for entry in entries]
+    return {"retrievalSessionId": session_id, "studyId": session["studyId"], "rasters": results}
+
+
 def _local_processed_observations(study_id: str) -> dict[str, Any]:
     try:
         entries = query_registry(settings.resolved_data_dir, study_id)
@@ -240,22 +406,23 @@ def _local_processed_observations(study_id: str) -> dict[str, Any]:
             "variables": [], "polarizations": [],
         })
         variable = entry["variable"]
-        preview_path = f"/api/visualization/{study_id}/preview/{obs_id}/{variable}"
-        raster_url = f"/api/visualization/{study_id}/raster/{obs_id}/{variable}"
-        variable_data = {"name": variable, "available": True, "rasterAvailable": True,
+        frequency = entry.get("frequency", "frequencyA")
+        variable_key = f"{frequency}:{variable}"
+        raster_url = f"/api/visualization/{study_id}/raster/{obs_id}/{variable}?frequency={frequency}"
+        variable_data = {"name": variable_key, "sourceVariable": variable, "frequency": frequency,
+                         "available": True, "rasterAvailable": True,
                          "visualizationAvailable": entry["raster"].get("validPixelCount", 0) > 0,
-                         "previewUrl": preview_path, "rasterUrl": raster_url,
+                         "rasterUrl": raster_url,
                          "raster": entry["raster"], "processingTimestamp": entry.get("processingTimestamp"),
                          "bytes": entry.get("bytes")}
         item["variables"].append(variable_data)
-        if variable not in item["polarizations"]:
-            item["polarizations"].append(variable)
+        if variable_key not in item["polarizations"]:
+            item["polarizations"].append(variable_key)
     observations = []
     for item in grouped.values():
         item["variables"].sort(key=lambda variable: variable["name"])
         selected = item["variables"][0]
-        item["raster"] = {**selected["raster"], "measurement": selected["name"],
-                           "previewUrl": selected["previewUrl"], "url": selected["rasterUrl"]}
+        item["raster"] = {**selected["raster"], "measurement": selected["name"], "url": selected["rasterUrl"]}
         observations.append(item)
     observations.sort(key=lambda item: (item.get("acquiredAt") or "", item["id"]))
     return json_safe({"studyId": study_id, "observations": observations})
@@ -267,10 +434,11 @@ async def locally_processed_observations(study_id: str):
     return _local_processed_observations(study_id)
 
 
-def _registered_raster(study_id: str, observation_id: str, variable: str) -> tuple[Path, dict[str, Any]]:
+def _registered_raster(study_id: str, observation_id: str, variable: str,
+                       frequency: str = "frequencyA") -> tuple[Path, dict[str, Any]]:
     try:
         entries = query_registry(settings.resolved_data_dir, study_id,
-                                 observation_id=observation_id, variable=variable)
+                                 observation_id=observation_id, variable=variable, frequency=frequency)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     if not entries:
@@ -287,14 +455,146 @@ async def _stream_local_file(path: Path, chunk_size: int = 1024 * 1024):
             yield chunk
 
 
-@app.get("/api/visualization/{study_id}/observations")
-async def visualization_observations(study_id: str):
-    return _local_processed_observations(study_id)
+def _visualization_http_error(error: VisualizationSessionError) -> HTTPException:
+    return HTTPException(status_code=error.status_code, detail=str(error))
+
+
+@app.post("/api/visualization/sessions")
+async def visualization_session_create(request: VisualizationSessionRequest):
+    try:
+        session = create_session(settings.resolved_visualization_temp_dir, request.studyId,
+                                 settings.visualization_session_ttl_seconds,
+                                 settings.visualization_max_sessions)
+        entries = query_registry(settings.resolved_data_dir, request.studyId,
+            retrieval_session_id=request.retrievalSessionId) if request.retrievalSessionId else []
+        observations: dict[str, dict[str, Any]] = {}
+        rasters = []
+        for entry in entries:
+            metadata = entry.get("acquisitionMetadata") or {}
+            observation_id = entry["observationId"]
+            observation = observations.setdefault(observation_id, {
+                "observationId": observation_id, "granuleId": observation_id,
+                "acquisitionDate": entry.get("acquisitionDate"),
+                "title": metadata.get("title", observation_id), "provider": metadata.get("provider", "NASA ASF DAAC"),
+                "productType": metadata.get("productType", "GCOV"), "frequencies": [],
+                "variables": [], "polarizations": [], "channels": [], "processingStatus": "processed"})
+            variable = entry["variable"]
+            frequency = metadata.get("frequency") or "frequencyA"
+            variable_key = f"{frequency}:{variable}"
+            observation["variables"].append(variable_key)
+            observation["polarizations"].append(variable)
+            label = {"HHHH": "HH", "HVHV": "HV", "VHVV": "VH", "VHVH": "VH", "VVVV": "VV"}.get(variable, variable)
+            observation["channels"].append(f"{frequency.removeprefix('frequency')} · {label}")
+            observation["frequencies"].append(frequency)
+            rasters.append({**entry, "variable": variable_key, "sourceVariable": variable,
+                            "frequency": frequency, "temporary": False})
+        for observation in observations.values():
+            for key in ("variables", "polarizations", "channels", "frequencies"):
+                observation[key] = sorted(set(observation[key]))
+        dates: dict[str, list[dict[str, Any]]] = {}
+        for observation in observations.values():
+            day = str(observation.get("acquisitionDate") or "undated")[:10]
+            dates.setdefault(day, []).append(observation)
+        catalog = {"studyId": request.studyId, "retrievalSessionId": request.retrievalSessionId,
+            "observations": sorted(observations.values(), key=lambda item: (item.get("acquisitionDate") or "", item["observationId"])),
+            "rasters": rasters,
+            "timeline": [{"date": None if day == "undated" else day, "granuleCount": len(items),
+                "granuleIds": sorted(item["granuleId"] for item in items),
+                "polarizations": sorted({pol for item in items for pol in item["polarizations"]}),
+                "channels": sorted({channel for item in items for channel in item["channels"]}),
+                "processingStatus": "processed"} for day, items in sorted(dates.items())]}
+        _atomic_json(settings.resolved_visualization_temp_dir / session["sessionId"] / "catalog.json", catalog)
+        return {**session, "retrievalSessionId": request.retrievalSessionId,
+                "rasterCount": len(rasters), "observationCount": len(observations)}
+    except VisualizationSessionError as exc:
+        raise _visualization_http_error(exc) from exc
+
+
+def _require_visualization_session(session_id: str, session_token: str | None):
+    try:
+        session_dir, metadata = require_session(settings.resolved_visualization_temp_dir,
+            session_id, session_token, settings.visualization_session_ttl_seconds)
+    except VisualizationSessionError as exc:
+        raise _visualization_http_error(exc) from exc
+    return session_dir, metadata
+
+
+@app.get("/api/visualization/sessions/{session_id}/catalog")
+async def visualization_catalog(session_id: str, x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, _ = _require_visualization_session(session_id, x_visualization_session_token)
+    return json_safe(read_session_catalog(session_dir))
+
+
+@app.get("/api/visualization/sessions/{session_id}/timeline")
+async def visualization_timeline(session_id: str, x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, _ = _require_visualization_session(session_id, x_visualization_session_token)
+    return json_safe(read_session_catalog(session_dir).get("timeline", []))
+
+
+@app.delete("/api/visualization/sessions/{session_id}")
+async def visualization_session_delete(session_id: str, x_visualization_session_token: str | None = Header(default=None)):
+    try:
+        _require_visualization_session(session_id, x_visualization_session_token)
+        delete_session(settings.resolved_visualization_temp_dir, session_id,
+                       x_visualization_session_token, settings.visualization_session_ttl_seconds)
+    except VisualizationSessionError as exc:
+        raise _visualization_http_error(exc) from exc
+    return {"deleted": True}
+
+
+@app.get("/api/visualization/sessions/{session_id}/rgb/{observation_id}")
+async def visualization_rgb(session_id: str, observation_id: str, red: str, green: str, blue: str,
+                            max_dimension: int = Query(default=1024, ge=32, le=4096),
+                            x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, metadata = _require_visualization_session(session_id, x_visualization_session_token)
+    max_dimension = min(max_dimension, settings.visualization_max_dimension)
+    try:
+        product, bounds, legend = generate_rgb(settings.resolved_data_dir, session_dir,
+            metadata["studyId"], observation_id, red, green, blue,
+            max_dimension, settings.visualization_max_storage_bytes)
+    except VisualizationSessionError as exc:
+        raise _visualization_http_error(exc) from exc
+    except (OSError, rasterio.errors.RasterioError) as exc:
+        raise HTTPException(status_code=422, detail=f"RGB composite generation failed: {exc}") from exc
+    return Response(content=product.read_bytes(), media_type="image/png",
+                    headers={"X-Raster-Bounds-WGS84": json.dumps(bounds),
+                             "X-RGB-Channel-Legend": json.dumps(legend),
+                             "Cache-Control": "no-store"})
+
+
+@app.get("/api/visualization/sessions/{session_id}/compare")
+async def visualization_compare(session_id: str, baseline: str, current: str, variable: str,
+                                mode: str = "side_by_side", include_difference: bool = False,
+                                max_dimension: int = Query(default=1024, ge=32, le=4096),
+                                x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, metadata = _require_visualization_session(session_id, x_visualization_session_token)
+    max_dimension = min(max_dimension, settings.visualization_max_dimension)
+    try:
+        return generate_comparison(settings.resolved_data_dir,
+            session_dir, metadata["studyId"], baseline, current, variable, mode,
+            include_difference, max_dimension, settings.visualization_max_storage_bytes)
+    except VisualizationSessionError as exc:
+        raise _visualization_http_error(exc) from exc
+    except (OSError, rasterio.errors.RasterioError) as exc:
+        raise HTTPException(status_code=422, detail=f"Comparison generation failed: {exc}") from exc
+
+
+@app.get("/api/visualization/sessions/{session_id}/products/{product_id}")
+async def visualization_product(session_id: str, product_id: str,
+                                x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, _ = _require_visualization_session(session_id, x_visualization_session_token)
+    try:
+        path = product_path(session_dir, product_id)
+    except VisualizationSessionError as exc:
+        raise _visualization_http_error(exc) from exc
+    return Response(content=path.read_bytes(), media_type="image/png",
+                    headers={"Cache-Control": "no-store"})
 
 
 @app.get("/api/visualization/{study_id}/raster/{observation_id}/{variable}")
-async def visualization_raster(study_id: str, observation_id: str, variable: str):
-    path, _ = _registered_raster(study_id, observation_id, variable)
+async def visualization_raster(study_id: str, observation_id: str, variable: str,
+                               frequency: str = "frequencyA"):
+    path, _ = _registered_raster(study_id, observation_id, variable, frequency)
     try:
         with rasterio.open(path) as dataset:
             if dataset.driver != "GTiff" or dataset.count < 1 or dataset.width < 1 or dataset.height < 1:
@@ -306,36 +606,56 @@ async def visualization_raster(study_id: str, observation_id: str, variable: str
 
 
 @app.get("/api/visualization/{study_id}/preview/{observation_id}/{variable}")
-async def visualization_preview(study_id: str, observation_id: str, variable: str):
-    path, entry = _registered_raster(study_id, observation_id, variable)
-    relative = f"studies/{study_id}/observations/{observation_id}/visualizations/{variable}.png"
+async def visualization_raster_preview(study_id: str, observation_id: str, variable: str,
+                                       style: str = "gray", max_dimension: int = Query(default=1024, ge=32, le=2048),
+                                       minimum: float | None = None, maximum: float | None = None,
+                                       frequency: str = "frequencyA"):
+    path, entry = _registered_raster(study_id, observation_id, variable, frequency)
+    if style not in {"gray", "red"}:
+        raise HTTPException(status_code=400, detail="Preview style must be gray or red.")
     try:
-        preview = generate_preview(settings.resolved_data_dir, path, relative)
-    except (OSError, ValueError, rasterio.errors.RasterioError) as exc:
-        raise HTTPException(status_code=422, detail=f"Raster preview could not be generated: {exc}") from exc
-    return Response(content=preview.read_bytes(), media_type="image/png",
-                    headers={"Content-Disposition": f'inline; filename="{variable}.png"',
-                             "X-Raster-CRS": str(entry.get("raster", {}).get("crs", ""))})
-
-
-@app.get("/api/visualization/{study_id}/difference/{baseline}/{current}/{variable}")
-async def visualization_difference(study_id: str, baseline: str, current: str, variable: str):
-    baseline_path, _ = _registered_raster(study_id, baseline, variable)
-    current_path, _ = _registered_raster(study_id, current, variable)
-    relative = f"studies/{study_id}/observations/{baseline}/visualizations/difference_{current}_{variable}.png"
-    try:
-        preview = generate_difference_preview(settings.resolved_data_dir, baseline_path, current_path, relative)
-    except (OSError, ValueError, rasterio.errors.RasterioError) as exc:
-        raise HTTPException(status_code=409, detail=f"Raster difference is unavailable: {exc}") from exc
-    return Response(content=preview.read_bytes(), media_type="image/png",
-                    headers={"Content-Disposition": f'inline; filename="difference_{variable}.png"'})
+        with rasterio.open(path) as dataset:
+            scale = min(1.0, max_dimension / max(dataset.width, dataset.height))
+            width, height = max(1, int(dataset.width * scale)), max(1, int(dataset.height * scale))
+            sample = dataset.read(1, out_shape=(height, width), masked=True, resampling=Resampling.average)
+            values = np.asarray(sample.data, dtype=np.float64)
+            valid = ~np.ma.getmaskarray(sample) & np.isfinite(values)
+            if not valid.any():
+                raise HTTPException(status_code=422, detail="Raster contains no valid pixels to render.")
+            low = float(minimum) if minimum is not None else float(np.percentile(values[valid], 2))
+            high = float(maximum) if maximum is not None else float(np.percentile(values[valid], 98))
+            if not np.isfinite(low) or not np.isfinite(high) or high <= low:
+                low, high = float(values[valid].min()), float(values[valid].max())
+            normalized = np.zeros((height, width), dtype=np.uint8)
+            if high > low:
+                normalized[valid] = np.clip((values[valid] - low) / (high - low) * 255, 0, 255).astype(np.uint8)
+            rgba = np.zeros((4, height, width), dtype=np.uint8)
+            if style == "red":
+                rgba[0] = normalized
+            else:
+                rgba[0] = rgba[1] = rgba[2] = normalized
+            rgba[3, valid] = 255
+            bounds = list(transform_bounds(dataset.crs, "EPSG:4326", *dataset.bounds, densify_pts=21))
+        with MemoryFile(ext=".png") as memory:
+            with memory.open(driver="PNG", width=width, height=height, count=4, dtype="uint8") as png:
+                png.write(rgba)
+            content = memory.read()
+    except HTTPException:
+        raise
+    except (OSError, rasterio.errors.RasterioError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=f"Could not render stored raster: {exc}") from exc
+    return Response(content=content, media_type="image/png", headers={
+        "X-Raster-Bounds-WGS84": json.dumps(bounds), "X-Raster-Minimum": str(low),
+        "X-Raster-Maximum": str(high), "X-Raster-Units": str(entry.get("raster", {}).get("units") or "unknown"),
+        "Cache-Control": "private, max-age=300"})
 
 
 @app.get("/api/studies/{study_id}/observations/{observation_id}/pixel")
-async def local_raster_pixel(study_id: str, observation_id: str, longitude: float, latitude: float, variable: str = "HHHH"):
+async def local_raster_pixel(study_id: str, observation_id: str, longitude: float, latitude: float,
+                             variable: str = "HHHH", frequency: str = "frequencyA"):
     if not np.isfinite(longitude) or not np.isfinite(latitude) or not (-180 <= longitude <= 180) or not (-90 <= latitude <= 90):
         raise HTTPException(status_code=400, detail="Pixel coordinates must be finite WGS84 longitude/latitude values.")
-    path, _ = _registered_raster(study_id, observation_id, variable)
+    path, _ = _registered_raster(study_id, observation_id, variable, frequency)
     try:
         with rasterio.open(path) as dataset:
             x, y = transform_coordinates("EPSG:4326", dataset.crs, [longitude], [latitude])
@@ -353,9 +673,14 @@ async def local_raster_pixel(study_id: str, observation_id: str, longitude: floa
 
 
 @app.get("/api/studies/{study_id}/compare")
-async def compare_local_rasters(study_id: str, baseline: str, current: str, variable: str = "HHHH"):
-    baseline_path, _ = _registered_raster(study_id, baseline, variable)
-    current_path, _ = _registered_raster(study_id, current, variable)
+async def compare_local_rasters(study_id: str, baseline: str, current: str,
+                                variable: str = "HHHH", frequency: str = "frequencyA"):
+    baseline_path, baseline_entry = _registered_raster(study_id, baseline, variable, frequency)
+    current_path, current_entry = _registered_raster(study_id, current, variable, frequency)
+    before_units = str(baseline_entry.get("raster", {}).get("units") or "")
+    after_units = str(current_entry.get("raster", {}).get("units") or "")
+    if before_units and after_units and before_units != after_units:
+        raise HTTPException(status_code=409, detail="These acquisitions use incompatible measurement units.")
     try:
         with rasterio.open(baseline_path) as before, rasterio.open(current_path) as after:
             if (before.crs != after.crs or before.transform != after.transform or

@@ -1,0 +1,566 @@
+{
+  "studyId": "c612075ed7029d87",
+  "observationId": "G4249525684-ASF",
+  "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+  "acquisitionDate": "2026-07-11T00:44:15.000Z",
+  "acquisitionMetadata": {
+    "id": "G4249525684-ASF",
+    "provider": "NASA ASF DAAC",
+    "title": "NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001",
+    "mission": "NISAR",
+    "productShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+    "acquiredAt": "2026-07-11T00:44:15.000Z",
+    "startAt": "2026-07-11T00:44:15.000Z",
+    "endAt": "2026-07-11T00:44:49.999Z",
+    "productType": "GCOV",
+    "processingMaturity": "PROVISIONAL",
+    "frequencies": [
+      "frequencyA",
+      "frequencyB"
+    ],
+    "polarizations": [
+      "HHHH",
+      "HVHV"
+    ],
+    "availableVariables": [
+      {
+        "frequency": "frequencyA",
+        "variable": "HHHH"
+      },
+      {
+        "frequency": "frequencyA",
+        "variable": "HVHV"
+      },
+      {
+        "frequency": "frequencyB",
+        "variable": "HHHH"
+      },
+      {
+        "frequency": "frequencyB",
+        "variable": "HVHV"
+      }
+    ],
+    "bbox": null,
+    "assets": [
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.png",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "s3://sds-n-cumulus-prod-nisar-browse/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.png",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON_thumbnail.png",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON_thumbnail.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "s3://sds-n-cumulus-prod-nisar-browse/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON_thumbnail.png",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON_thumbnail.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.png",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "s3://sds-n-cumulus-prod-nisar-browse/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.png",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "s3://sds-n-cumulus-prod-nisar-browse/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "s3://sds-n-cumulus-prod-nisar-browse/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "s3://sds-n-cumulus-prod-nisar-browse/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "mediaType": ""
+      },
+      {
+        "type": "browse",
+        "url": "s3://sds-n-cumulus-prod-nisar-browse/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.png",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.iso.xml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.iso.xml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.iso.xml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.iso.xml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.rc.yaml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.rc.yaml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.rc.yaml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.rc.yaml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.kml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.kml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_LATLON.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.kml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.kml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HHHH.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_A_HVHV.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HHHH.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_NATIVE_B_HVHV.kml",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_REPORT.pdf",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_REPORT.pdf",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_REPORT.pdf",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_REPORT.pdf",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_STATS.h5",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_STATS.h5",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_STATS.h5",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_STATS.h5",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-products/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001_QA_SUMMARY.csv",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR-JPL-PRIVATE-DATA/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.context.json",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.context.json Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-jpl-private-data/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.context.json",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.context.json Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR-JPL-PRIVATE-DATA/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.dataset.json",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.dataset.json Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-jpl-private-data/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.dataset.json",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.dataset.json Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR-JPL-PRIVATE-DATA/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.log",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.log Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-jpl-private-data/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.log",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5.log Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR-JPL-PRIVATE-DATA/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.met.json",
+        "title": "Download NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.met.json Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "s3://sds-n-cumulus-prod-nisar-jpl-private-data/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.met.json",
+        "title": "This link provides direct download access via S3 to NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.met.json Access to file is restricted",
+        "mediaType": ""
+      },
+      {
+        "type": "data",
+        "url": "https://nisar.asf.earthdatacloud.nasa.gov/s3credentials",
+        "title": "S3 credentials endpoint for direct in-region bucket access",
+        "mediaType": ""
+      }
+    ],
+    "downloadUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_041_A_013_4005_DHDH_A_20260711T004415_20260711T004449_P05023_N_F_J_001.h5",
+    "metadataUrl": null,
+    "sourceMetadata": {
+      "collectionConceptId": "C2854338529-ASF",
+      "dataCenter": "ASF",
+      "datasetId": "NISAR Provisional Geocoded Polarimetric Covariance Product (Version 1)",
+      "granuleSizeMb": 5763.61
+    },
+    "frequency": "frequencyB",
+    "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15"
+  },
+  "updatedAt": "2026-11-15T08:35:33.078303+00:00",
+  "variables": [
+    {
+      "name": "HHHH",
+      "available": true,
+      "rasterAvailable": true,
+      "visualizationAvailable": true,
+      "sourceVariable": "HHHH",
+      "frequency": "frequencyA",
+      "polarization": "HHHH",
+      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionIds": [
+        "8e31c913432e4a97b52bf83111a35f15"
+      ],
+      "rasterPath": "studies/c612075ed7029d87/observations/G4249525684-ASF/rasters/HHHH.tif",
+      "raster": {
+        "crs": "EPSG:32642",
+        "transform": [
+          10.0,
+          0.0,
+          566480.0,
+          0.0,
+          -10.0,
+          2458210.0
+        ],
+        "width": 319,
+        "height": 192,
+        "resolution": [
+          10.0,
+          10.0
+        ],
+        "nodata": null,
+        "units": "1",
+        "description": "Geocoded polarimetric covariance term HHHH",
+        "nodataNonFinite": "nan",
+        "bounds": [
+          566480.0,
+          2456290.0,
+          569670.0,
+          2458210.0
+        ],
+        "boundsWgs84": [
+          69.6450033178943,
+          22.21057216518964,
+          69.67603489168964,
+          22.22804254477139
+        ],
+        "dtype": "float32",
+        "validPixelCount": 25145,
+        "nodataPixelCount": 36103,
+        "minimum": 0.005981922149658203,
+        "maximum": 197.201171875,
+        "mean": 0.7212833470723624,
+        "median": 0.16613197326660156
+      },
+      "processingTimestamp": "2026-11-15T08:30:47.181576+00:00",
+      "bytes": 107934
+    },
+    {
+      "name": "HVHV",
+      "available": true,
+      "rasterAvailable": true,
+      "visualizationAvailable": true,
+      "sourceVariable": "HVHV",
+      "frequency": "frequencyA",
+      "polarization": "HVHV",
+      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionIds": [
+        "8e31c913432e4a97b52bf83111a35f15"
+      ],
+      "rasterPath": "studies/c612075ed7029d87/observations/G4249525684-ASF/rasters/HVHV.tif",
+      "raster": {
+        "crs": "EPSG:32642",
+        "transform": [
+          10.0,
+          0.0,
+          566480.0,
+          0.0,
+          -10.0,
+          2458210.0
+        ],
+        "width": 319,
+        "height": 192,
+        "resolution": [
+          10.0,
+          10.0
+        ],
+        "nodata": null,
+        "units": "1",
+        "description": "Geocoded polarimetric covariance term HVHV",
+        "nodataNonFinite": "nan",
+        "bounds": [
+          566480.0,
+          2456290.0,
+          569670.0,
+          2458210.0
+        ],
+        "boundsWgs84": [
+          69.6450033178943,
+          22.21057216518964,
+          69.67603489168964,
+          22.22804254477139
+        ],
+        "dtype": "float32",
+        "validPixelCount": 25145,
+        "nodataPixelCount": 36103,
+        "minimum": 0.0010777115821838379,
+        "maximum": 17.04638671875,
+        "mean": 0.0435882752050484,
+        "median": 0.025745391845703125
+      },
+      "processingTimestamp": "2026-11-15T08:32:20.774189+00:00",
+      "bytes": 105848
+    },
+    {
+      "name": "HHHH",
+      "available": true,
+      "rasterAvailable": true,
+      "visualizationAvailable": true,
+      "sourceVariable": "HHHH",
+      "frequency": "frequencyB",
+      "polarization": "HHHH",
+      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionIds": [
+        "8e31c913432e4a97b52bf83111a35f15"
+      ],
+      "rasterPath": "studies/c612075ed7029d87/observations/G4249525684-ASF/rasters/frequencyB/HHHH.tif",
+      "raster": {
+        "crs": "EPSG:32642",
+        "transform": [
+          80.0,
+          0.0,
+          566480.0,
+          0.0,
+          -80.0,
+          2458160.0
+        ],
+        "width": 39,
+        "height": 23,
+        "resolution": [
+          80.0,
+          80.0
+        ],
+        "nodata": null,
+        "units": "1",
+        "description": "Geocoded polarimetric covariance term HHHH",
+        "nodataNonFinite": "nan",
+        "bounds": [
+          566480.0,
+          2456320.0,
+          569600.0,
+          2458160.0
+        ],
+        "boundsWgs84": [
+          69.64500455651947,
+          22.210845995122188,
+          69.67535352748698,
+          22.22759085774434
+        ],
+        "dtype": "float32",
+        "validPixelCount": 392,
+        "nodataPixelCount": 505,
+        "minimum": 0.026638269424438477,
+        "maximum": 33.11865234375,
+        "mean": 0.8747864809571481,
+        "median": 0.369476318359375
+      },
+      "processingTimestamp": "2026-11-15T08:33:54.978214+00:00",
+      "bytes": 6081
+    },
+    {
+      "name": "HVHV",
+      "available": true,
+      "rasterAvailable": true,
+      "visualizationAvailable": true,
+      "sourceVariable": "HVHV",
+      "frequency": "frequencyB",
+      "polarization": "HVHV",
+      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionIds": [
+        "8e31c913432e4a97b52bf83111a35f15"
+      ],
+      "rasterPath": "studies/c612075ed7029d87/observations/G4249525684-ASF/rasters/frequencyB/HVHV.tif",
+      "raster": {
+        "crs": "EPSG:32642",
+        "transform": [
+          80.0,
+          0.0,
+          566480.0,
+          0.0,
+          -80.0,
+          2458160.0
+        ],
+        "width": 39,
+        "height": 23,
+        "resolution": [
+          80.0,
+          80.0
+        ],
+        "nodata": null,
+        "units": "1",
+        "description": "Geocoded polarimetric covariance term HVHV",
+        "nodataNonFinite": "nan",
+        "bounds": [
+          566480.0,
+          2456320.0,
+          569600.0,
+          2458160.0
+        ],
+        "boundsWgs84": [
+          69.64500455651947,
+          22.210845995122188,
+          69.67535352748698,
+          22.22759085774434
+        ],
+        "dtype": "float32",
+        "validPixelCount": 392,
+        "nodataPixelCount": 505,
+        "minimum": 0.006502389907836914,
+        "maximum": 1.1728057861328125,
+        "mean": 0.050383576172955184,
+        "median": 0.041727304458618164
+      },
+      "processingTimestamp": "2026-11-15T08:35:33.078392+00:00",
+      "bytes": 6047
+    }
+  ]
+}
