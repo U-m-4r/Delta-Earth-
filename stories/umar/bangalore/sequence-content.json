@@ -1,0 +1,20 @@
+{
+  "dates": ["2026-06-27", "2026-07-21", "2026-08-26", "2026-09-19", "2026-10-13"],
+  "title": "Bangalore: five views of a lake corridor",
+  "location": "Bellandur and Varthur, Bangalore, India",
+  "changeType": "Seasonal lake landscape",
+  "headline": "How does the Bellandur–Varthur landscape change across five radar visits?",
+  "introduction": "Follow Bangalore's connected lake corridor from June to October 2026. Five observations let us inspect the progression between the endpoints: lake margins, neighboring vegetation and the strong returns of the surrounding city. Each view comes from an individually extracted NISAR radar file, with identical colours and map extent.",
+  "conclusion": "The five dates reveal changes in measured radar response across the season. Use the first-date comparison to keep lake margins and nearby land in view as you step through the sequence. Moisture, vegetation, roughness and urban surfaces can all affect the signal; a changing colour alone does not confirm inundation or a change in water quality. This sequence is a reproducible starting point for checking lake dynamics against rainfall, optical images and local observations.",
+  "references": [
+    {"title": "IISc: Bangalore's interconnected lake systems", "url": "https://wgbis.ces.iisc.ac.in/energy/water/paper/ETR93/varthur.html"},
+    {"title": "NASA NISAR provisional GCOV collection", "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"}
+  ],
+  "chapters": [
+    {"label": "Establish the lake corridor", "caption": "27 June establishes the reference view. Locate the broad, lower-response lake surfaces and the brighter urban surroundings. Keep these landmarks in mind: every later image uses this same grid and colour range."},
+    {"label": "Return in July", "caption": "21 July adds the first intermediate visit. Compare the lake edges and neighboring land with June using the baseline toggle. Local differences in brightness are measured radar changes; they need independent evidence before being called new water."},
+    {"label": "Follow the August landscape", "caption": "26 August gives a third checkpoint rather than jumping directly to the end of the season. Watch whether changes persist in the same locations, move along the corridor, or appear mainly in the surrounding land."},
+    {"label": "Check persistence in September", "caption": "19 September tests whether the August pattern continues. A persistent spatial pattern is more useful for investigation than one bright or dark patch in a single image. Compare both the previous date and the June baseline."},
+    {"label": "Close the sequence in October", "caption": "13 October completes the five-visit sequence. Compare the endpoint with June, then revisit the intermediate dates to see when radar differences appeared. This is a seasonal observation sequence, not a verified flood-and-recovery chronology."}
+  ]
+}
