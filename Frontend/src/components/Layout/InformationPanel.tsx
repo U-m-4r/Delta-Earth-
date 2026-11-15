@@ -1,4 +1,4 @@
-import { BarChart3, Check, ChevronRight, CircleAlert, Copy, Database, MapPinned, Trash2 } from 'lucide-react';
+import { ArrowRight, BarChart3, Check, CircleAlert, Copy, Database, MapPinned, Trash2 } from 'lucide-react';
 import type { GeoJsonFeature } from '../../types/geojson';
 import { approximateAreaKm2, getBounds, getCenter } from '../../utils/geometry';
 import { CoordinateTable } from '../Selection/CoordinateTable';
@@ -17,7 +17,7 @@ type Props = {
   analysisReady?: boolean;
   onOpenData?: () => void;
   onOpenVisualizations?: () => void;
-  onOpenStory?: (slug: string) => void;
+  onOpenStory?: (slug: string | null) => void;
 };
 
 export function InformationPanel({
@@ -42,30 +42,32 @@ export function InformationPanel({
 
   return (
     <aside className="information-panel">
-      <div className="panel-title">
+      <div className={`panel-title${selection ? '' : ' welcome-reveal'}`}>
         <div>
-          <span className="section-kicker">Study area</span>
-          <h1>{selection ? 'Selected region' : 'Explore the Earth'}</h1>
+          <h1>{selection ? 'Selected region' : 'Welcome to Delta Earth'}</h1>
         </div>
         <span className="panel-orbit"><MapPinned size={17} /></span>
       </div>
 
       {!selection && (
-        <div className="intro-content">
-          <p>Navigate the globe to explore our planet. When you are ready, define an area of interest with a precise polygon for future satellite analysis.</p>
-          <div className="instruction-list">
-            <div><span>01</span><b>Explore</b><small>Click and drag once to rotate, pinch or use two-finger scroll to zoom, and right-drag to pan.</small></div>
-            <div><span>02</span><b>Search</b><small>Find any country, city, forest, or landmark.</small></div>
-            <div><span>03</span><b>Select</b><small>Place at least three points around your study area.</small></div>
+        <div className="intro-content welcome">
+          <p className="welcome-reveal">
+            See floods spread and reservoirs fill through radar from the NASA–ISRO <strong>NISAR</strong> satellite, which sees through clouds and darkness.
+          </p>
+
+          <div className="welcome-reveal">
+            {onOpenStory ? <HomeStoriesStrip onOpenStory={onOpenStory} /> : null}
           </div>
-          <button className="primary-action" onClick={onStart}>Start selecting area <ChevronRight size={16} /></button>
-          {onOpenStory ? <HomeStoriesStrip onOpenStory={onOpenStory} /> : null}
+
+          <div className="welcome-own welcome-reveal">
+            <span className="section-kicker">Your own area</span>
+            <button className="nasa-link" onClick={onStart}>Analyse any place on Earth <ArrowRight className="nasa-arrow" size={14} /></button>
+          </div>
         </div>
       )}
 
       {selection && ring && (
         <>
-          <div className="selection-state"><span className="status-live" /> Polygon ready for review</div>
           <div className="summary-grid">
             <div><span>AREA</span><strong>{approximateAreaKm2(ring).toLocaleString()} <small>km²</small></strong></div>
             <div><span>VERTICES</span><strong>{ring.length - 1}</strong></div>
@@ -118,7 +120,7 @@ export function InformationPanel({
 
       {selectionActive && !selection && (
         <div className="draft-callout">
-          <span className="status-live" /> {draftVertexCount} point{draftVertexCount === 1 ? '' : 's'} placed. Add {Math.max(0, 3 - draftVertexCount)} more to form a polygon.
+          {draftVertexCount} point{draftVertexCount === 1 ? '' : 's'} placed. Add {Math.max(0, 3 - draftVertexCount)} more to form a polygon.
           <button onClick={onFinish}>Finish selection</button>
         </div>
       )}

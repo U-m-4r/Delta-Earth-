@@ -35,7 +35,7 @@ try {
   const positions=await page.evaluate(()=>window.globeTest.locations());
   for(const story of located){const location=positions.find(row=>row.id===story.slug);assert.ok(Math.abs(location.longitude-story.markerLocation.longitude)<1e-7);assert.ok(Math.abs(location.latitude-story.markerLocation.latitude)<1e-7);}
   const bhagalpur=located.find(item=>item.slug==='bhagalpur-flood-2026');
-  await choose(bhagalpur);assert.equal(await page.locator('.bottom-status').innerText().then(text=>text.includes('0 vertices')),true);
+  await choose(bhagalpur);assert.equal(await page.locator('.draft-callout').count(),0);
   const flights=(await stats()).flights;const point=await page.evaluate(id=>window.globeTest.point(id),bhagalpur.slug);
   await page.mouse.move(point.x,point.y);assert.ok(await page.evaluate(id=>window.globeTest.scale(id)>1,bhagalpur.slug));
   await page.mouse.click(point.x,point.y);assert.equal((await stats()).flights,flights,'Selecting the same marker must not repeat flight');
@@ -56,13 +56,13 @@ try {
   await page.locator('.globe-story-choices button').first().click();await page.locator('.globe-story-explore').waitFor();
   await choose(bhagalpur);
   await page.getByRole('button',{name:'Show story markers'}).click();assert.equal((await stats()).visible,false);assert.equal(await page.locator('.globe-story-preview').count(),0);
-  assert.equal((await stats()).imagery,1);await page.getByRole('button',{name:'Show story markers'}).click();
+  assert.equal((await stats()).imagery,2);await page.getByRole('button',{name:'Show story markers'}).click();
   // Drawing over a marker adds only a vertex, without selecting the story.
-  const drawPoint=await go(bhagalpur);await page.getByRole('button',{name:'Select polygon',exact:true}).click();
+  const drawPoint=await go(bhagalpur);await page.getByRole('button',{name:'Select area',exact:true}).click();
   await page.mouse.click(drawPoint.x,drawPoint.y);assert.equal(await page.locator('.globe-story-preview').count(),0);
-  assert.match(await page.locator('.bottom-status').innerText(),/1 vertex/);
+  assert.match(await page.locator('.draft-callout').innerText(),/1 point placed/);
   await page.mouse.click(drawPoint.x+25,drawPoint.y);await page.mouse.click(drawPoint.x,drawPoint.y+25);
-  assert.match(await page.locator('.bottom-status').innerText(),/3 vertices/);assert.ok((await stats()).drawings>=4);
+  assert.match(await page.locator('.summary-grid').innerText(),/VERTICES\s+3/);assert.ok((await stats()).drawings>=4);
   await page.getByRole('button',{name:'Navigate',exact:true}).click();
   // Hiding markers leaves study entities and imagery in place.
   const drawingCount=(await stats()).drawings;await page.getByRole('button',{name:'Show story markers'}).click();
@@ -97,7 +97,7 @@ try {
   assert.ok((await page.locator('.cesium-widget canvas').boundingBox()).width>=380);
   await page.screenshot({path:`${output}/globe-stories-mobile.png`});
   await page.goto(`${origin}/tests/globe.fixture.html?overlay=1`,{waitUntil:'networkidle'});
-  await page.waitForFunction(()=>window.globeTest?.ready()&&window.globeTest.stats().entities.length===1&&window.globeTest.stats().imagery===2);
+  await page.waitForFunction(()=>window.globeTest?.ready()&&window.globeTest.stats().entities.length===1&&window.globeTest.stats().imagery===3);
   const overlayStory={...bhagalpur,slug:'local-story'};const overlayPoint=await go(overlayStory);
   await page.mouse.click(overlayPoint.x,overlayPoint.y);
   await page.getByRole('region',{name:'Story preview'}).waitFor();
@@ -109,7 +109,7 @@ try {
   assert.equal(await page.locator('#raster-clicks').innerText(),'1');
   const overlayDrawings=(await stats()).drawings;
   await page.getByRole('button',{name:'Toggle markers',exact:true}).click();
-  assert.equal((await stats()).imagery,2);assert.equal((await stats()).drawings,overlayDrawings);
+  assert.equal((await stats()).imagery,3);assert.equal((await stats()).drawings,overlayDrawings);
   assert.equal((await stats()).visible,false);assert.equal((await stats()).activeViewers,1);
   assert.match(await page.evaluate(()=>window.globeTest.basemap()),/World_Street_Map/,'Overlay refresh retains the English-label provider');
   assert.deepEqual(errors,[]);

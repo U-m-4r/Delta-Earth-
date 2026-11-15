@@ -1,31 +1,45 @@
-import { ChevronRight } from 'lucide-react';
-import { useStoryCatalog } from '../../services/storyCatalog';
+import { ArrowRight } from 'lucide-react';
+import type { StoryIndexItem } from '../../types/stories';
+import { storyAssetUrl, useStoryCatalog } from '../../services/storyCatalog';
 
-const root = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/case-studies`;
+// Hand-picked for the home panel (most legible previews); anything missing falls back to catalogue order.
+const FEATURED = ['po-delta-sequence-2026', 'australia-manning-2025', 'bhagalpur-flood-2026'];
 
-export function HomeStoriesStrip({ onOpenStory }: { onOpenStory: (slug: string) => void }) {
+// Pass null to open the full stories list.
+export function HomeStoriesStrip({ onOpenStory }: { onOpenStory: (slug: string | null) => void }) {
   const { items } = useStoryCatalog();
 
   if (!items.length) return null;
+
+  const picked = FEATURED.map((slug) => items.find((item) => item.slug === slug)).filter((item): item is StoryIndexItem => Boolean(item));
+  const [feature, ...rest] = [...picked, ...items.filter((item) => !FEATURED.includes(item.slug))];
+  const card = (item: StoryIndexItem, featured = false) => {
+    const preview = storyAssetUrl(item);
+    return (
+      <button key={item.slug} type="button" className={`story-tile${featured ? ' featured' : ''}`} onClick={() => onOpenStory(item.slug)}>
+        {preview ? <img src={preview} alt="" loading="lazy" /> : null}
+        <span className="story-tile-copy">
+          {featured ? <span className="story-tile-kicker">{item.changeType}</span> : null}
+          <strong>{item.title} <ArrowRight className="nasa-arrow" size={14} /></strong>
+          {featured ? <small>{item.location}</small> : null}
+        </span>
+      </button>
+    );
+  };
 
   return (
     <section className="home-stories" aria-label="Satellite stories">
       <div className="home-stories-heading">
         <span className="section-kicker">Stories</span>
-        <p>Follow a NISAR observation story without drawing an area.</p>
+        <p><span className="welcome-dot" /> Click a red spot on the globe, or pick one below.</p>
       </div>
-      <div className="home-stories-scroll">
-        {items.map((item) => (
-          <button key={item.slug} type="button" className="home-story-chip" onClick={() => onOpenStory(item.slug)}>
-            {item.preview ? <img src={`${root}/${item.slug}/${item.preview}`} alt="" loading="lazy" /> : null}
-            <span>
-              <strong>{item.title}</strong>
-              <small>{item.location}</small>
-            </span>
-            <ChevronRight size={14} />
-          </button>
-        ))}
-      </div>
+      {card(feature, true)}
+      {rest.length ? <div className="story-tile-grid">{rest.slice(0, 2).map((item) => card(item))}</div> : null}
+      {items.length > 3 ? (
+        <button type="button" className="browse-stories" onClick={() => onOpenStory(null)}>
+          Browse all {items.length} stories <ArrowRight className="nasa-arrow" size={14} />
+        </button>
+      ) : null}
     </section>
   );
 }

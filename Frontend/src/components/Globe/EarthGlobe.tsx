@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
+import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, UrlTemplateImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
 import type { RefObject } from 'react';
 import { createBaseMapProvider } from '../../config/mapProvider';
 import { StoryMarkerLayer } from './StoryMarkerLayer';
@@ -14,7 +14,7 @@ import './storyMarkers.css';
 
 export type GlobeCameraState = { position: Cartesian3; direction: Cartesian3; up: Cartesian3 };
 type Props = { stories: StoryIndexItem[]; storiesVisible: boolean; onOpenStory: (slug: string) => void;
-  cameraMemory: RefObject<GlobeCameraState | null>; selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange: (cursor: [number, number] | null) => void };
+  cameraMemory: RefObject<GlobeCameraState | null>; selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange?: (cursor: [number, number] | null) => void };
 
 const MINIMUM_ZOOM_DISTANCE = 35_000;
 
@@ -37,6 +37,7 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
     if (!viewer || viewer.isDestroyed()) return;
     viewer.imageryLayers.removeAll();
     viewer.imageryLayers.add(new ImageryLayer(createBaseMapProvider()));
+    const removeSatelliteToggle = addSatelliteLayer(viewer);
     let cancelled = false;
     setOverlayError(null);
     if (rasterOverlay) {
@@ -53,7 +54,7 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
         if (!cancelled && !viewer.isDestroyed()) setOverlayError('The saved raster overlay could not be displayed.');
       });
     }
-    return () => { cancelled = true; };
+    return () => { cancelled = true; if (!viewer.isDestroyed()) removeSatelliteToggle(); };
   }, [rasterOverlay, viewerReady]);
   useEffect(() => {
     const viewer = viewerRef.current;
@@ -74,6 +75,10 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
     viewerRef.current = viewer;
     setViewerReady(true);
     viewer.scene.globe.depthTestAgainstTerrain = false;
+    // Ground atmosphere is shaded per tile vertex, so coarse and fine tiles side by side show as light/dark patches.
+    viewer.scene.globe.showGroundAtmosphere = false;
+    // Fog tints tiles per vertex by distance, which also reads as uneven shading.
+    viewer.scene.fog.enabled = false;
     viewer.scene.requestRenderMode = false;
     viewer.camera.setView(cameraMemory.current ? { destination: cameraMemory.current.position,
       orientation: { direction: cameraMemory.current.direction, up: cameraMemory.current.up } } : {
@@ -143,9 +148,9 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
     handler.setInputAction((movement: { endPosition: Cartesian2 }) => {
       if (!activeRef.current) markers.move(movement.endPosition);
       const cartesian = pickSurface(movement.endPosition);
-      if (!defined(cartesian)) { onCursorChange(null); return; }
+      if (!defined(cartesian)) { onCursorChange?.(null); return; }
       const cartographic = Cartographic.fromCartesian(cartesian);
-      onCursorChange([CesiumMath.toDegrees(cartographic.longitude), CesiumMath.toDegrees(cartographic.latitude)]);
+      onCursorChange?.([CesiumMath.toDegrees(cartographic.longitude), CesiumMath.toDegrees(cartographic.latitude)]);
     }, ScreenSpaceEventType.MOUSE_MOVE);
     const dismiss = (event: KeyboardEvent) => { if (event.key === 'Escape' && markers.hasPreview) { markers.clear(); canvas.focus({ preventScroll: true }); } };
     const outside = (event: PointerEvent) => {
@@ -212,14 +217,14 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
     const closedRing = ring.length > 2 ? [...ring, ring[0]] : ring;
     viewer.entities.add({
       name: 'study-area-drawing',
-      polyline: { positions: closedRing.map(([longitude, latitude]) => Cartesian3.fromDegrees(longitude, latitude)), width: 3, material: Color.fromCssColorString('#64e1d6'), clampToGround: true },
-      polygon: ring.length >= 3 ? { hierarchy: new PolygonHierarchy(ring.map(([longitude, latitude]) => Cartesian3.fromDegrees(longitude, latitude))), material: Color.fromCssColorString('#49cfc855'), height: 0, heightReference: HeightReference.CLAMP_TO_GROUND } : undefined,
+      polyline: { positions: closedRing.map(([longitude, latitude]) => Cartesian3.fromDegrees(longitude, latitude)), width: 3, material: Color.fromCssColorString('#306bf4'), clampToGround: true },
+      polygon: ring.length >= 3 ? { hierarchy: new PolygonHierarchy(ring.map(([longitude, latitude]) => Cartesian3.fromDegrees(longitude, latitude))), material: Color.fromCssColorString('#2563f455'), height: 0, heightReference: HeightReference.CLAMP_TO_GROUND } : undefined,
     });
     ring.forEach(([longitude, latitude], index) => viewer.entities.add({
       name: 'study-area-drawing',
       position: Cartesian3.fromDegrees(longitude, latitude),
-      point: { pixelSize: index === 0 ? 11 : 8, color: index === 0 ? Color.WHITE : Color.fromCssColorString('#64e1d6'), outlineColor: Color.fromCssColorString('#0b222d'), outlineWidth: 2, heightReference: HeightReference.CLAMP_TO_GROUND },
-      label: { text: `${index + 1}`, font: '10px DM Mono', fillColor: Color.WHITE, pixelOffset: new Cartesian2(0, -18), showBackground: true, backgroundColor: Color.fromCssColorString('#0b222dcc') },
+      point: { pixelSize: index === 0 ? 11 : 8, color: index === 0 ? Color.WHITE : Color.fromCssColorString('#306bf4'), outlineColor: Color.fromCssColorString('#18181b'), outlineWidth: 2, heightReference: HeightReference.CLAMP_TO_GROUND },
+      label: { text: `${index + 1}`, font: '10px DM Mono', fillColor: Color.WHITE, pixelOffset: new Cartesian2(0, -18), showBackground: true, backgroundColor: Color.fromCssColorString('#18181bcc') },
     }));
   }, [draftVertexCount]);
 
@@ -231,6 +236,17 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
       onClose={() => { markerLayerRef.current?.clear(); viewerRef.current?.canvas.focus({ preventScroll: true }); }}
       onExplore={onOpenStory} />}
   </>;
+}
+
+// NASA Blue Marble on top of the English-label street map (layer 0) while zoomed out; the whole layer
+// hides at once below SATELLITE_ABOVE_M so the street map shows for drawing study areas.
+// (Not GIBS Reference_Features: in EPSG:3857 it serves opaque black tiles that darken the globe.)
+const SATELLITE_ABOVE_M = 250_000; // ~where Blue Marble's 600 m pixels start to blur
+function addSatelliteLayer(viewer: Viewer) {
+  const satellite = viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg', maximumLevel: 8, credit: 'NASA Blue Marble · GIBS' }));
+  const sync = () => { satellite.show = viewer.camera.positionCartographic.height > SATELLITE_ABOVE_M; };
+  sync();
+  return viewer.scene.preRender.addEventListener(sync);
 }
 
 function createFeature(points: Position[]): GeoJsonFeature {
