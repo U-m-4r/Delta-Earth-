@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "browser": "157.0.8103.51",
+  "slug": "senegal-river-sequence-2026",
+  "chapters": 5,
+  "dates": [
+    "2026-06-22",
+    "2026-07-16",
+    "2026-09-02",
+    "2026-09-26",
+    "2026-10-20"
+  ],
+  "checks": [
+    "catalog and chapter rendering",
+    "all five frames load",
+    "dates and captions",
+    "fixed palette and scale",
+    "zoom preservation",
+    "synchronized baseline comparison",
+    "keyboard and navigation boundaries",
+    "390px layout",
+    "no satellite retrieval"
+  ],
+  "errors": []
+}

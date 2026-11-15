@@ -11,6 +11,17 @@
     "description": "Five aligned radar visits follow the Po's branching channels, coastal water margins and field mosaic through summer and autumn."
   },
   {
+    "slug": "senegal-river-sequence-2026",
+    "title": "Following the Senegal's Seasonal Pulse",
+    "location": "Podor floodplain, Senegal–Mauritania border",
+    "changeType": "Seasonal river and floodplain",
+    "continent": "Africa",
+    "preview": "frame-3.png",
+    "period": "Jun–Oct 2026",
+    "observationCount": 5,
+    "description": "Follow five NISAR observations of a Sahelian river corridor and its floodplain, with a consistent colour scale across every date."
+  },
+  {
     "slug": "bhagalpur-flood-2026",
     "title": "When the Ganga Overflowed",
     "location": "Bhagalpur, Bihar, India",

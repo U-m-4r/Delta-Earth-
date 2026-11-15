@@ -1,0 +1,73 @@
+{
+  "location": "senegal-river",
+  "continent": "Africa",
+  "status": "passed",
+  "grid": {
+    "width": 1226,
+    "height": 1216,
+    "crs": "EPSG:32628",
+    "transform": [
+      20.0,
+      0.0,
+      494680.0,
+      0.0,
+      -20.0,
+      1848580.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "palette": "viridis",
+  "rangeDb": [
+    -30,
+    5
+  ],
+  "observations": [
+    {
+      "date": "2026-06-22",
+      "granuleId": "G4244637580-ASF",
+      "validPixelCount": 1490707,
+      "meanDb": -15.120068550109863,
+      "medianDb": -15.130071640014648,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-07-16",
+      "granuleId": "G4254268697-ASF",
+      "validPixelCount": 1490707,
+      "meanDb": -15.16926097869873,
+      "medianDb": -15.16050910949707,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-09-02",
+      "granuleId": "G4298340315-ASF",
+      "validPixelCount": 1490707,
+      "meanDb": -14.746821403503418,
+      "medianDb": -14.924034118652344,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-09-26",
+      "granuleId": "G4326850227-ASF",
+      "validPixelCount": 1490707,
+      "meanDb": -12.919767379760742,
+      "medianDb": -12.81094741821289,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-10-20",
+      "granuleId": "G4383725980-ASF",
+      "validPixelCount": 1490707,
+      "meanDb": -14.200688362121582,
+      "medianDb": -14.305944442749023,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    }
+  ]
+}

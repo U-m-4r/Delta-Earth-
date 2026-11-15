@@ -1,0 +1,5 @@
+{
+  "type": "Feature",
+  "properties": {"name": "Senegal River: Podor floodplain", "owner": "Umar", "continent": "Africa"},
+  "geometry": {"type": "Polygon", "coordinates": [[[-15.05,16.50],[-14.82,16.50],[-14.82,16.72],[-15.05,16.72],[-15.05,16.50]]]}
+}
