@@ -24,3 +24,5 @@ data/raster_registry.json
 !data/.gitkeep
 *.h5
 *.nc
+
+Backend/Stories/Bagalpur/.cache/

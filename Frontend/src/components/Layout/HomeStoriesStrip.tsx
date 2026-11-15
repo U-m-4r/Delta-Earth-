@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
 import type { StoryIndexItem } from '../../types/stories';
 
-const root = '/case-studies';
+const root = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/case-studies`;
 
 export function HomeStoriesStrip({ onOpenStory }: { onOpenStory: (slug: string) => void }) {
   const [items, setItems] = useState<StoryIndexItem[]>([]);
 
   useEffect(() => {
     let active = true;
-    fetch(`${root}/index.json`)
+    fetch(`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/stories`)
       .then(async (response) => (response.ok ? response.json() as Promise<StoryIndexItem[]> : []))
       .then((list) => {
         if (active) setItems(Array.isArray(list) ? list : []);

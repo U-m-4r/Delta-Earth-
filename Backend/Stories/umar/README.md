@@ -14,10 +14,10 @@ From the repository root, using Python 3.11 or later and Node:
 ```powershell
 rtk proxy python -m venv .venv
 rtk proxy .\.venv\Scripts\python.exe -m pip install -e ./Backend[dev]
-rtk proxy .\.venv\Scripts\python.exe Backend/scripts/prepare-story.py stories/umar/bangalore
-rtk proxy .\.venv\Scripts\python.exe Backend/scripts/prepare-story.py stories/umar/jeddah
-rtk proxy .\.venv\Scripts\python.exe Backend/scripts/check-story-pipeline.py stories/umar/bangalore
-rtk proxy .\.venv\Scripts\python.exe Backend/scripts/check-story-pipeline.py stories/umar/jeddah
+rtk proxy .\.venv\Scripts\python.exe Backend/scripts/prepare-story.py Backend/Stories/umar/bangalore
+rtk proxy .\.venv\Scripts\python.exe Backend/scripts/prepare-story.py Backend/Stories/umar/jeddah
+rtk proxy .\.venv\Scripts\python.exe Backend/scripts/check-story-pipeline.py Backend/Stories/umar/bangalore
+rtk proxy .\.venv\Scripts\python.exe Backend/scripts/check-story-pipeline.py Backend/Stories/umar/jeddah
 rtk proxy .\.venv\Scripts\python.exe -m pytest Backend/tests -q
 ```
 

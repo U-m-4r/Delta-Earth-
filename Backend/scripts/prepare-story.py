@@ -1,7 +1,7 @@
 """Save public NISAR discovery evidence for a location without loading credentials.
 
 Run from the repository root:
-  .venv/Scripts/python Backend/scripts/prepare-story.py stories/umar/bangalore
+  .venv/Scripts/python Backend/scripts/prepare-story.py Backend/Stories/umar/bangalore
 This prepares evidence, not a finished change classification or flood claim.
 """
 import argparse

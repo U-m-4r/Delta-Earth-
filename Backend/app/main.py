@@ -17,6 +17,8 @@ from shapely.geometry import shape
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response, StreamingResponse
+from fastapi.staticfiles import StaticFiles
+from .stories import router as stories_router, ROOT as STORIES_ROOT
 from pydantic import BaseModel, Field
 
 from .cmr import CMRRequestError, search_granules
@@ -85,6 +87,10 @@ app = FastAPI(title="Delta Earth — NISAR Data API", version="0.1.0", lifespan=
 app.add_middleware(CORSMiddleware, allow_origins=[settings.frontend_origin], allow_credentials=True,
                    allow_methods=["GET", "POST", "DELETE"], allow_headers=["*"],
                    expose_headers=["X-Raster-Bounds-WGS84", "X-RGB-Channel-Legend", "X-Raster-Legend", "Content-Disposition"])
+
+app.include_router(stories_router)
+app.mount("/case-studies", StaticFiles(directory=STORIES_ROOT / "case-studies"), name="story-assets")
+
 
 class ExtractRequest(BaseModel):
     granuleId: str = Field(min_length=3, max_length=300)

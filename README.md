@@ -623,3 +623,7 @@ The extractor checks Harmony's **service-level** capabilities and requires a sin
 ### Tests
 
 From `Backend/`, run `pytest`. CMR and Harmony HTTP interactions in the test suite use mocked responses; a live Earthdata Login is only needed for a real catalog-to-GeoTIFF run.
+
+### Interactive Stories
+
+Open **Stories** to explore the Bhagalpur monsoon sequence and six preserved case studies. Curated story data now lives in [`Backend/Stories`](Backend/Stories/README.md), served by the existing FastAPI backend. Missing source content is recorded as `NAN`. The Bhagalpur story uses the eight local NISAR observations only; viewing it does not start satellite retrieval or processing jobs.

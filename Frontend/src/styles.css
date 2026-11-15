@@ -205,3 +205,7 @@ button { cursor: pointer; }
 .spin { animation: nisar-spin 1s linear infinite; }
 @keyframes nisar-spin { to { transform: rotate(360deg); } }
 @media (max-width: 760px) { .nisar-variable-groups { grid-template-columns: 1fr; } .nisar-date-filters > span { margin-left: 0; width: 100%; } .nisar-result-row { grid-template-columns: 1fr 1fr; } .nisar-result-row small, .nisar-result-row a { grid-column: 1 / -1; } }
+
+/* Checkpoint clicks and native range dragging share one component. */
+.timeline-checkpoint-dates button { display: grid; gap: 3px; width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: inherit; cursor: pointer; font: inherit; }
+.timeline-checkpoint-dates button:focus-visible { outline: 2px solid #65d6ca; outline-offset: 3px; }

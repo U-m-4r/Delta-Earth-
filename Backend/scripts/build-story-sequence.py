@@ -17,7 +17,7 @@ from app.raster_exports import _write_png
 
 
 async def build(location):
-    folder = Path('stories/umar') / location
+    folder = (Path(__file__).resolve().parents[1] / 'Stories' / 'umar') / location
     discovery = json.loads((folder / 'discovery.json').read_text())
     feature = json.loads((folder / 'study-area.geojson').read_text(encoding='utf-8'))
     candidate = discovery['candidateComparisons'][0]
@@ -31,7 +31,7 @@ async def build(location):
     records = [next(row for row in discovery['observations']
                     if row['acquiredAt'] == date and f"_{candidate['geometry']}_" in row['title'])
                for date in chosen_dates]
-    output = Path('Frontend/public/case-studies') / f'{location}-sequence-2026'
+    output = Path(__file__).resolve().parents[1] / 'Stories' / 'case-studies' / f'{location}-sequence-2026'
     output.mkdir(parents=True, exist_ok=True)
     async def retrieve(row):
         print(f"Retrieving {location} {row['acquiredAt']} {row['id']}", flush=True)

@@ -1,6 +1,6 @@
 """Exercise the current API with real discovered scenes; save a credential-free report.
 
-Usage: .venv/Scripts/python Backend/scripts/check-story-pipeline.py stories/umar/bangalore
+Usage: .venv/Scripts/python Backend/scripts/check-story-pipeline.py Backend/Stories/umar/bangalore
 Reads the backend's local Earthdata configuration. Individual retrieved TIFFs stay
 in ignored data directories; the report records API outcomes, not invented metrics.
 """

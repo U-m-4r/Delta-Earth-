@@ -4,7 +4,7 @@ Owner: Umar. Location: Bellandur–Varthur, Bengaluru (Bangalore), India.
 
 ## Browser sequence
 
-The integrated story now includes **27 June, 21 July, 26 August, 19 September and 13 October 2026**. All five frames use the same map grid and viridis −30 to +5 dB scale. Open “Bangalore: five views of a lake corridor” in the browser Stories catalog. [Published frames, captions and provenance](../../../Frontend/public/case-studies/bangalore-sequence-2026/result.json) are generated from [sequence-content.json](sequence-content.json) and the individual pipeline TIFFs. The original two-date analysis below remains supporting evidence.
+The integrated story now includes **27 June, 21 July, 26 August, 19 September and 13 October 2026**. All five frames use the same map grid and viridis −30 to +5 dB scale. Open “Bangalore: five views of a lake corridor” in the browser Stories catalog. [Published frames, captions and provenance](../../case-studies/bangalore-sequence-2026/result.json) are generated from [sequence-content.json](sequence-content.json) and the individual pipeline TIFFs. The original two-date analysis below remains supporting evidence.
 
 ## Story copy
 

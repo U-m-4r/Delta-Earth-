@@ -1,0 +1,121 @@
+{
+  "kind": "documentary",
+  "id": "bhagalpur-flood-2026",
+  "slug": "bhagalpur-flood-2026",
+  "title": "When the Ganga Overflowed",
+  "subtitle": "Bihar Floods 2026",
+  "description": "Follow the Ganga River through eight NISAR satellite observations, from its earlier June appearance to the widespread flooding visible in September and the gradual recession during October.",
+  "location": "Bhagalpur, Bihar, India",
+  "category": "Flooding",
+  "satellite": "NASA\u2013ISRO NISAR",
+  "period": "June\u2013October 2026",
+  "studyId": "9d4404923be3737f",
+  "frequency": "frequencyA",
+  "polarization": "HV",
+  "palette": "turbo",
+  "stretch": "log",
+  "displayRange": {
+    "min": 0.00272371,
+    "max": 0.0954112
+  },
+  "normalizationScale": 0.0098419189453125,
+  "changeRange": 0.0954112,
+  "bounds": {
+    "west": 86.90852923933747,
+    "south": 25.24208520024809,
+    "east": 87.00820902433779,
+    "north": 25.361541258819315
+  },
+  "chapters": [
+    {
+      "date": "2026-06-20",
+      "acquisitionDate": "2026-06-20T23:38:14.000Z",
+      "observationId": "G4244915959-ASF",
+      "title": "Before the Flood",
+      "headline": "A River Before the Rising Waters",
+      "narrative": "On June 20, the Ganga River appears within its earlier observed extent in our study area near Bhagalpur.\n\nThis satellite observation provides a starting point for examining how the river's appearance changes during the monsoon season.\n\nOver the following months, the surrounding landscape will show increasingly noticeable differences.",
+      "observation": "River appears normal.",
+      "badge": "Baseline Observation",
+      "stage": "Normal"
+    },
+    {
+      "date": "2026-07-07",
+      "acquisitionDate": "2026-07-07T23:29:54.000Z",
+      "observationId": "G4240428011-ASF",
+      "title": "The First Signs",
+      "headline": "A Subtle Change Along the River",
+      "narrative": "By July 7, the river appears slightly more extensive than in the June observation.\n\nThe visible difference is relatively small, but it marks the beginning of the progression documented in this case study.\n\nCompare the two observations to explore the earliest changes.",
+      "observation": "Negligible apparent increase in water extent.",
+      "badge": "Early Change",
+      "stage": "Early change"
+    },
+    {
+      "date": "2026-08-12",
+      "acquisitionDate": "2026-08-12T23:29:52.000Z",
+      "observationId": "G4282007716-ASF",
+      "title": "The River Expands",
+      "headline": "The Rising Waters Become Visible",
+      "narrative": "By August 12, the satellite imagery shows a more noticeable apparent expansion of water-covered areas along the Ganga.\n\nCompared with the June baseline, the river appears to occupy more of the surrounding landscape.\n\nThis observation marks an important stage in the developing flood story.",
+      "observation": "Noticeable apparent increase in water extent.",
+      "badge": "Expansion",
+      "stage": "Expansion"
+    },
+    {
+      "date": "2026-08-21",
+      "acquisitionDate": "2026-08-21T12:51:00.000Z",
+      "observationId": "G4287908290-ASF",
+      "title": "Floodwaters Spread",
+      "headline": "Beyond the Earlier River Extent",
+      "narrative": "On August 21, the apparent water extent has increased further.\n\nAreas that appeared outside the main water-covered region in June now show visual patterns consistent with the expanding flood.\n\nThe progression becomes clearer when the June and August observations are compared side by side.",
+      "observation": "Further apparent increase in water extent.",
+      "badge": "Continued Expansion",
+      "stage": "Expansion"
+    },
+    {
+      "date": "2026-09-02",
+      "acquisitionDate": "2026-09-02T12:50:59.000Z",
+      "observationId": "G4298387507-ASF",
+      "title": "The Flood Develops",
+      "headline": "A Critical Observation Before September's Peak",
+      "narrative": "On September 2, NISAR captured another observation of the Ganga near Bhagalpur.\n\nThis image helps connect the late-August observations with the extensive flooding visible later in September.\n\nExplore this frame to examine how the river's appearance evolved during this interval.",
+      "observation": "Not yet classified by the user.",
+      "badge": "Intermediate Observation",
+      "stage": "Intermediate observation"
+    },
+    {
+      "date": "2026-09-17",
+      "acquisitionDate": "2026-09-17T23:29:51.000Z",
+      "observationId": "G4316907542-ASF",
+      "title": "The Flood at Its Greatest Observed Extent",
+      "headline": "When the Ganga Spread Across the Floodplain",
+      "narrative": "By September 17, the Ganga appears to reach its greatest water-covered extent among the observations examined for this story.\n\nCompared with the June baseline, the imagery shows a substantial apparent expansion into surrounding areas.\n\nThis is the central moment of our flood narrative.\n\nUse the comparison tool to investigate how the September landscape differs from its June appearance.",
+      "observation": "Largest apparent water extent among the user-examined images.",
+      "badge": "Maximum Observed Extent",
+      "stage": "Maximum observed extent"
+    },
+    {
+      "date": "2026-10-06",
+      "acquisitionDate": "2026-10-06T23:38:10.000Z",
+      "observationId": "G4350999213-ASF",
+      "title": "The Waters Begin to Retreat",
+      "headline": "The River Slowly Recedes",
+      "narrative": "By October 6, the satellite imagery suggests that the water-covered area has started to decrease.\n\nCompared with September 17, some areas appear less extensively inundated.\n\nThe flood's progression is now entering a new phase: recession.",
+      "observation": "Slight apparent decrease in water extent.",
+      "badge": "Early Recession",
+      "stage": "Recession"
+    },
+    {
+      "date": "2026-10-20",
+      "acquisitionDate": "2026-10-20T12:50:58.000Z",
+      "observationId": "G4383287696-ASF",
+      "title": "After the Rising Waters",
+      "headline": "A Landscape Emerging From the Flood",
+      "narrative": "By October 20, the apparent water extent has decreased further.\n\nThe river's appearance is moving closer to its earlier observations, although the imagery alone does not establish whether every affected area has returned to its previous condition.\n\nAcross four months, NISAR provides a visual record of the Ganga's changing appearance during the 2026 monsoon season.",
+      "observation": "Further apparent decrease in water extent.",
+      "badge": "Continued Recession",
+      "stage": "Recession"
+    }
+  ],
+  "references": "NAN",
+  "interpretation": "Stages describe user-observed visual changes, not independently validated water classifications. Radar differences do not establish flood extent, depth, or the hydrological peak."
+}

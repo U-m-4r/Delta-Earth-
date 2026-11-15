@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
-import { ArrowLeft, ChevronLeft, ChevronRight, Layers3, LoaderCircle, Satellite, TriangleAlert } from 'lucide-react';
+import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from 'react';
+import { ArrowLeft, Layers3, LoaderCircle, Satellite, TriangleAlert } from 'lucide-react';
+import { AcquisitionTimeline } from '../timeline/AcquisitionTimeline';
+import { useTimelineFrames } from '../timeline/useTimelineFrames';
 import type { GeoJsonFeature } from '../../types/geojson';
 import type { RasterOverlay } from '../../types/visualization';
 
@@ -30,6 +32,7 @@ type LocalCatalog = { observations: Array<{ observationId: string; granuleId?: s
   acquiredAt?: string; [key: string]: unknown; variables: Array<{ name: string; sourceVariable: string; frequency: string;
     raster: RasterMetadata; rasterUrl: string; bytes?: number }> }> };
 
+const EMPTY_TIMELINE: Raster[] = [];
 const baseUrl = import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787';
 const PALETTES = [
   ['grayscale', 'Grayscale'], ['red', 'Red'], ['viridis', 'Viridis'], ['plasma', 'Plasma'],
@@ -161,12 +164,6 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
   const [comparison, setComparison] = useState<RasterSnapshot[]>([]);
   const [comparisonBusy, setComparisonBusy] = useState(false);
   const [timeline, setTimeline] = useState<Timeline | null>(null);
-  const [displayedTimeline, setDisplayedTimeline] = useState<TimelinePreview | null>(null);
-  const [incomingTimeline, setIncomingTimeline] = useState<TimelinePreview | null>(null);
-  const [timelineTransitionStarted, setTimelineTransitionStarted] = useState(false);
-  const [timelineLoading, setTimelineLoading] = useState(false);
-  const [timelineError, setTimelineError] = useState<string | null>(null);
-  const [timelineRetry, setTimelineRetry] = useState(0);
   const [timelineExportBusy, setTimelineExportBusy] = useState(false);
   const [timelineExportStatus, setTimelineExportStatus] = useState('');
   const [tiffDownloadBusy, setTiffDownloadBusy] = useState(false);
@@ -175,11 +172,7 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
   const [changeImageUrl, setChangeImageUrl] = useState('');
   const [changeDownloadBusy, setChangeDownloadBusy] = useState(false);
   const snapshotUrls = useRef(new Set<string>());
-  const timelineCache = useRef(new Map<string, TimelinePreview>());
-  const timelineCacheSignature = useRef('');
-  const displayedTimelineRef = useRef<TimelinePreview | null>(null);
-  const requestSequence = useRef(0);
-  const transitionFrame = useRef<number | null>(null);
+
 
   const dates = useMemo(() => [...new Set(rasters.map((item) => (item.acquisitionDate ?? '').slice(0, 10)).filter(Boolean))].sort(), [rasters]);
   const dateRasters = rasters.filter((item) => (item.acquisitionDate ?? '').slice(0, 10) === acquisitionDate);
@@ -288,111 +281,20 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
     return () => { cancelled = true; if (objectUrl) URL.revokeObjectURL(objectUrl); };
   }, [raster?.rasterUrl, palette, rangeMinimum, rangeMaximum, lowerPercentile, upperPercentile, stretch, bands, studyId]);
 
-  useEffect(() => { displayedTimelineRef.current = displayedTimeline; }, [displayedTimeline]);
-
-  useEffect(() => {
-    const signature = timeline ? `${timeline.frames.map(snapshotId).join('|')}::${JSON.stringify(timeline.settings)}` : '';
-    if (signature !== timelineCacheSignature.current) {
-      const displayedUrl = displayedTimelineRef.current?.imageUrl;
-      timelineCache.current.forEach((preview) => {
-        if (preview.imageUrl !== displayedUrl) URL.revokeObjectURL(preview.imageUrl);
-      });
-      timelineCache.current.clear();
-      timelineCacheSignature.current = signature;
-      if (!timeline) {
-        if (displayedUrl) URL.revokeObjectURL(displayedUrl);
-        setDisplayedTimeline(null); displayedTimelineRef.current = null;
-      }
-    }
-    if (!timeline) return;
-
-    const requestId = ++requestSequence.current;
-    const activeController = new AbortController();
-    const neighborControllers = new Map<string, AbortController>();
-    let cancelled = false;
-    setTimelineLoading(true); setTimelineError(null); setIncomingTimeline(null); setTimelineTransitionStarted(false);
-    if (transitionFrame.current !== null) window.cancelAnimationFrame(transitionFrame.current);
-
-    const frame = timeline.frames[timeline.index];
-    const key = snapshotId(frame);
-    const load = async (target: Raster, signal: AbortSignal) => {
-      const targetKey = snapshotId(target);
-      const cached = timelineCache.current.get(targetKey);
-      if (cached) return cached;
-      const preview = await loadTimelinePreview(target, timeline.settings, signal);
-      if (signal.aborted || cancelled || requestId !== requestSequence.current) {
-        URL.revokeObjectURL(preview.imageUrl);
-        throw new DOMException('Preview request was superseded.', 'AbortError');
-      }
-      timelineCache.current.set(targetKey, preview);
-      return preview;
-    };
-
-    const preload = (index: number) => {
-      if (index < 0 || index >= timeline.frames.length) return;
-      const neighbor = timeline.frames[index], neighborKey = snapshotId(neighbor);
-      if (timelineCache.current.has(neighborKey)) return;
-      const controller = new AbortController(); neighborControllers.set(neighborKey, controller);
-      void loadTimelinePreview(neighbor, timeline.settings, controller.signal).then((preview) => {
-        if (controller.signal.aborted || cancelled || requestId !== requestSequence.current) {
-          URL.revokeObjectURL(preview.imageUrl); return;
-        }
-        const old = timelineCache.current.get(neighborKey);
-        if (old) URL.revokeObjectURL(preview.imageUrl);
-        else timelineCache.current.set(neighborKey, preview);
-      }).catch(() => {});
-    };
-
-    void load(frame, activeController.signal).then((preview) => {
-      if (cancelled || requestId !== requestSequence.current) return;
-      const previous = displayedTimelineRef.current;
-      if (!previous) {
-        setDisplayedTimeline(preview); displayedTimelineRef.current = preview;
-        setTimelineLoading(false);
-      } else if (previous.key === key) {
-        if (previous.imageUrl !== preview.imageUrl) URL.revokeObjectURL(preview.imageUrl);
-        timelineCache.current.delete(key);
-        setTimelineLoading(false);
-      } else {
-        setIncomingTimeline(preview);
-        transitionFrame.current = window.requestAnimationFrame(() => {
-          if (cancelled || requestId !== requestSequence.current) return;
-          setDisplayedTimeline(preview); displayedTimelineRef.current = preview;
-          setIncomingTimeline(previous); setTimelineTransitionStarted(true); setTimelineLoading(false);
-          transitionFrame.current = window.requestAnimationFrame(() => {
-            if (cancelled || requestId !== requestSequence.current) return;
-            setIncomingTimeline((current) => current === previous ? null : current);
-            setTimelineTransitionStarted(false);
-            if (previous.imageUrl !== preview.imageUrl && !timelineCache.current.has(previous.key)) URL.revokeObjectURL(previous.imageUrl);
-            const keep = new Set([timeline.frames[timeline.index - 1], timeline.frames[timeline.index],
-              timeline.frames[timeline.index + 1]].filter((item): item is Raster => Boolean(item)).map(snapshotId));
-            timelineCache.current.forEach((entry, entryKey) => {
-              if (!keep.has(entryKey)) { URL.revokeObjectURL(entry.imageUrl); timelineCache.current.delete(entryKey); }
-            });
-          });
-        });
-      }
-      preload(timeline.index - 1); preload(timeline.index + 1);
-    }).catch((reason) => {
-      if (!cancelled && requestId === requestSequence.current && (reason as Error).name !== 'AbortError') {
-        setTimelineError(reason instanceof Error ? reason.message : 'Timeline raster failed to load.');
-        setTimelineLoading(false);
-      }
+  const timelineFrames = timeline?.frames ?? EMPTY_TIMELINE;
+  const timelineSettings = timeline?.settings;
+  const timelineLoader = useCallback((frame: Raster, signal: AbortSignal) =>
+    loadTimelinePreview(frame, timelineSettings!, signal), [timelineSettings]);
+  const { displayed: displayedTimeline, incoming: incomingTimeline,
+    transitionStarted: timelineTransitionStarted, loading: timelineLoading,
+    error: timelineError, retry: retryTimeline } = useTimelineFrames({
+      frames: timelineFrames, index: timeline?.index ?? 0,
+      version: JSON.stringify(timelineSettings), loader: timelineLoader, keyOf: snapshotId,
     });
-
-    return () => {
-      cancelled = true; activeController.abort(); neighborControllers.forEach((controller) => controller.abort());
-      if (requestId === requestSequence.current) requestSequence.current += 1;
-      if (transitionFrame.current !== null) window.cancelAnimationFrame(transitionFrame.current);
-    };
-  }, [timeline?.index, timeline?.frames, timeline?.settings, timelineRetry]);
 
   useEffect(() => () => {
     snapshotUrls.current.forEach((url) => URL.revokeObjectURL(url));
     snapshotUrls.current.clear();
-    timelineCache.current.forEach((preview) => URL.revokeObjectURL(preview.imageUrl));
-    timelineCache.current.clear();
-    if (displayedTimelineRef.current) URL.revokeObjectURL(displayedTimelineRef.current.imageUrl);
     onRasterOverlayChange(null);
   }, []);
 
@@ -531,10 +433,7 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
     setActionMessage(null);
   };
 
-  const clearTimeline = () => { setTimeline(null); setTimelineError(null); setTimelineLoading(false); setIncomingTimeline(null); };
-  const retryTimeline = () => { setTimelineError(null); setTimelineRetry((value) => value + 1); };
-  const moveTimeline = (step: number) => setTimeline((current) => current
-    ? { ...current, index: Math.max(0, Math.min(current.frames.length - 1, current.index + step)) } : current);
+  const clearTimeline = () => setTimeline(null);
   const timelineRaster = timeline?.frames[timeline.index];
   const comparisonDescription = (snapshot: RasterSnapshot) => `${snapshot.legend.minimum.toPrecision(5)} to ${snapshot.legend.maximum.toPrecision(5)} ${String(snapshot.raster.raster.units ?? 'unknown')}`;
 
@@ -633,15 +532,9 @@ export function VisualizationPage({ selection, retrievalSessionId, studyId, onRa
             </div>
             {displayedTimeline && <Legend legend={displayedTimeline.legend} units={String(displayedTimeline.raster.raster.units ?? 'units unavailable')} />}
             {timelineError && <div className="timeline-load-error" role="status">{timelineError} The last successfully displayed frame remains visible. <button className="filter-chip" onClick={retryTimeline}>Retry selected frame</button></div>}
-            <div className="timeline-checkpoint-scroll" aria-label="Acquisition date checkpoints">
-              <div className="timeline-checkpoint-track" style={{ width: `max(100%, ${Math.max(680, timeline.frames.length * 150)}px)` }}>
-                <div className="timeline-checkpoint-dates">{timeline.frames.map((frame, index) => <span key={`date-${snapshotId(frame)}`} className={timeline.index === index ? 'active' : ''} style={{ left: `${index / (timeline.frames.length - 1) * 100}%` }}><strong>{checkpointLabel(frame.acquisitionDate)}</strong><small>{frame.granuleId}</small></span>)}</div>
-                <div className="timeline-range-wrap"><input aria-label="Select acquisition checkpoint" aria-valuetext={`${checkpointLabel(timelineRaster.acquisitionDate)}, ${timelineRaster.granuleId}`} type="range" min="0" max={timeline.frames.length - 1} step="1" value={timeline.index} onChange={(event) => setTimeline((current) => current ? { ...current, index: Number(event.target.value) } : current)} />
-                  <div className="timeline-checkpoint-dots" aria-hidden="true">{timeline.frames.map((frame, index) => <i key={`point-${snapshotId(frame)}`} className={timeline.index === index ? 'active' : ''} style={{ left: `${index / (timeline.frames.length - 1) * 100}%` }} />)}</div></div>
-                <div className="timeline-checkpoint-indexes" aria-hidden="true">{timeline.frames.map((frame, index) => <small key={`index-${snapshotId(frame)}`} className={timeline.index === index ? 'active' : ''} style={{ left: `${index / (timeline.frames.length - 1) * 100}%` }}>{index}</small>)}</div>
-              </div>
-            </div>
-            <div className="timeline-navigation"><button className="filter-chip" disabled={timeline.index === 0} onClick={() => moveTimeline(-1)}><ChevronLeft size={15} /> Previous</button><span>{timeline.index + 1} / {timeline.frames.length} observations</span><button className="filter-chip" disabled={timeline.index === timeline.frames.length - 1} onClick={() => moveTimeline(1)}>Next <ChevronRight size={15} /></button></div>
+            <AcquisitionTimeline frames={timeline.frames.map(frame => ({ id: snapshotId(frame),
+              label: checkpointLabel(frame.acquisitionDate), detail: frame.granuleId }))}
+              index={timeline.index} onSelect={index => setTimeline(current => current ? { ...current, index } : current)} />
           </>}
         </section>}
       </div>}

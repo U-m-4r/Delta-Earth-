@@ -4,6 +4,10 @@ export type StoryIndexItem = {
   location: string;
   changeType: string;
   preview?: string;
+  kind?: string;
+  period?: string;
+  observationCount?: number;
+  description?: string;
 };
 
 export type StoryObservation = {
@@ -80,4 +84,15 @@ export type SequenceStoryResult = {
     meanDb: number; medianDb: number; validPixelCount: number;
     changeFromPrevious?: { meanDb: number; medianDb: number; validPixelCount: number };
   }[];
+};
+
+export type DocumentaryStory = {
+  kind: 'documentary'; slug: string; title: string; subtitle: string; location: string;
+  interpretation: string;
+  description?: string; introduction?: string; kicker?: string; introTitle?: string; introEmphasis?: string;
+  summary?: string; method?: string; palette?: string; stretch?: string;
+  displayRange?: { min: number; max: number }; changeRange?: number;
+  chapters: { date: string; acquisitionDate: string; observationId: string; available: boolean;
+    title: string; headline: string; narrative: string; observation: string; badge: string; stage: string;
+    raster: { crs: string } | 'NAN'; }[];
 };

@@ -1,0 +1,67 @@
+[
+  {
+    "slug": "bhagalpur-flood-2026",
+    "title": "When the Ganga Overflowed",
+    "location": "Bhagalpur, Bihar, India",
+    "changeType": "Flooding",
+    "kind": "documentary",
+    "preview": "preview.png",
+    "period": "June\u2013October 2026",
+    "description": "Follow the Ganga River through eight NISAR satellite observations, from its earlier June appearance to the widespread flooding visible in September and the gradual recession during October.",
+    "observationCount": 8
+  },
+  {
+    "slug": "bangalore-sequence-2026",
+    "title": "Bangalore: five views of a lake corridor",
+    "location": "Bellandur and Varthur, Bangalore, India",
+    "changeType": "Seasonal lake landscape",
+    "preview": "frame-3.png",
+    "period": "Jun\u2013Oct 2026",
+    "observationCount": 5
+  },
+  {
+    "slug": "jeddah-sequence-2026",
+    "title": "Jeddah: five visits to a dry city's drainage landscape",
+    "location": "Eastern Jeddah, Saudi Arabia",
+    "changeType": "Urban drainage baseline",
+    "preview": "frame-3.png",
+    "period": "Jun\u2013Oct 2026",
+    "observationCount": 5
+  },
+  {
+    "slug": "pakistan-indus-2026",
+    "title": "Indus River flood near Sukkur",
+    "location": "Sukkur, Sindh, Pakistan",
+    "changeType": "River flooding",
+    "preview": "water_flood_to_after.png",
+    "period": "Jun\u2013Oct 2026",
+    "observationCount": 4
+  },
+  {
+    "slug": "assam-brahmaputra-2026",
+    "title": "Brahmaputra flood around Majuli",
+    "location": "Majuli and Jorhat, Assam, India",
+    "changeType": "River flooding",
+    "preview": "water_before_to_flood.png",
+    "period": "Jun\u2013Oct 2026",
+    "observationCount": 4
+  },
+  {
+    "slug": "pakistan-tarbela-2026",
+    "title": "Tarbela Reservoir filling",
+    "location": "Tarbela Dam, Khyber Pakhtunkhwa, Pakistan",
+    "changeType": "Reservoir filling",
+    "preview": "water_before_to_after.png",
+    "period": "Jun\u2013Aug 2026",
+    "observationCount": 2
+  },
+  {
+    "slug": "pakistan-manchar-2026",
+    "title": "Manchar Lake in the monsoon",
+    "location": "Jamshoro district, Sindh, Pakistan",
+    "changeType": "Lake and wetland change",
+    "period": "Jun\u2013Sep 2026",
+    "observationCount": 2,
+    "preview": "water_before_to_after.png"
+  }
+]
