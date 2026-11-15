@@ -1,22 +1,34 @@
 import { useEffect, useRef, useState } from 'react';
-import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, UrlTemplateImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
+import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
+import type { RefObject } from 'react';
+import { createBaseMapProvider } from '../../config/mapProvider';
+import { StoryMarkerLayer } from './StoryMarkerLayer';
+import type { StoryPick } from './StoryMarkerLayer';
+import { StoryPreview } from './StoryPreview';
+import type { StoryIndexItem } from '../../types/stories';
 import type { GeoJsonFeature, Position } from '../../types/geojson';
 import type { LocationResult } from '../../services/locationSearchService';
 import type { RasterOverlay } from '../../types/visualization';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
+import './storyMarkers.css';
 
-type Props = { selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange: (cursor: [number, number] | null) => void };
+export type GlobeCameraState = { position: Cartesian3; direction: Cartesian3; up: Cartesian3 };
+type Props = { stories: StoryIndexItem[]; storiesVisible: boolean; onOpenStory: (slug: string) => void;
+  cameraMemory: RefObject<GlobeCameraState | null>; selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange: (cursor: [number, number] | null) => void };
 
 const MINIMUM_ZOOM_DISTANCE = 35_000;
 
-export function EarthGlobe({ selectionActive, draftVertexCount, location, clearSignal, undoSignal, homeSignal, focusRequest, rasterOverlay, onRasterClick, onDraftChange, onSelectionChange, onCursorChange }: Props) {
+export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory, selectionActive, draftVertexCount, location, clearSignal, undoSignal, homeSignal, focusRequest, rasterOverlay, onRasterClick, onDraftChange, onSelectionChange, onCursorChange }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
+  const markerLayerRef = useRef<StoryMarkerLayer | null>(null);
+  const [storyPick, setStoryPick] = useState<StoryPick>({ choices: [], selected: null });
   const handlerRef = useRef<ScreenSpaceEventHandler | null>(null);
   const positionsRef = useRef<Position[]>([]);
   const activeRef = useRef(selectionActive);
   const rasterClickRef = useRef(onRasterClick);
   const [viewerReady, setViewerReady] = useState(false);
+  const [overlayError, setOverlayError] = useState<string | null>(null);
 
   useEffect(() => { activeRef.current = selectionActive; }, [selectionActive]);
   useEffect(() => { rasterClickRef.current = onRasterClick; }, [onRasterClick]);
@@ -24,16 +36,24 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
     const viewer = viewerRef.current;
     if (!viewer || viewer.isDestroyed()) return;
     viewer.imageryLayers.removeAll();
-    viewer.imageryLayers.add(new ImageryLayer(new UrlTemplateImageryProvider({ url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' })));
+    viewer.imageryLayers.add(new ImageryLayer(createBaseMapProvider()));
+    let cancelled = false;
+    setOverlayError(null);
     if (rasterOverlay) {
       const [west, south, east, north] = rasterOverlay.boundsWgs84;
-      const provider = new SingleTileImageryProvider({
-        url: rasterOverlay.url,
+      // The current Cesium constructor requires image dimensions. Its factory
+      // loads the existing preview and obtains those dimensions without guesses.
+      void SingleTileImageryProvider.fromUrl(rasterOverlay.url, {
         rectangle: Rectangle.fromDegrees(west, south, east, north),
+      }).then(provider => {
+        if (cancelled || viewer.isDestroyed()) return;
+        const layer = viewer.imageryLayers.addImageryProvider(provider);
+        layer.alpha = rasterOverlay.opacity ?? 0.9;
+      }).catch(() => {
+        if (!cancelled && !viewer.isDestroyed()) setOverlayError('The saved raster overlay could not be displayed.');
       });
-      const layer = viewer.imageryLayers.addImageryProvider(provider);
-      layer.alpha = rasterOverlay.opacity ?? 0.9;
     }
+    return () => { cancelled = true; };
   }, [rasterOverlay, viewerReady]);
   useEffect(() => {
     const viewer = viewerRef.current;
@@ -46,7 +66,7 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
   useEffect(() => {
     if (!containerRef.current) return undefined;
     const viewer = new Viewer(containerRef.current, {
-      baseLayer: new ImageryLayer(new UrlTemplateImageryProvider({ url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' })),
+      baseLayer: new ImageryLayer(createBaseMapProvider()),
       terrainProvider: new EllipsoidTerrainProvider(),
       animation: false, timeline: false, geocoder: false, homeButton: false, sceneModePicker: false,
       navigationHelpButton: false, fullscreenButton: false, baseLayerPicker: false, infoBox: false, selectionIndicator: false,
@@ -55,7 +75,8 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
     setViewerReady(true);
     viewer.scene.globe.depthTestAgainstTerrain = false;
     viewer.scene.requestRenderMode = false;
-    viewer.camera.setView({
+    viewer.camera.setView(cameraMemory.current ? { destination: cameraMemory.current.position,
+      orientation: { direction: cameraMemory.current.direction, up: cameraMemory.current.up } } : {
       destination: Cartesian3.fromDegrees(-18, 18, 7_200_000),
       orientation: {
         heading: CesiumMath.toRadians(0),
@@ -63,6 +84,8 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
         roll: 0,
       },
     });
+    const markers = new StoryMarkerLayer(viewer, setStoryPick);
+    markerLayerRef.current = markers;
     const cameraController = viewer.scene.screenSpaceCameraController;
     cameraController.enableInputs = true;
     cameraController.enableRotate = true;
@@ -84,6 +107,7 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
     const canvas = viewer.scene.canvas;
     const handleTrackpadZoom = (event: WheelEvent) => {
       if (!cameraController.enableInputs || activeRef.current) return;
+      markers.cancelFlight();
       event.preventDefault();
       const pixels = Math.max(-120, Math.min(120, event.deltaY));
       const currentHeight = viewer.camera.positionCartographic.height;
@@ -100,6 +124,7 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
       return ray ? viewer.scene.globe.pick(ray, viewer.scene) : undefined;
     };
     handler.setInputAction((movement: { position: Cartesian2 }) => {
+      if (!activeRef.current && markers.click(movement.position)) return;
       const cartesian = pickSurface(movement.position);
       if (!defined(cartesian)) return;
       const cartographic = Cartographic.fromCartesian(cartesian);
@@ -112,14 +137,34 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
       onDraftChange(positionsRef.current.length);
       if (positionsRef.current.length >= 3) onSelectionChange(createFeature(positionsRef.current));
     }, ScreenSpaceEventType.LEFT_CLICK);
+    for (const type of [ScreenSpaceEventType.LEFT_DOWN, ScreenSpaceEventType.RIGHT_DOWN, ScreenSpaceEventType.PINCH_START]) {
+      handler.setInputAction(() => markers.cancelFlight(), type);
+    }
     handler.setInputAction((movement: { endPosition: Cartesian2 }) => {
+      if (!activeRef.current) markers.move(movement.endPosition);
       const cartesian = pickSurface(movement.endPosition);
       if (!defined(cartesian)) { onCursorChange(null); return; }
       const cartographic = Cartographic.fromCartesian(cartesian);
       onCursorChange([CesiumMath.toDegrees(cartographic.longitude), CesiumMath.toDegrees(cartographic.latitude)]);
     }, ScreenSpaceEventType.MOUSE_MOVE);
-    return () => { canvas.removeEventListener('wheel', handleTrackpadZoom); handler.destroy(); viewer.destroy(); setViewerReady(false); };
+    const dismiss = (event: KeyboardEvent) => { if (event.key === 'Escape' && markers.hasPreview) { markers.clear(); canvas.focus({ preventScroll: true }); } };
+    const outside = (event: PointerEvent) => {
+      if (event.target instanceof Element && !event.target.closest('.globe-story-preview') && event.target !== canvas) markers.clear();
+    };
+    const leave = () => markers.clearHover();
+    document.addEventListener('keydown', dismiss);
+    document.addEventListener('pointerdown', outside);
+    canvas.addEventListener('pointerleave', leave);
+    return () => {
+      cameraMemory.current = { position: Cartesian3.clone(viewer.camera.positionWC), direction: Cartesian3.clone(viewer.camera.directionWC), up: Cartesian3.clone(viewer.camera.upWC) };
+      document.removeEventListener('keydown', dismiss); document.removeEventListener('pointerdown', outside);
+      canvas.removeEventListener('pointerleave', leave); canvas.removeEventListener('wheel', handleTrackpadZoom);
+      markers.destroy(); markerLayerRef.current = null; handler.destroy(); viewer.destroy(); setViewerReady(false);
+    };
   }, [onCursorChange, onDraftChange, onSelectionChange]);
+
+  useEffect(() => { markerLayerRef.current?.update(stories); }, [stories, viewerReady]);
+  useEffect(() => { markerLayerRef.current?.setVisible(storiesVisible, selectionActive); }, [storiesVisible, selectionActive, viewerReady]);
 
   useEffect(() => {
     if (!viewerRef.current || !location) return;
@@ -178,7 +223,14 @@ export function EarthGlobe({ selectionActive, draftVertexCount, location, clearS
     }));
   }, [draftVertexCount]);
 
-  return <div ref={containerRef} className="cesium-container" />;
+  return <>
+    <div ref={containerRef} className="cesium-container" />
+    {overlayError && <div className="globe-overlay-error" role="alert">{overlayError}</div>}
+    {storiesVisible && !selectionActive && storyPick.choices.length > 0 && <StoryPreview pick={storyPick}
+      onChoose={slug => markerLayerRef.current?.select(slug)}
+      onClose={() => { markerLayerRef.current?.clear(); viewerRef.current?.canvas.focus({ preventScroll: true }); }}
+      onExplore={onOpenStory} />}
+  </>;
 }
 
 function createFeature(points: Position[]): GeoJsonFeature {

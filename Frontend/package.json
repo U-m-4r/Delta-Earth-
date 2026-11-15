@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:stories": "node tests/stories.browser.mjs"
+    "test:stories": "node tests/stories.browser.mjs",
+    "test:globe": "node tests/globe.browser.mjs",
+    "test:map-labels": "node tests/map-labels.browser.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",

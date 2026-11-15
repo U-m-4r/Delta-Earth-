@@ -1,26 +1,10 @@
-import { useEffect, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import type { StoryIndexItem } from '../../types/stories';
+import { useStoryCatalog } from '../../services/storyCatalog';
 
 const root = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/case-studies`;
 
 export function HomeStoriesStrip({ onOpenStory }: { onOpenStory: (slug: string) => void }) {
-  const [items, setItems] = useState<StoryIndexItem[]>([]);
-
-  useEffect(() => {
-    let active = true;
-    fetch(`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/stories`)
-      .then(async (response) => (response.ok ? response.json() as Promise<StoryIndexItem[]> : []))
-      .then((list) => {
-        if (active) setItems(Array.isArray(list) ? list : []);
-      })
-      .catch(() => {
-        if (active) setItems([]);
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
+  const { items } = useStoryCatalog();
 
   if (!items.length) return null;
 

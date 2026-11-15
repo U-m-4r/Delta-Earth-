@@ -8,6 +8,8 @@ export type StoryIndexItem = {
   period?: string;
   observationCount?: number;
   description?: string;
+  subtitle?: string;
+  markerLocation?: { longitude: number; latitude: number; method?: string } | null;
 };
 
 export type StoryObservation = {

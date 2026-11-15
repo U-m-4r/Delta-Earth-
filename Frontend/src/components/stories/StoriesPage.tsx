@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeft, BookOpen } from 'lucide-react';
-import type { StoryIndexItem } from '../../types/stories';
+import { useStoryCatalog } from '../../services/storyCatalog';
 import { StoryViewer } from './StoryViewer';
 import { toStoryDefinition } from './storyDefinition';
 import type { RawStory, StoryDefinition } from './storyDefinition';
@@ -9,39 +9,15 @@ import './stories.css';
 const root = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/case-studies`;
 
 export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void; initialSlug?: string | null }) {
-  const [index, setIndex] = useState<StoryIndexItem[]>([]);
+  const { items: index, loading: catalogueLoading, error: catalogueError } = useStoryCatalog();
   const [slug, setSlug] = useState<string | null>(initialSlug);
   const [story, setStory] = useState<StoryDefinition | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setSlug(initialSlug);
   }, [initialSlug]);
-
-  useEffect(() => {
-    let active = true;
-    setLoading(true);
-    fetch(`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/stories`)
-      .then(async (response) => {
-        if (!response.ok) throw new Error('Could not load the saved stories list.');
-        return response.json() as Promise<StoryIndexItem[]>;
-      })
-      .then((items) => {
-        if (!active) return;
-        setIndex(items);
-        setError(null);
-      })
-      .catch((err: unknown) => {
-        if (active) setError(err instanceof Error ? err.message : 'Could not load stories.');
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
 
   useEffect(() => {
     if (!slug) {
@@ -92,9 +68,9 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
       </header>
 
       <div className="stories-scroll">
-        {error && <div className="stories-alert stories-alert-error" role="alert">{error}</div>}
+        {(error || catalogueError) && <div className="stories-alert stories-alert-error" role="alert">{error || catalogueError}</div>}
         {loading && slug && <div className="stories-alert" role="status">Loading story…</div>}
-        {loading && !story && !index.length && <div className="stories-alert" role="status">Loading saved stories…</div>}
+        {catalogueLoading && !story && !index.length && <div className="stories-alert" role="status">Loading saved stories…</div>}
 
         {!slug && (
           <>
@@ -122,7 +98,7 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
                   </div>
                 </button>
               ))}
-              {!loading && !index.length && !error && <div className="stories-empty">No saved stories were found under /case-studies.</div>}
+              {!catalogueLoading && !index.length && !catalogueError && <div className="stories-empty">No saved stories were found under /case-studies.</div>}
             </div>
           </>
         )}

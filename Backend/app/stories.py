@@ -10,6 +10,7 @@ from rasterio.warp import transform_bounds, transform as project
 from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse
 
+from .story_locations import story_location
 from .raster_display import colorize_values
 from .raster_exports import _difference_rgba, _write_png
 from .visualization_sessions import _read_aligned
@@ -72,15 +73,33 @@ def flood_story():
 
 @router.get('')
 def list_stories():
-    return read_json(ROOT / 'case-studies' / 'index.json')
+    catalogue = []
+    seen = set()
+    for item in read_json(ROOT / 'case-studies' / 'index.json'):
+        slug = item.get('slug', '')
+        if not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,99}', slug) or slug in seen:
+            continue
+        seen.add(slug)
+        try:
+            source = ROOT / 'Bagalpur' / 'story.json' if slug == SLUG else local_file(ROOT / 'case-studies' / slug, 'result.json')
+            definition = read_json(source)
+        except (HTTPException, FileNotFoundError, ValueError):
+            definition = {}
+        if any(row.get('published') is False or row.get('status') in {'draft', 'unpublished'} for row in [item, definition]):
+            continue
+        location = story_location({**definition, **{key: value for key, value in item.items() if key in {'markerLocation', 'representativeLocation', 'polygon', 'studyArea', 'bounds'}}})
+        catalogue.append({**item, 'markerLocation': location,
+            'subtitle': item.get('subtitle') or definition.get('subtitle'),
+            'description': item.get('description') or definition.get('description') or definition.get('introduction') or definition.get('event') or 'NAN'})
+    return catalogue
 
 
 @router.get('/{slug}')
 def get_story(slug: str):
-    if slug == SLUG:
-        return flood_story()
     if slug not in {item['slug'] for item in list_stories()}:
         raise HTTPException(404, 'Unknown story')
+    if slug == SLUG:
+        return flood_story()
     return read_json(local_file(ROOT / 'case-studies' / slug, 'result.json'))
 
 
