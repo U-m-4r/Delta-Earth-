@@ -1,0 +1,171 @@
+{
+  "kind": "sequence",
+  "slug": "pakistan-floods-2022",
+  "title": "Pakistan 2022: the Indus plain becomes a broad water landscape",
+  "location": "Manchar Lake margin, Sindh, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Manchar Lake margin, Sindh, Pakistan across 4 real radar observations",
+  "introduction": "4 calibrated Sentinel-1 C-band VV radar acquisitions over this focused study area. The image dates are actual acquisitions from 2022-08-03 to 2022-09-20. These historical observations are not NISAR data.",
+  "conclusion": "This sequence shows terrain-corrected radar response across the event period. Moisture, vegetation and surface roughness also affect brightness. This is not a validated water classification or a national flood-area estimate. The processed area is the explicitly mapped local subregion.",
+  "references": [
+    {
+      "title": "NASA: Devastating Floods in Pakistan",
+      "url": "https://science.nasa.gov/earth/earth-observatory/devastating-floods-in-pakistan-150279/",
+      "checkedAt": "2026-11-15T15:26:40.650528+00:00",
+      "role": "External event / published satellite evidence"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2022-08-03T13:36:20.866867Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2022-08-03: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20220803T133608_20220803T133633_044389_054C1A_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20220803T133608_20220803T133633_044389_054C1A_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/8/3/IW/DV/S1A_IW_GRDH_1SDV_20220803T133608_20220803T133633_044389_054C1A_FE03/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "67ebb5720e90a2d17ad416e1e8f3c35de960f6fb67516e125bff67e3dc226cec",
+      "imageSha256": "8eeff824f9b57da005a0fb0cbe93b6e26d97cbb3f96d1a9102d0e0f1dbd3424a",
+      "meanDb": -12.0543212890625,
+      "medianDb": -11.47114372253418,
+      "validPixelCount": 1127952,
+      "validFraction": 1.0
+    },
+    {
+      "key": "frame-2",
+      "date": "2022-08-15T13:36:21.596233Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2022-08-15: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20220815T133609_20220815T133634_044564_055197_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20220815T133609_20220815T133634_044564_055197_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/8/15/IW/DV/S1A_IW_GRDH_1SDV_20220815T133609_20220815T133634_044564_055197_2540/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "fb75a7ec12c59e32fccf5722eb5b8924bf15b51bcc0bc6dd036964fd5f4d63ad",
+      "imageSha256": "980d6d50ea9db601a3a5cdaa70a36325495fe8d843d050ce895c622693e306bd",
+      "meanDb": -10.526277542114258,
+      "medianDb": -9.493045806884766,
+      "validPixelCount": 1127952,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": 1.528049111366272,
+        "medianDb": 1.4434492588043213,
+        "validPixelCount": 1127952
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2022-08-27T13:36:21.995016Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2022-08-27: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20220827T133609_20220827T133634_044739_055782_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20220827T133609_20220827T133634_044739_055782_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/8/27/IW/DV/S1A_IW_GRDH_1SDV_20220827T133609_20220827T133634_044739_055782_48B2/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "8e22e4740b4545415c1743d0468b733f45b6768c20072971550e1b65bbf7530e",
+      "imageSha256": "e10db2e1589b5e3b8669237f76b32a0c9ec664c0e1868e8ee131ad2aeb9ffe01",
+      "meanDb": -12.186393737792969,
+      "medianDb": -11.36572265625,
+      "validPixelCount": 1127952,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -1.6601144075393677,
+        "medianDb": -0.8404202461242676,
+        "validPixelCount": 1127952
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2022-09-20T13:36:22.239246Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2022-09-20: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20220920T133609_20220920T133634_045089_05634C_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20220920T133609_20220920T133634_045089_05634C_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/9/20/IW/DV/S1A_IW_GRDH_1SDV_20220920T133609_20220920T133634_045089_05634C_409C/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "09661b92032a85f6f796ddfeed7d37f8d9a12bf542e19b7b8f4de35f9fa607a2",
+      "imageSha256": "c129caa4d356900e17f5b7b002702b0918c63033b90ef2e1979d283d8504d5a4",
+      "meanDb": -13.70754337310791,
+      "medianDb": -11.935322761535645,
+      "validPixelCount": 1127952,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -1.5211524963378906,
+        "medianDb": -1.379073143005371,
+        "validPixelCount": 1127952
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Manchar Lake margin, Sindh, Pakistan",
+      "scope": "Focused subregion, not the full national event"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            67.4,
+            26.4
+          ],
+          [
+            67.8,
+            26.4
+          ],
+          [
+            67.8,
+            26.8
+          ],
+          [
+            67.4,
+            26.8
+          ],
+          [
+            67.4,
+            26.4
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1008,
+      "height": 1119,
+      "crs": "EPSG:32642",
+      "transform": [
+        40.0,
+        0.0,
+        340410.0,
+        0.0,
+        -39.99106344950849,
+        2965290.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

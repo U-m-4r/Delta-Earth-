@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "properties": {
+    "owner": "sk",
+    "name": "Manchar Lake margin, Sindh, Pakistan",
+    "scope": "Focused subregion, not the full national event"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          67.4,
+          26.4
+        ],
+        [
+          67.8,
+          26.4
+        ],
+        [
+          67.8,
+          26.8
+        ],
+        [
+          67.4,
+          26.8
+        ],
+        [
+          67.4,
+          26.4
+        ]
+      ]
+    ]
+  }
+}

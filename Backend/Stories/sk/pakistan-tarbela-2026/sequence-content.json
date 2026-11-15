@@ -1,0 +1,78 @@
+{
+  "kind": "sequence",
+  "slug": "pakistan-tarbela-2026",
+  "title": "Tarbela: three radar views across the season",
+  "location": "Tarbela Reservoir, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Tarbela Reservoir, Pakistan across 3 real radar observations",
+  "introduction": "Three compatible NISAR frequency-A HHHH observations show the reservoir landscape on 25 June, 19 July and 12 August 2026. The saved calibrated August dB raster is restored to linear power before common-grid resampling, so all three frames use the same processing order.",
+  "conclusion": "Compare the shoreline and neighboring terrain through the actual acquisition dates. Radar response does not measure stored water volume or establish a flood. Wind, vegetation, roughness and geometry can influence brightness.",
+  "references": [
+    {
+      "title": "Dawn: Tarbela level rose from 1,504 ft to 1,537 ft (1 Aug 2026)",
+      "url": "https://www.dawn.com/news/2019823"
+    },
+    {
+      "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
+      "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            72.55,
+            34
+          ],
+          [
+            72.95,
+            34
+          ],
+          [
+            72.95,
+            34.4
+          ],
+          [
+            72.55,
+            34.4
+          ],
+          [
+            72.55,
+            34
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Tarbela Reservoir filling"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1284,
+      "height": 1525,
+      "crs": "EPSG:32642",
+      "transform": [
+        29.99221183800623,
+        0.0,
+        826370.0,
+        0.0,
+        -29.98688524590164,
+        3813580.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

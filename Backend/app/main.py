@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import rasterio
 import numpy as np
@@ -83,8 +84,18 @@ async def lifespan(_app: FastAPI):
             pass
 
 
+def frontend_origins(origin: str) -> list[str]:
+    origins = {origin.rstrip('/')}
+    parsed = urlsplit(origin)
+    if parsed.hostname in {'localhost', '127.0.0.1'} and parsed.scheme in {'http', 'https'}:
+        port = f':{parsed.port}' if parsed.port else ''
+        origins.update(urlunsplit((parsed.scheme, host + port, '', '', ''))
+                       for host in ('localhost', '127.0.0.1'))
+    return sorted(origins)
+
+
 app = FastAPI(title="Delta Earth — NISAR Data API", version="0.1.0", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=[settings.frontend_origin], allow_credentials=True,
+app.add_middleware(CORSMiddleware, allow_origins=frontend_origins(settings.frontend_origin), allow_credentials=True,
                    allow_methods=["GET", "POST", "DELETE"], allow_headers=["*"],
                    expose_headers=["X-Raster-Bounds-WGS84", "X-RGB-Channel-Legend", "X-Raster-Legend", "Content-Disposition"])
 

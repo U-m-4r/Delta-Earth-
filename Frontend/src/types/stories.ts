@@ -4,6 +4,7 @@ export type StoryIndexItem = {
   location: string;
   changeType: string;
   preview?: string;
+  previewSha256?: string;
   kind?: string;
   period?: string;
   observationCount?: number;
@@ -17,6 +18,7 @@ export type StoryObservation = {
   label: string;
   date: string;
   image: string;
+  imageSha256?: string;
   measurement?: string;
   bytesRead?: number | null;
   fileSizeMb?: number | null;
@@ -70,6 +72,7 @@ export type StoryResult = {
 
 export type SequenceStoryResult = {
   kind: 'sequence';
+  mission?: string;
   slug: string;
   title: string;
   location: string;
@@ -82,6 +85,7 @@ export type SequenceStoryResult = {
   references: { title: string; url: string }[];
   observations: {
     key: string; date: string; image: string; label: string; caption: string;
+    imageSha256?: string;
     granuleId: string; productId: string; sourceUrl: string;
     meanDb: number; medianDb: number; validPixelCount: number;
     changeFromPrevious?: { meanDb: number; medianDb: number; validPixelCount: number };

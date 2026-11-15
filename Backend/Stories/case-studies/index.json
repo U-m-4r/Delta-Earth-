@@ -28,7 +28,7 @@
     "changeType": "Flooding",
     "kind": "documentary",
     "preview": "preview.png",
-    "period": "June\u2013October 2026",
+    "period": "June–October 2026",
     "description": "Follow the Ganga River through eight NISAR satellite observations, from its earlier June appearance to the widespread flooding visible in September and the gradual recession during October.",
     "observationCount": 8
   },
@@ -38,7 +38,7 @@
     "location": "Bellandur and Varthur, Bangalore, India",
     "changeType": "Seasonal lake landscape",
     "preview": "frame-3.png",
-    "period": "Jun\u2013Oct 2026",
+    "period": "Jun–Oct 2026",
     "observationCount": 5
   },
   {
@@ -47,43 +47,68 @@
     "location": "Eastern Jeddah, Saudi Arabia",
     "changeType": "Urban drainage baseline",
     "preview": "frame-3.png",
-    "period": "Jun\u2013Oct 2026",
+    "period": "Jun–Oct 2026",
     "observationCount": 5
-  },
-  {
-    "slug": "pakistan-indus-2026",
-    "title": "Indus River flood near Sukkur",
-    "location": "Sukkur, Sindh, Pakistan",
-    "changeType": "River flooding",
-    "preview": "water_flood_to_after.png",
-    "period": "Jun\u2013Oct 2026",
-    "observationCount": 4
   },
   {
     "slug": "assam-brahmaputra-2026",
     "title": "Brahmaputra flood around Majuli",
     "location": "Majuli and Jorhat, Assam, India",
-    "changeType": "River flooding",
-    "preview": "water_before_to_flood.png",
-    "period": "Jun\u2013Oct 2026",
-    "observationCount": 4
+    "changeType": "Multi-date radar observations",
+    "preview": "frame-2.png",
+    "observationCount": 4,
+    "period": "2026-06-16 – 2026-10-14",
+    "owner": "sk",
+    "description": "Follow the actual radar observations across the season. Differences are measured radar response, not proof of flooding. Independent flood evidence and classification limits remain applicable.",
+    "mission": "NISAR"
   },
   {
     "slug": "pakistan-tarbela-2026",
-    "title": "Tarbela Reservoir filling",
-    "location": "Tarbela Dam, Khyber Pakhtunkhwa, Pakistan",
-    "changeType": "Reservoir filling",
-    "preview": "water_before_to_after.png",
-    "period": "Jun\u2013Aug 2026",
-    "observationCount": 2
+    "title": "Tarbela: three radar views across the season",
+    "location": "Tarbela Reservoir, Pakistan",
+    "changeType": "Multi-date radar observations",
+    "preview": "frame-2.png",
+    "observationCount": 3,
+    "period": "2026-06-25 – 2026-08-12",
+    "owner": "sk",
+    "description": "Compare the shoreline and neighboring terrain through the actual acquisition dates. Radar response does not measure stored water volume or establish a flood. Wind, vegetation, roughness and geometry can influence brightness.",
+    "mission": "NISAR"
   },
   {
-    "slug": "pakistan-manchar-2026",
-    "title": "Manchar Lake in the monsoon",
-    "location": "Jamshoro district, Sindh, Pakistan",
-    "changeType": "Lake and wetland change",
-    "period": "Jun\u2013Sep 2026",
-    "observationCount": 2,
-    "preview": "water_before_to_after.png"
+    "slug": "punjab-floods-2025",
+    "title": "Punjab 2025: rivers spread across the monsoon floodplain",
+    "location": "Lower Chenab near Multan, Punjab, Pakistan",
+    "changeType": "Multi-date radar observations",
+    "preview": "frame-2.png",
+    "observationCount": 4,
+    "period": "2025-08-01 – 2025-09-18",
+    "owner": "sk",
+    "description": "This sequence shows terrain-corrected radar response across the event period. Moisture, vegetation and surface roughness also affect brightness. This is not a validated water classification or a national flood-area estimate. The processed area is the explicitly mapped local subregion.",
+    "mission": "Sentinel-1 RTC"
+  },
+  {
+    "slug": "pakistan-floods-2022",
+    "title": "Pakistan 2022: the Indus plain becomes a broad water landscape",
+    "location": "Manchar Lake margin, Sindh, Pakistan",
+    "changeType": "Multi-date radar observations",
+    "preview": "frame-2.png",
+    "observationCount": 4,
+    "period": "2022-08-03 – 2022-09-20",
+    "owner": "sk",
+    "description": "This sequence shows terrain-corrected radar response across the event period. Moisture, vegetation and surface roughness also affect brightness. This is not a validated water classification or a national flood-area estimate. The processed area is the explicitly mapped local subregion.",
+    "mission": "Sentinel-1 RTC"
+  },
+  {
+    "slug": "nepal-glacier-flood-2026",
+    "title": "Nepal: three radar visits to a mountain river corridor",
+    "location": "Rasuwa–Trishuli corridor, Nepal",
+    "changeType": "Multi-date radar observations",
+    "preview": "frame-2.png",
+    "observationCount": 3,
+    "period": "2026-08-19 – 2026-10-06",
+    "owner": "sk",
+    "description": "Use the baseline comparison to inspect persistent river-corridor and mountain-surface patterns. Shadow, layover, snow and ice complicate mountain radar. These views do not independently confirm a collapse mechanism or delineate the full debris-flow footprint.",
+    "mission": "NISAR",
+    "previewSha256": "3b5764680424bae6f9e0907f3c1c9ee3cbec9f61081e9401ba0754408c74393b"
   }
 ]

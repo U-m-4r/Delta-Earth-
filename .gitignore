@@ -1,4 +1,5 @@
 .env
+Frontend/.env.local
 .venv/
 venv/
 __pycache__/
@@ -26,3 +27,12 @@ data/raster_registry.json
 *.nc
 
 Backend/Stories/Bagalpur/.cache/
+
+# Local processing inputs and superseded workspace copies.
+data/sk-radar/
+Backend/src/
+Frontend/public/case-studies/
+Frontend/public/saved/
+/stories/
+Backend/scripts/finish-latest-story-pull.py
+Frontend/tests/all-stories.browser.mjs

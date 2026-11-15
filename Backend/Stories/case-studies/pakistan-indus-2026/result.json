@@ -1,396 +1,172 @@
 {
- "slug": "pakistan-indus-2026",
- "title": "Indus River flood near Sukkur",
- "location": "Sukkur, Sindh, Pakistan",
- "changeType": "River flooding",
- "channel": "HVHV",
- "headline": "Did the Indus spill across its floodplain during the 2026 monsoon flood?",
- "floodplainBufferM": 5000,
- "event": "Pakistan's Flood Forecasting Division reported the Indus at medium flood level at the Guddu and Sukkur barrages at the end of July 2026; by 30 August Sukkur had receded to low flood.",
- "references": [
-  {
-   "title": "Dawn: Parts of Punjab, Sindh face urban flooding risk (1 Aug 2026)",
-   "url": "https://www.dawn.com/news/2019823"
-  },
-  {
-   "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
-   "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
-  }
- ],
- "polygon": {
-  "type": "Feature",
-  "geometry": {
-   "type": "Polygon",
-   "coordinates": [
-    [
-     [
-      68.7,
-      27.45
-     ],
-     [
-      69.2,
-      27.45
-     ],
-     [
-      69.2,
-      27.75
-     ],
-     [
-      68.7,
-      27.75
-     ],
-     [
-      68.7,
-      27.45
-     ]
-    ]
-   ]
-  },
-  "properties": {
-   "name": "Indus River flood near Sukkur",
-   "channel": "HVHV"
-  }
- },
- "areaKm2": 1643.597,
- "threshold": {
-  "valueDb": -22.25,
-  "method": "-22.25 dB on the HV channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (HH could not separate the turbulent river from dry land). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
-  "speckleFilter": "5x5 boxcar mean in linear power"
- },
- "thresholdReason": "-22.25 dB on the HV channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (HH could not separate the turbulent river from dry land). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
- "observations": [
-  {
-   "key": "before",
-   "label": "Before the flood",
-   "granule": "G4249953107-ASF",
-   "id": "G4249953107-ASF",
-   "granuleId": "NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001",
-   "date": "2026-06-17T00:45:23.000Z",
-   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001.h5",
-   "maturity": "PROVISIONAL",
-   "bytesRead": 72351745,
-   "fileSizeMb": 6536.013325691223,
-   "geographicBounds": [
-    68.69913360375574,
-    27.449780904006875,
-    69.20061204689978,
-    27.750369221476213
-   ],
-   "image": "before.png",
-   "measurement": "HVHV",
-   "frequency": "frequencyA",
-   "track": "41",
-   "frame": "15",
-   "pass": "Ascending",
-   "validPixelCount": 16396538
-  },
-  {
-   "key": "flood",
-   "label": "Flood season",
-   "granule": "G4260316008-ASF",
-   "id": "G4260316008-ASF",
-   "granuleId": "NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001",
-   "date": "2026-07-23T00:45:21.000Z",
-   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001.h5",
-   "maturity": "PROVISIONAL",
-   "bytesRead": 69206017,
-   "fileSizeMb": 6539.980988502502,
-   "geographicBounds": [
-    68.69913360375574,
-    27.449780904006875,
-    69.20061204689978,
-    27.750369221476213
-   ],
-   "image": "flood.png",
-   "measurement": "HVHV",
-   "frequency": "frequencyA",
-   "track": "41",
-   "frame": "15",
-   "pass": "Ascending",
-   "validPixelCount": 16396538
-  },
-  {
-   "key": "later",
-   "label": "Falling water",
-   "granule": "G4284558138-ASF",
-   "id": "G4284558138-ASF",
-   "granuleId": "NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001",
-   "date": "2026-08-16T00:45:20.000Z",
-   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001.h5",
-   "maturity": "PROVISIONAL",
-   "bytesRead": 74448897,
-   "fileSizeMb": 6363.512981414795,
-   "geographicBounds": [
-    68.69913360375574,
-    27.449780904006875,
-    69.20061204689978,
-    27.750369221476213
-   ],
-   "image": "later.png",
-   "measurement": "HVHV",
-   "frequency": "frequencyA",
-   "track": "41",
-   "frame": "15",
-   "pass": "Ascending",
-   "validPixelCount": 16396538
-  },
-  {
-   "key": "after",
-   "label": "After the monsoon",
-   "granule": "G4371789260-ASF",
-   "id": "G4371789260-ASF",
-   "granuleId": "NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001",
-   "date": "2026-10-15T00:45:20.000Z",
-   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001.h5",
-   "maturity": "PROVISIONAL",
-   "bytesRead": 71303169,
-   "fileSizeMb": 6367.086699485779,
-   "geographicBounds": [
-    68.69913360375574,
-    27.449780904006875,
-    69.20061204689978,
-    27.750369221476213
-   ],
-   "image": "after.png",
-   "measurement": "HVHV",
-   "frequency": "frequencyA",
-   "track": "41",
-   "frame": "15",
-   "pass": "Ascending",
-   "validPixelCount": 16396538
-  }
- ],
- "pairs": [
-  {
-   "from": "before",
-   "to": "flood",
-   "water": {
-    "measurement": "HVHV",
-    "thresholdDb": -22.25,
-    "thresholdMethod": "-22.25 dB on the HV channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (HH could not separate the turbulent river from dry land). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
-    "speckleFilter": "5x5 boxcar mean in linear power",
-    "pixelAreaKm2": 0.0001,
-    "validAreaKm2": 1450.1143,
-    "waterBeforeKm2": 351.60490000000004,
-    "waterAfterKm2": 211.16240000000002,
-    "newWaterKm2": 32.5079,
-    "recededWaterKm2": 172.9504,
-    "stableWaterKm2": 178.6545,
-    "netWaterChangeKm2": -140.44250000000002,
-    "classes": {
-     "0": "No data",
-     "1": "Land on both dates",
-     "2": "Water on both dates",
-     "3": "New water (candidate flooding)",
-     "4": "Water receded"
+  "kind": "sequence",
+  "slug": "pakistan-indus-2026",
+  "title": "Indus River flood near Sukkur",
+  "location": "Sukkur, Sindh, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Sukkur, Sindh, Pakistan across 4 real radar observations",
+  "introduction": "Pakistan's Flood Forecasting Division reported the Indus at medium flood level at the Guddu and Sukkur barrages at the end of July 2026; by 30 August Sukkur had receded to low flood.",
+  "conclusion": "Follow the actual radar observations across the season. Differences are measured radar response, not proof of flooding. Independent flood evidence and classification limits remain applicable.",
+  "references": [
+    {
+      "title": "Dawn: Parts of Punjab, Sindh face urban flooding risk (1 Aug 2026)",
+      "url": "https://www.dawn.com/news/2019823"
     },
-    "colors": {
-     "2": "#2563eb",
-     "3": "#ef4444",
-     "4": "#facc15"
-    },
-    "geographicBounds": [
-     68.69913360375574,
-     27.449780904006875,
-     69.20061204689978,
-     27.750369221476213
-    ],
-    "baseline": "NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001",
-    "comparison": "NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001",
-    "baselineDate": "2026-06-17T00:45:23.000000000",
-    "comparisonDate": "2026-07-23T00:45:21.000000000",
-    "note": "Candidate open water is radar-dark surface below the threshold. Wind-roughened water, flooded vegetation (which can appear bright in L-band HH), radar shadow and very smooth dry surfaces can cause errors.",
-    "analysisZone": {
-     "rule": "Within 5 km of the usual river or lake (water in at least 50% of JRC Global Surface Water observations, 1984-2021)",
-     "reason": "Excludes dry sand, dunes and hills, which can look radar-dark like water.",
-     "sources": [
-      "https://storage.googleapis.com/global-surface-water/downloads2021/occurrence/occurrence_60E_30Nv1_4_2021.tif"
-     ],
-     "areaKm2": 1450.1143
-    },
-    "reference": {
-     "dataset": "JRC Global Surface Water v1.4 occurrence (1984-2021, Landsat)",
-     "urls": [
-      "https://storage.googleapis.com/global-surface-water/downloads2021/occurrence/occurrence_60E_30Nv1_4_2021.tif"
-     ],
-     "referenceWaterRule": "water in at least 50% of valid Landsat observations 1984-2021",
-     "comparedAreaKm2": 1450.1143,
-     "beforeAgreement": {
-      "truePositive": 173445,
-      "falsePositive": 3342604,
-      "falseNegative": 50179,
-      "trueNegative": 10934915,
-      "precision": 0.049329517307637065,
-      "recall": 0.7756099524201338,
-      "iou": 0.048635420954577215,
-      "overallAgreement": 0.7660334085388993
-     },
-     "afterAgreement": {
-      "truePositive": 170549,
-      "falsePositive": 1941075,
-      "falseNegative": 53075,
-      "trueNegative": 12336444,
-      "precision": 0.08076674635257035,
-      "recall": 0.7626596429721318,
-      "iou": 0.07878647331568962,
-      "overallAgreement": 0.862483253906261
-     },
-     "permanentWaterDetectedBefore": 0.9090502393414754,
-     "newWaterOutsideUsualWaterShare": 0.9528791462998225,
-     "note": "Long-term reference, not a same-day flood map. It checks that normally wet river channels are detected and shows how much new water lies outside them."
+    {
+      "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
+      "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
     }
-   },
-   "difference": {
-    "units": "dB",
-    "measurement": "HVHV",
-    "validPixelCount": 16396538,
-    "meanDifference": 1.1229796409606934,
-    "medianDifference": 1.0603790283203125,
-    "standardDeviation": 3.4333813190460205,
-    "minimumDifference": -35.63402557373047,
-    "maximumDifference": 24.823654174804688,
-    "thresholdDb": 3,
-    "aboveThresholdPixelCount": 6401008,
-    "aboveThresholdPercent": 39.03877757609563,
-    "geographicBounds": [
-     68.69913360375574,
-     27.449780904006875,
-     69.20061204689978,
-     27.750369221476213
-    ],
-    "displayRange": [
-     -6,
-     6
-    ],
-    "warning": "Backscatter change is a measured radar-response difference, not a confirmed flood, deforestation event or ground displacement. Independent interpretation and validation are still required."
-   },
-   "waterImage": "water_before_to_flood.png",
-   "differenceImage": "difference_before_to_flood.png",
-   "waterRaster": "water_before_to_flood.tif",
-   "differenceRaster": "difference_before_to_flood.tif"
-  },
-  {
-   "from": "flood",
-   "to": "after",
-   "water": {
-    "measurement": "HVHV",
-    "thresholdDb": -22.25,
-    "thresholdMethod": "-22.25 dB on the HV channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (HH could not separate the turbulent river from dry land). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
-    "speckleFilter": "5x5 boxcar mean in linear power",
-    "pixelAreaKm2": 0.0001,
-    "validAreaKm2": 1450.1014,
-    "waterBeforeKm2": 211.15480000000002,
-    "waterAfterKm2": 162.132,
-    "newWaterKm2": 55.158,
-    "recededWaterKm2": 104.1808,
-    "stableWaterKm2": 106.974,
-    "netWaterChangeKm2": -49.02280000000002,
-    "classes": {
-     "0": "No data",
-     "1": "Land on both dates",
-     "2": "Water on both dates",
-     "3": "New water (candidate flooding)",
-     "4": "Water receded"
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-17T00:45:23.000Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2026-06-17: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4249953107-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "24a4750a8c8de5af7b9a090d4683a9997c86420fea72cd673e0288858b052088",
+      "imageSha256": "15b903ea95a7a50026b6b1f6d95ecb933ffe7cfbe96f0b446c7bf2a33c745c83",
+      "meanDb": -20.019428253173828,
+      "medianDb": -20.69222640991211,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952
     },
-    "colors": {
-     "2": "#2563eb",
-     "3": "#ef4444",
-     "4": "#facc15"
+    {
+      "key": "frame-2",
+      "date": "2026-07-23T00:45:21.000Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2026-07-23: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4260316008-ASF",
+      "productId": "NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "4ff34b1a38fccfc82d0eb04958d1632682fcf8977fdf5959c90c2ed05dc03044",
+      "imageSha256": "da3d435c669ecc91e0f48c1975e1c0fb39eaee67acdbb777426266ff2a47dadf",
+      "meanDb": -18.89642333984375,
+      "medianDb": -18.92011260986328,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952,
+      "changeFromPrevious": {
+        "meanDb": 1.1230088472366333,
+        "medianDb": 0.9482498168945312,
+        "validPixelCount": 1823137
+      }
     },
-    "geographicBounds": [
-     68.69913360375574,
-     27.449780904006875,
-     69.20061204689978,
-     27.750369221476213
-    ],
-    "baseline": "NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001",
-    "comparison": "NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001",
-    "baselineDate": "2026-07-23T00:45:21.000000000",
-    "comparisonDate": "2026-10-15T00:45:20.000000000",
-    "note": "Candidate open water is radar-dark surface below the threshold. Wind-roughened water, flooded vegetation (which can appear bright in L-band HH), radar shadow and very smooth dry surfaces can cause errors.",
-    "analysisZone": {
-     "rule": "Within 5 km of the usual river or lake (water in at least 50% of JRC Global Surface Water observations, 1984-2021)",
-     "reason": "Excludes dry sand, dunes and hills, which can look radar-dark like water.",
-     "sources": [
-      "https://storage.googleapis.com/global-surface-water/downloads2021/occurrence/occurrence_60E_30Nv1_4_2021.tif"
-     ],
-     "areaKm2": 1450.1014
+    {
+      "key": "frame-3",
+      "date": "2026-08-16T00:45:20.000Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2026-08-16: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4284558138-ASF",
+      "productId": "NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "e0a1a2ee09dd0a506f9e8b402b92c0cfd7f965b454ef63e8c7bd2972c664c912",
+      "imageSha256": "2b6e4b6c1d2d949716544fbb9abd8ae866e62b6b531ded5e82aa2d0905d9074d",
+      "meanDb": -19.60411262512207,
+      "medianDb": -19.86870765686035,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952,
+      "changeFromPrevious": {
+        "meanDb": -0.7076961398124695,
+        "medianDb": -0.6463260650634766,
+        "validPixelCount": 1823137
+      }
     },
-    "reference": {
-     "dataset": "JRC Global Surface Water v1.4 occurrence (1984-2021, Landsat)",
-     "urls": [
-      "https://storage.googleapis.com/global-surface-water/downloads2021/occurrence/occurrence_60E_30Nv1_4_2021.tif"
-     ],
-     "referenceWaterRule": "water in at least 50% of valid Landsat observations 1984-2021",
-     "comparedAreaKm2": 1450.1014,
-     "beforeAgreement": {
-      "truePositive": 170548,
-      "falsePositive": 1941000,
-      "falseNegative": 53075,
-      "trueNegative": 12336391,
-      "precision": 0.08076917976763967,
-      "recall": 0.7626585816306909,
-      "iou": 0.07878877753770518,
-      "overallAgreement": 0.862487202619072
-     },
-     "afterAgreement": {
-      "truePositive": 127800,
-      "falsePositive": 1493520,
-      "falseNegative": 95823,
-      "trueNegative": 12783871,
-      "precision": 0.07882466138701799,
-      "recall": 0.5714975650984022,
-      "iou": 0.07442595054692591,
-      "overallAgreement": 0.8903978025260855
-     },
-     "permanentWaterDetectedBefore": 0.9501185523195992,
-     "newWaterOutsideUsualWaterShare": 0.9908553609630516,
-     "note": "Long-term reference, not a same-day flood map. It checks that normally wet river channels are detected and shows how much new water lies outside them."
+    {
+      "key": "frame-4",
+      "date": "2026-10-15T00:45:20.000Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2026-10-15: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4371789260-ASF",
+      "productId": "NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "9c2fa5793a64b01c3b6a82f70c747f07d8e30ad54d25d5c3debc49ea56a80f7b",
+      "imageSha256": "40f9d67b21f8f8cd953f783e821672d90e55d0d369d6168aa5ca402a5326dbeb",
+      "meanDb": -18.559450149536133,
+      "medianDb": -18.695768356323242,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952,
+      "changeFromPrevious": {
+        "meanDb": 1.044658899307251,
+        "medianDb": 0.7327098846435547,
+        "validPixelCount": 1823137
+      }
     }
-   },
-   "difference": {
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            68.7,
+            27.45
+          ],
+          [
+            69.2,
+            27.45
+          ],
+          [
+            69.2,
+            27.75
+          ],
+          [
+            68.7,
+            27.75
+          ],
+          [
+            68.7,
+            27.45
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Indus River flood near Sukkur",
+      "channel": "HVHV"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
     "units": "dB",
-    "measurement": "HVHV",
-    "validPixelCount": 16396538,
-    "meanDifference": 0.33710384368896484,
-    "medianDifference": 0.19500970840454102,
-    "standardDeviation": 3.7631216049194336,
-    "minimumDifference": -25.968442916870117,
-    "maximumDifference": 25.190879821777344,
-    "thresholdDb": 3,
-    "aboveThresholdPixelCount": 6314631,
-    "aboveThresholdPercent": 38.51197734546158,
-    "geographicBounds": [
-     68.69913360375574,
-     27.449780904006875,
-     69.20061204689978,
-     27.750369221476213
-    ],
-    "displayRange": [
-     -6,
-     6
-    ],
-    "warning": "Backscatter change is a measured radar-response difference, not a confirmed flood, deforestation event or ground displacement. Independent interpretation and validation are still required."
-   },
-   "waterImage": "water_flood_to_after.png",
-   "differenceImage": "difference_flood_to_after.png",
-   "waterRaster": "water_flood_to_after.tif",
-   "differenceRaster": "difference_flood_to_after.tif"
-  }
- ],
- "createdUtc": "2026-11-14T23:03:37Z",
- "outputSha256": {
-  "after.png": "0a47e30763106737917cc37fe1da598363075dc0778592b1da2f85bab605e1f0",
-  "before.png": "09dc5d5fcee865d29d3fa06c9ee58c7a315da941846a8cbf37936836e1d86306",
-  "difference_before_to_flood.png": "81c89e9fc290d567967ef39d8ef5396a062d830bae3eaa5e4f330c6fb1479ad2",
-  "difference_before_to_flood.tif": "b1425f034be14ed328ed786cb4673ca0f96bdf7d497521b256b089f5f864c393",
-  "difference_flood_to_after.png": "592272e032b22f35024c4918343f603fa1200fadcf24ec006c1b02643156719b",
-  "difference_flood_to_after.tif": "a12ec7cd6ae693ac5510b7972deaaabf9540256eed08ceb0324c85b5b77fc079",
-  "flood.png": "78fdd10976341f806ab9c543b896456010708cd2abfa7eb79e3e18b5a402e723",
-  "later.png": "a0222d811917700602344607dc6cf0ebbb16a704957997066d62ebf3be042fb3",
-  "water_before_to_flood.png": "b81213553c0aef5d6887c6ae4ab4141572f7c719805e4a2f588d57192b3798cb",
-  "water_before_to_flood.tif": "944e54a4f49ee48924d8f3d50405ab2758724f1bd4ad744888441ca38d55c36d",
-  "water_flood_to_after.png": "a111829e408ab136b8904be5d8b2bf55e018eae4aef6fcdf73928efe185425ca",
-  "water_flood_to_after.tif": "40b007cfc7bf1eadd1dc784072bda3eebd788793da5dd52ec27087e9d55ef6c6"
- }
+    "grid": {
+      "width": 1648,
+      "height": 1109,
+      "crs": "EPSG:32642",
+      "transform": [
+        29.987864077669904,
+        0.0,
+        470350.0,
+        0.0,
+        -29.99098286744815,
+        3069550.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
 }

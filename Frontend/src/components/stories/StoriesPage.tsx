@@ -61,7 +61,7 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
           <ArrowLeft size={16} /> {slug ? 'All stories' : 'Globe'}
         </button>
         <div>
-          <span className="section-kicker">Real NISAR stories</span>
+          <span className="section-kicker">Real radar observations</span>
           <h1>{story?.title ?? 'Every Landscape Has a Story.'}</h1>
           <p>{story ? `${story.subtitle} · ${story.location}` : 'Explore prepared observation sequences and water-change stories.'}</p>
         </div>

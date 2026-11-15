@@ -414,6 +414,13 @@
 .flood-map figcaption span { color: #9dbcb8; }
 .flood-map svg { width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
 .flood-map-empty { position: absolute; top: 50%; width: 100%; text-align: center; color: #8badaa; }
+.flood-documentary[data-story="nepal-glacier-flood-2026"] .flood-map { height: clamp(520px,70vh,840px); }
+.flood-documentary[data-story="nepal-glacier-flood-2026"] .flood-narrative { height: auto; max-height: calc(clamp(520px,70vh,840px) + 150px); }
+@media (max-width: 720px) {
+  .flood-documentary[data-story="nepal-glacier-flood-2026"] .flood-maps.split { grid-template-columns: 1fr; }
+  .flood-documentary[data-story="nepal-glacier-flood-2026"] .flood-maps .flood-map { height: auto; aspect-ratio: var(--story-raster-aspect, 1372 / 1455); }
+  .flood-documentary[data-story="nepal-glacier-flood-2026"] .flood-narrative { max-height: none; }
+}
 .flood-legend { display: flex; align-items: center; gap: 10px; margin-top: 14px; font: 10px monospace; color: #9ebbb9; }
 .flood-legend i { height: 8px; flex: 1; background: linear-gradient(90deg,#30123b,#4662d8,#28bbec,#32f298,#a0fc3a,#f9ba38,#f66b19,#c82704,#7a0403); border-radius: 3px; }
 .flood-legend i.diverging { background: linear-gradient(90deg,#2166ac,#f7f7ef,#b2182b); }

@@ -1,0 +1,172 @@
+{
+  "kind": "sequence",
+  "slug": "pakistan-indus-2026",
+  "title": "Indus River flood near Sukkur",
+  "location": "Sukkur, Sindh, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Sukkur, Sindh, Pakistan across 4 real radar observations",
+  "introduction": "Pakistan's Flood Forecasting Division reported the Indus at medium flood level at the Guddu and Sukkur barrages at the end of July 2026; by 30 August Sukkur had receded to low flood.",
+  "conclusion": "Follow the actual radar observations across the season. Differences are measured radar response, not proof of flooding. Independent flood evidence and classification limits remain applicable.",
+  "references": [
+    {
+      "title": "Dawn: Parts of Punjab, Sindh face urban flooding risk (1 Aug 2026)",
+      "url": "https://www.dawn.com/news/2019823"
+    },
+    {
+      "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
+      "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-17T00:45:23.000Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2026-06-17: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4249953107-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "24a4750a8c8de5af7b9a090d4683a9997c86420fea72cd673e0288858b052088",
+      "imageSha256": "15b903ea95a7a50026b6b1f6d95ecb933ffe7cfbe96f0b446c7bf2a33c745c83",
+      "meanDb": -20.019428253173828,
+      "medianDb": -20.69222640991211,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-23T00:45:21.000Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2026-07-23: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4260316008-ASF",
+      "productId": "NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_041_A_015_4005_DHDH_A_20260723T004521_20260723T004556_P05023_N_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "4ff34b1a38fccfc82d0eb04958d1632682fcf8977fdf5959c90c2ed05dc03044",
+      "imageSha256": "da3d435c669ecc91e0f48c1975e1c0fb39eaee67acdbb777426266ff2a47dadf",
+      "meanDb": -18.89642333984375,
+      "medianDb": -18.92011260986328,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952,
+      "changeFromPrevious": {
+        "meanDb": 1.1230088472366333,
+        "medianDb": 0.9482498168945312,
+        "validPixelCount": 1823137
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-16T00:45:20.000Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2026-08-16: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4284558138-ASF",
+      "productId": "NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_041_A_015_4005_DHDH_A_20260816T004520_20260816T004554_P05023_N_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "e0a1a2ee09dd0a506f9e8b402b92c0cfd7f965b454ef63e8c7bd2972c664c912",
+      "imageSha256": "2b6e4b6c1d2d949716544fbb9abd8ae866e62b6b531ded5e82aa2d0905d9074d",
+      "meanDb": -19.60411262512207,
+      "medianDb": -19.86870765686035,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952,
+      "changeFromPrevious": {
+        "meanDb": -0.7076961398124695,
+        "medianDb": -0.6463260650634766,
+        "validPixelCount": 1823137
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2026-10-15T00:45:20.000Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2026-10-15: NISAR HVHV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4371789260-ASF",
+      "productId": "NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_041_A_015_4005_DHDH_A_20261015T004520_20261015T004554_P05023_N_F_J_001.h5",
+      "measurement": "HVHV",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "9c2fa5793a64b01c3b6a82f70c747f07d8e30ad54d25d5c3debc49ea56a80f7b",
+      "imageSha256": "40f9d67b21f8f8cd953f783e821672d90e55d0d369d6168aa5ca402a5326dbeb",
+      "meanDb": -18.559450149536133,
+      "medianDb": -18.695768356323242,
+      "validPixelCount": 1823137,
+      "validFraction": 0.9975405333239952,
+      "changeFromPrevious": {
+        "meanDb": 1.044658899307251,
+        "medianDb": 0.7327098846435547,
+        "validPixelCount": 1823137
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            68.7,
+            27.45
+          ],
+          [
+            69.2,
+            27.45
+          ],
+          [
+            69.2,
+            27.75
+          ],
+          [
+            68.7,
+            27.75
+          ],
+          [
+            68.7,
+            27.45
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Indus River flood near Sukkur",
+      "channel": "HVHV"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1648,
+      "height": 1109,
+      "crs": "EPSG:32642",
+      "transform": [
+        29.987864077669904,
+        0.0,
+        470350.0,
+        0.0,
+        -29.99098286744815,
+        3069550.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

@@ -47,7 +47,7 @@ export function toStoryDefinition(raw: RawStory): StoryDefinition {
   const observations = sequence?.observations ?? legacy!.observations;
   return {
     slug: raw.slug, title: raw.title, subtitle: raw.changeType, location: raw.location || 'NAN',
-    kicker: `${raw.changeType || 'Satellite observations'} / NASA–ISRO NISAR`,
+    kicker: `${raw.changeType || 'Satellite observations'} / ${sequence?.mission ?? 'NASA–ISRO NISAR'}`,
     introTitle: raw.headline || raw.title, introduction: sequence?.introduction ?? legacy?.event ?? 'NAN',
     summary: `${raw.location || 'NAN'} · ${observations.length} observations`,
     conclusion: sequence?.conclusion,
@@ -55,7 +55,7 @@ export function toStoryDefinition(raw: RawStory): StoryDefinition {
     chapters: observations.map(item => ({
       id: item.key, date: item.date || 'NAN', acquisitionDate: item.date || 'NAN', title: item.label || 'NAN',
       narrative: ('caption' in item ? item.caption : legacy?.event) || 'NAN',
-      badge: item.label, available: Boolean(item.image), image: item.image ? `${root}/${item.image}` : '', metadata: item,
+      badge: item.label, available: Boolean(item.image), image: item.image ? `${root}/${item.image}${item.imageSha256 ? `?v=${item.imageSha256.slice(0,16)}` : ''}` : '', metadata: item,
     })),
     stages: [], pairs: legacy?.pairs ?? [], references: Array.isArray(raw.references) ? raw.references : [],
     display: { minimum: sequence?.display.minimum ?? -35, maximum: sequence?.display.maximum ?? 5,

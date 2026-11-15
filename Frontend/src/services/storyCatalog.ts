@@ -9,7 +9,7 @@ let fetchedAt = 0;
 const listeners = new Set<() => void>();
 const publish = (value: Snapshot) => { snapshot = value; listeners.forEach(listener => listener()); };
 export const storyAssetUrl = (story: StoryIndexItem) => story.preview
-  ? `${backend}/case-studies/${encodeURIComponent(story.slug)}/${story.preview}` : undefined;
+  ? `${backend}/case-studies/${encodeURIComponent(story.slug)}/${story.preview}${story.previewSha256 ? `?v=${story.previewSha256.slice(0,16)}` : ''}` : undefined;
 
 export function refreshStoryCatalog(force = false): Promise<void> {
   if (request) return request;

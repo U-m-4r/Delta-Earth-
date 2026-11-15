@@ -1,0 +1,171 @@
+{
+  "kind": "sequence",
+  "slug": "punjab-floods-2025",
+  "title": "Punjab 2025: rivers spread across the monsoon floodplain",
+  "location": "Lower Chenab near Multan, Punjab, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Lower Chenab near Multan, Punjab, Pakistan across 4 real radar observations",
+  "introduction": "4 calibrated Sentinel-1 C-band VV radar acquisitions over this focused study area. The image dates are actual acquisitions from 2025-08-01 to 2025-09-18. These historical observations are not NISAR data.",
+  "conclusion": "This sequence shows terrain-corrected radar response across the event period. Moisture, vegetation and surface roughness also affect brightness. This is not a validated water classification or a national flood-area estimate. The processed area is the explicitly mapped local subregion.",
+  "references": [
+    {
+      "title": "NASA: Monsoon Rains Flood Pakistan",
+      "url": "https://science.nasa.gov/earth/earth-observatory/monsoon-rains-flood-pakistan-154781/",
+      "checkedAt": "2026-11-15T15:26:40.650528+00:00",
+      "role": "External event / published satellite evidence"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2025-08-01T13:20:44.931917Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2025-08-01: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_077FFA_3D5D",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/8/1/IW/DV/S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_077FFA_3D5D/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "91cf2ebd74e94925c1401813b5f38be244957dbd7acac9b7f3de11c3970fa302",
+      "imageSha256": "09d9e178b2252fb6841c0118cebf88ae885ba7149e09d4bb0e9d76037710a952",
+      "meanDb": -8.367809295654297,
+      "medianDb": -8.363183975219727,
+      "validPixelCount": 2091432,
+      "validFraction": 1.0
+    },
+    {
+      "key": "frame-2",
+      "date": "2025-08-13T13:20:44.893614Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2025-08-13: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_078688_906C",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/8/13/IW/DV/S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_078688_906C/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "4bec7be3da4d96db13dac6db9b7188719771051c45065382d11c6e832a989b2d",
+      "imageSha256": "8dbdf7037f7a1f51905046db82745244cec31c2625013adb45fd836535efaf7a",
+      "meanDb": -8.441444396972656,
+      "medianDb": -8.380363464355469,
+      "validPixelCount": 2091432,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -0.07363367080688477,
+        "medianDb": -0.21642279624938965,
+        "validPixelCount": 2091432
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2025-08-25T13:20:45.115016Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2025-08-25: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_A6C5",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/8/25/IW/DV/S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_A6C5/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "e9f1e38e9016dd3bc5aea6d4a1a752d9192cd668ed6c0c104d23ec26bfe6f1d6",
+      "imageSha256": "b1251ee853820fec3d50422362fd2f1666cee4c5d2846ab49bb6d73d1a4db636",
+      "meanDb": -8.086603164672852,
+      "medianDb": -8.013853073120117,
+      "validPixelCount": 2091432,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": 0.35484179854393005,
+        "medianDb": 0.29164767265319824,
+        "validPixelCount": 2091432
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2025-09-18T13:20:45.554788Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2025-09-18: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_8DC0",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/9/18/IW/DV/S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_8DC0/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "32b6c393dfdb6c7b5967d97ba7364ddec154d64e46b05647b1cf6bd4260cbe97",
+      "imageSha256": "9462a03479b0319fdbd9f633635accc046d51db573ca25730e4d93b7ab6edd5c",
+      "meanDb": -8.469961166381836,
+      "medianDb": -8.322798728942871,
+      "validPixelCount": 2091432,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": -0.3833601474761963,
+        "medianDb": -0.37178802490234375,
+        "validPixelCount": 2091432
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Lower Chenab near Multan, Punjab, Pakistan",
+      "scope": "Focused subregion, not the full national event"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            71.25,
+            29.8
+          ],
+          [
+            71.55,
+            29.8
+          ],
+          [
+            71.55,
+            30.05
+          ],
+          [
+            71.25,
+            30.05
+          ],
+          [
+            71.25,
+            29.8
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1477,
+      "height": 1416,
+      "crs": "EPSG:32642",
+      "transform": [
+        20.00677048070413,
+        0.0,
+        716920.0,
+        0.0,
+        -20.0,
+        3327070.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

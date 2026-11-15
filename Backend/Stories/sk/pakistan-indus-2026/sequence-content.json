@@ -1,0 +1,79 @@
+{
+  "kind": "sequence",
+  "slug": "pakistan-indus-2026",
+  "title": "Indus River flood near Sukkur",
+  "location": "Sukkur, Sindh, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Sukkur, Sindh, Pakistan across 4 real radar observations",
+  "introduction": "Pakistan's Flood Forecasting Division reported the Indus at medium flood level at the Guddu and Sukkur barrages at the end of July 2026; by 30 August Sukkur had receded to low flood.",
+  "conclusion": "Follow the actual radar observations across the season. Differences are measured radar response, not proof of flooding. Independent flood evidence and classification limits remain applicable.",
+  "references": [
+    {
+      "title": "Dawn: Parts of Punjab, Sindh face urban flooding risk (1 Aug 2026)",
+      "url": "https://www.dawn.com/news/2019823"
+    },
+    {
+      "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
+      "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            68.7,
+            27.45
+          ],
+          [
+            69.2,
+            27.45
+          ],
+          [
+            69.2,
+            27.75
+          ],
+          [
+            68.7,
+            27.75
+          ],
+          [
+            68.7,
+            27.45
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Indus River flood near Sukkur",
+      "channel": "HVHV"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1648,
+      "height": 1109,
+      "crs": "EPSG:32642",
+      "transform": [
+        29.987864077669904,
+        0.0,
+        470350.0,
+        0.0,
+        -29.99098286744815,
+        3069550.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

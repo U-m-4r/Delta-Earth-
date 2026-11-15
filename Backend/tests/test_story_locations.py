@@ -52,7 +52,8 @@ def test_dateline_polygon_and_multipolygon():
 def test_all_published_stories_have_real_local_locations(monkeypatch):
     monkeypatch.setattr(stories, 'inspect_file', lambda *_: pytest.fail('Catalogue must not inspect rasters'))
     catalogue = stories.list_stories()
-    assert len(catalogue) == 7
+    assert len(catalogue) == 10
+    assert not {'pakistan-manchar-2026', 'pakistan-indus-2026'} & {item['slug'] for item in catalogue}
     assert all(item['markerLocation'] for item in catalogue)
     bhagalpur = next(item for item in catalogue if item['slug'] == stories.SLUG)
     assert bhagalpur['markerLocation']['method'] == 'study-bounds-center'

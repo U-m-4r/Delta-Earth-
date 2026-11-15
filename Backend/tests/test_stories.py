@@ -15,11 +15,14 @@ from app.raster_exports import _difference_rgba
 client = TestClient(app)
 
 
-def test_catalogue_preserves_all_implemented_stories():
+def test_catalogue_preserves_active_stories_and_keeps_sukkur_archived():
     catalogue = client.get('/api/stories').json()
     slugs = {item['slug'] for item in catalogue}
     assert {'bhagalpur-flood-2026', 'bangalore-sequence-2026', 'jeddah-sequence-2026',
-            'pakistan-indus-2026', 'pakistan-manchar-2026', 'pakistan-tarbela-2026', 'assam-brahmaputra-2026'} <= slugs
+            'pakistan-tarbela-2026', 'assam-brahmaputra-2026',
+            'nepal-glacier-flood-2026', 'punjab-floods-2025', 'pakistan-floods-2022'} <= slugs
+    assert 'pakistan-indus-2026' not in slugs
+    assert 'pakistan-manchar-2026' not in slugs
     for item in catalogue:
         response = client.get(f"/api/stories/{item['slug']}")
         assert response.status_code == 200

@@ -21,7 +21,6 @@ export function useTimelineFrames<Frame, Preview extends TimelinePreview>({
   const displayedTimelineRef = useRef<Preview | null>(null);
   const requestSequence = useRef(0);
   const transitionFrame = useRef<number | null>(null);
-  useEffect(() => { displayedTimelineRef.current = displayedTimeline; }, [displayedTimeline]);
 
   useEffect(() => {
     const signature = frames.length ? `${frames.map(keyOf).join('|')}::${version}` : '';
@@ -32,6 +31,7 @@ export function useTimelineFrames<Frame, Preview extends TimelinePreview>({
       });
       timelineCache.current.clear();
       timelineCacheSignature.current = signature;
+      if (!displayedTimelineRef.current) setDisplayedTimeline(null);
       if (!frames.length) {
         if (displayedTimelineRef.current) dispose(displayedTimelineRef.current);
         setDisplayedTimeline(null); displayedTimelineRef.current = null;
@@ -124,9 +124,14 @@ export function useTimelineFrames<Frame, Preview extends TimelinePreview>({
   }, [index, frames, version, timelineRetry, loader, keyOf]);
 
   useEffect(() => () => {
-    timelineCache.current.forEach(dispose);
+    requestSequence.current += 1;
+    if (transitionFrame.current !== null) window.cancelAnimationFrame(transitionFrame.current);
+    const previews = new Map([...timelineCache.current.values()].map(item => [item.imageUrl, item]));
+    if (displayedTimelineRef.current) previews.set(displayedTimelineRef.current.imageUrl, displayedTimelineRef.current);
+    previews.forEach(dispose);
     timelineCache.current.clear();
-    if (displayedTimelineRef.current) dispose(displayedTimelineRef.current);
+    displayedTimelineRef.current = null;
+    timelineCacheSignature.current = '';
   }, [dispose]);
   return { displayed: displayedTimeline, incoming: incomingTimeline,
     transitionStarted: timelineTransitionStarted, loading: timelineLoading,

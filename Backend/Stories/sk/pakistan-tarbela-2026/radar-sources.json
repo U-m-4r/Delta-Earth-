@@ -1,0 +1,31 @@
+[
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\granules\\G4243410607-ASF\\measurements\\HHHH.tif",
+    "id": "G4243410607-ASF",
+    "date": "2026-06-25T14:03:09.000Z",
+    "productId": "NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\granules\\G4255934283-ASF\\measurements\\HHHH.tif",
+    "id": "G4255934283-ASF",
+    "date": "2026-07-19T14:03:08.000Z",
+    "productId": "NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\pakistan-tarbela-2026\\G4281806562-ASF-restored-linear.tif",
+    "originalDbRaster": "D:\\nas\\Delta-Earth-\\Backend\\data\\studies\\study_mwgzclhe_v2ugvj\\observations\\G4281806562-ASF\\clipped.tif",
+    "originalDbSha256": "86cd07ea88c2ca1dc2bf7e05155116cb90a2f02aae8f5fd0478a62118ec27801",
+    "id": "G4281806562-ASF",
+    "date": "2026-08-12T14:03:07.000Z",
+    "productId": "NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  }
+]

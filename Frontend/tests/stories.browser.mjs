@@ -9,6 +9,7 @@ await mkdir(output, { recursive: true });
 const browser = await chromium.launch({ ...(process.env.PLAYWRIGHT_CHANNEL ? { channel: process.env.PLAYWRIGHT_CHANNEL } : {}), headless: true, args: ['--enable-unsafe-swiftshader'] });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const origin = process.env.STORIES_BASE_URL ?? 'http://localhost:5173';
+const apiOrigin = process.env.STORIES_BACKEND_URL ?? 'http://localhost:8787';
 const errors = [], results = [];
 page.on('pageerror', error => errors.push(error.message));
 // Fail if a story attempts to start satellite discovery or retrieval.
@@ -29,14 +30,15 @@ try {
   await page.goto(origin, { waitUntil: 'networkidle' });
   await page.getByRole('button', { name:'Stories',exact:true }).click();
   await page.locator('.story-card').first().waitFor();
-  const catalogue = await (await page.request.get('http://localhost:8787/api/stories')).json();
+  const catalogue = await (await page.request.get(`${apiOrigin}/api/stories`)).json();
   for (const slug of ['bhagalpur-flood-2026', 'bangalore-sequence-2026', 'jeddah-sequence-2026',
-    'po-delta-sequence-2026', 'senegal-river-sequence-2026', 'pakistan-indus-2026',
-    'pakistan-manchar-2026', 'pakistan-tarbela-2026', 'assam-brahmaputra-2026']) {
+    'po-delta-sequence-2026', 'senegal-river-sequence-2026', 'pakistan-tarbela-2026',
+    'assam-brahmaputra-2026', 'nepal-glacier-flood-2026', 'punjab-floods-2025', 'pakistan-floods-2022']) {
     assert.ok(catalogue.some(entry => entry.slug === slug), `Missing story: ${slug}`);
   }
+  assert.ok(!catalogue.some(entry => ['pakistan-manchar-2026','pakistan-indus-2026'].includes(entry.slug)));
   for (const entry of catalogue) {
-    const raw = await (await page.request.get(`http://localhost:8787/api/stories/${entry.slug}`)).json();
+    const raw = await (await page.request.get(`${apiOrigin}/api/stories/${entry.slug}`)).json();
     await page.locator('.story-card').filter({hasText:entry.title}).click();
     await page.locator('.story-frame-visible').waitFor();
     const chapters = raw.chapters ?? raw.observations;
@@ -121,18 +123,18 @@ try {
   const previous=await page.locator('.story-frame-visible').getAttribute('href');
   let release;
   const gate=new Promise(resolve=>{release=resolve;});
-  await page.route('**/bangalore-sequence-2026/frame-5.png',async route=>{await gate;await route.continue();});
+  await page.route('**/bangalore-sequence-2026/frame-5.png*',async route=>{await gate;await route.continue();});
   await page.locator('.timeline-checkpoint-dates button').nth(4).click();
   await page.waitForTimeout(150);
   assert.equal(await page.locator('.story-frame-visible').getAttribute('href'),previous);
   assert.match(await page.locator('.flood-narrative .section-kicker').innerText(),/Chapter 01/i);
   await select(1);release();await page.waitForTimeout(200);await waitChapter(1);
-  await page.unroute('**/bangalore-sequence-2026/frame-5.png');
-  await page.route('**/bangalore-sequence-2026/frame-5.png',route=>route.abort());
+  await page.unroute('**/bangalore-sequence-2026/frame-5.png*');
+  await page.route('**/bangalore-sequence-2026/frame-5.png*',route=>route.abort());
   await page.locator('.timeline-checkpoint-dates button').nth(4).click();
   await page.getByRole('alert').filter({hasText:'could not be loaded'}).waitFor();
   assert.match(await page.locator('.flood-narrative .section-kicker').innerText(),/Chapter 02/i);
-  await page.unroute('**/bangalore-sequence-2026/frame-5.png');
+  await page.unroute('**/bangalore-sequence-2026/frame-5.png*');
   await page.getByRole('button',{name:'Retry selected frame',exact:true}).click();await waitChapter(4);
   }
   // Actual VisualizationPage with an entirely local mocked catalogue and PNGs.
@@ -140,7 +142,7 @@ try {
   await page.goto(origin);
   const png=await readFile('Backend/Stories/case-studies/bhagalpur-flood-2026/preview.png');
   const dates=['2026-06-20T00:00:00Z','2026-07-07T00:00:00Z','2026-10-20T00:00:00Z'];
-  await page.route('http://localhost:8787/api/**',route=>{
+  await page.route(`${apiOrigin}/api/**`,route=>{
     const url=route.request().url();
     if(url.includes('/processed-observations'))return route.fulfill({json:{observations:dates.map((date,index)=>({observationId:`G${index}-ASF`,granuleId:`G${index}-ASF`,acquisitionDate:date,variables:[{name:'HVHV',sourceVariable:'HVHV',frequency:'frequencyA',rasterUrl:`/mock/${index}.tif`,raster:{units:'1',calibration:'gamma0',boundsWgs84:[86,25,87,26],width:364,height:480}}]}))}});
     if(url.includes('/preview/'))return route.fulfill({body:png,contentType:'image/png',headers:{'Access-Control-Expose-Headers':'X-Raster-Bounds-WGS84, X-Raster-Legend','X-Raster-Bounds-WGS84':'[86,25,87,26]','X-Raster-Legend':JSON.stringify({palette:'turbo',stops:['#000','#fff'],ticks:[.002,.09],minimum:.002,maximum:.09,normalizationScale:.01})}});

@@ -1,221 +1,147 @@
 {
- "slug": "pakistan-tarbela-2026",
- "title": "Tarbela Reservoir filling",
- "location": "Tarbela Dam, Khyber Pakhtunkhwa, Pakistan",
- "changeType": "Reservoir filling",
- "headline": "How much did Tarbela's lake grow as monsoon and snowmelt water arrived?",
- "event": "WAPDA figures reported by Dawn show Tarbela rising from 1,504 ft on 16 July to 1,537 ft on 31 July 2026; the 30 August flood bulletin lists it at its 1,550 ft maximum conservation level.",
- "references": [
-  {
-   "title": "Dawn: Tarbela level rose from 1,504 ft to 1,537 ft (1 Aug 2026)",
-   "url": "https://www.dawn.com/news/2019823"
-  },
-  {
-   "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
-   "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
-  }
- ],
- "polygon": {
-  "type": "Feature",
-  "geometry": {
-   "type": "Polygon",
-   "coordinates": [
-    [
-     [
-      72.55,
-      34
-     ],
-     [
-      72.95,
-      34
-     ],
-     [
-      72.95,
-      34.4
-     ],
-     [
-      72.55,
-      34.4
-     ],
-     [
-      72.55,
-      34
-     ]
-    ]
-   ]
-  },
-  "properties": {
-   "name": "Tarbela Reservoir filling"
-  }
- },
- "areaKm2": 1636.206,
- "threshold": {
-  "valueDb": -13.0,
-  "method": "-13 dB on the HH channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (wind-roughened reservoir water is brighter than the default -18 dB). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
-  "speckleFilter": "5x5 boxcar mean in linear power"
- },
- "thresholdReason": "-13 dB on the HH channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (wind-roughened reservoir water is brighter than the default -18 dB). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
- "observations": [
-  {
-   "key": "before",
-   "label": "Early summer",
-   "granule": "G4243410607-ASF",
-   "id": "G4243410607-ASF",
-   "granuleId": "NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001",
-   "date": "2026-06-25T14:03:09.000Z",
-   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001.h5",
-   "maturity": "PROVISIONAL",
-   "bytesRead": 63963137,
-   "fileSizeMb": 7044.345962524414,
-   "geographicBounds": [
-    72.53320425005069,
-    33.98779729439411,
-    72.96877746185946,
-    34.412286489220236
-   ],
-   "image": "before.png",
-   "measurement": "HHHH",
-   "frequency": "frequencyA",
-   "track": "164",
-   "frame": "71",
-   "pass": "Descending",
-   "validPixelCount": 14424850
-  },
-  {
-   "key": "after",
-   "label": "Reservoir full",
-   "granule": "G4281806562-ASF",
-   "id": "G4281806562-ASF",
-   "granuleId": "NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001",
-   "date": "2026-08-12T14:03:07.000Z",
-   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001.h5",
-   "maturity": "PROVISIONAL",
-   "bytesRead": 66060289,
-   "fileSizeMb": 6852.036270141602,
-   "geographicBounds": [
-    72.53320425005069,
-    33.98779729439411,
-    72.96877746185946,
-    34.412286489220236
-   ],
-   "image": "after.png",
-   "measurement": "HHHH",
-   "frequency": "frequencyA",
-   "track": "164",
-   "frame": "71",
-   "pass": "Descending",
-   "validPixelCount": 14400780
-  }
- ],
- "pairs": [
-  {
-   "from": "before",
-   "to": "after",
-   "water": {
-    "measurement": "HHHH",
-    "thresholdDb": -13.0,
-    "thresholdMethod": "-13 dB on the HH channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (wind-roughened reservoir water is brighter than the default -18 dB). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
-    "speckleFilter": "5x5 boxcar mean in linear power",
-    "pixelAreaKm2": 0.0001,
-    "validAreaKm2": 1438.2233,
-    "waterBeforeKm2": 166.3865,
-    "waterAfterKm2": 171.8493,
-    "newWaterKm2": 31.922600000000003,
-    "recededWaterKm2": 26.4598,
-    "stableWaterKm2": 139.9267,
-    "netWaterChangeKm2": 5.462799999999987,
-    "classes": {
-     "0": "No data",
-     "1": "Land on both dates",
-     "2": "Water on both dates",
-     "3": "New water (candidate flooding)",
-     "4": "Water receded"
+  "kind": "sequence",
+  "slug": "pakistan-tarbela-2026",
+  "title": "Tarbela: three radar views across the season",
+  "location": "Tarbela Reservoir, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Tarbela Reservoir, Pakistan across 3 real radar observations",
+  "introduction": "Three compatible NISAR frequency-A HHHH observations show the reservoir landscape on 25 June, 19 July and 12 August 2026. The saved calibrated August dB raster is restored to linear power before common-grid resampling, so all three frames use the same processing order.",
+  "conclusion": "Compare the shoreline and neighboring terrain through the actual acquisition dates. Radar response does not measure stored water volume or establish a flood. Wind, vegetation, roughness and geometry can influence brightness.",
+  "references": [
+    {
+      "title": "Dawn: Tarbela level rose from 1,504 ft to 1,537 ft (1 Aug 2026)",
+      "url": "https://www.dawn.com/news/2019823"
     },
-    "colors": {
-     "2": "#2563eb",
-     "3": "#ef4444",
-     "4": "#facc15"
-    },
-    "geographicBounds": [
-     72.53320425005069,
-     33.98779729439411,
-     72.96877746185946,
-     34.412286489220236
-    ],
-    "baseline": "NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001",
-    "comparison": "NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001",
-    "baselineDate": "2026-06-25T14:03:09.000000000",
-    "comparisonDate": "2026-08-12T14:03:07.000000000",
-    "note": "Candidate open water is radar-dark surface below the threshold. Wind-roughened water, flooded vegetation (which can appear bright in L-band HH), radar shadow and very smooth dry surfaces can cause errors.",
-    "reference": {
-     "dataset": "JRC Global Surface Water v1.4 occurrence (1984-2021, Landsat)",
-     "urls": [
-      "https://storage.googleapis.com/global-surface-water/downloads2021/occurrence/occurrence_70E_40Nv1_4_2021.tif"
-     ],
-     "referenceWaterRule": "water in at least 50% of valid Landsat observations 1984-2021",
-     "comparedAreaKm2": 1438.2233,
-     "beforeAgreement": {
-      "truePositive": 1287478,
-      "falsePositive": 376387,
-      "falseNegative": 175771,
-      "trueNegative": 12542597,
-      "precision": 0.7737875368494439,
-      "recall": 0.8798762206569081,
-      "iou": 0.6998547538752231,
-      "overallAgreement": 0.961608326050621
-     },
-     "afterAgreement": {
-      "truePositive": 1441168,
-      "falsePositive": 277325,
-      "falseNegative": 22081,
-      "trueNegative": 12641659,
-      "precision": 0.8386231424858873,
-      "recall": 0.9849096086858764,
-      "iou": 0.8279843316055508,
-      "overallAgreement": 0.9791822312988533
-     },
-     "permanentWaterDetectedBefore": 0.9704909214688142,
-     "newWaterOutsideUsualWaterShare": 0.5025655804978292,
-     "note": "Long-term reference, not a same-day flood map. It checks that normally wet river channels are detected and shows how much new water lies outside them."
+    {
+      "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
+      "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
     }
-   },
-   "difference": {
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-25T14:03:09.000Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2026-06-25: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4243410607-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "add2014789e37679a0686e553b5487869ac27a193913d81a1e2612f1b942a0cc",
+      "imageSha256": "f2b598edad26817236e23d5fa68d7ee51a16b12ffbd7b1e77524b7e9a4f75e1c",
+      "meanDb": -8.2158842086792,
+      "medianDb": -7.8355913162231445,
+      "validPixelCount": 1603449,
+      "validFraction": 0.8188800367703386
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-19T14:03:08.000Z",
+      "image": "frame-2.png",
+      "label": "Intermediate observation",
+      "caption": "2026-07-19: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4255934283-ASF",
+      "productId": "NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "cb7bd5eee53abd1dd179974c9e204e8acfbc5592999a50b6f49686397b2f31c4",
+      "imageSha256": "39cafd717c6f7fbfa07068b29e8abef04fd62c7f7d0a253df13b2cc16c7a62fd",
+      "meanDb": -9.031379699707031,
+      "medianDb": -8.487585067749023,
+      "validPixelCount": 1603030,
+      "validFraction": 0.8186660538276901,
+      "changeFromPrevious": {
+        "meanDb": -0.815894603729248,
+        "medianDb": -0.6928863525390625,
+        "validPixelCount": 1602753
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-12T14:03:07.000Z",
+      "image": "frame-3.png",
+      "label": "Final observation",
+      "caption": "2026-08-12: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4281806562-ASF",
+      "productId": "NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "ec67c63e205e57da22a4136756fa3268f73d6b81110ae670f1e39468e7e82adf",
+      "imageSha256": "fc4504f27546ac5327cbf20a96f1201f32d9fd547c962588d60a67a765084855",
+      "meanDb": -7.4655585289001465,
+      "medianDb": -6.893022537231445,
+      "validPixelCount": 1601272,
+      "validFraction": 0.8177682447270314,
+      "changeFromPrevious": {
+        "meanDb": 1.5619443655014038,
+        "medianDb": 1.4236156940460205,
+        "validPixelCount": 1600492
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            72.55,
+            34
+          ],
+          [
+            72.95,
+            34
+          ],
+          [
+            72.95,
+            34.4
+          ],
+          [
+            72.55,
+            34.4
+          ],
+          [
+            72.55,
+            34
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Tarbela Reservoir filling"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
     "units": "dB",
-    "measurement": "HHHH",
-    "validPixelCount": 14398205,
-    "meanDifference": 0.6658755540847778,
-    "medianDifference": 0.6312055587768555,
-    "standardDeviation": 3.2551047801971436,
-    "minimumDifference": -43.86369323730469,
-    "maximumDifference": 35.61076354980469,
-    "thresholdDb": 3,
-    "aboveThresholdPixelCount": 4733760,
-    "aboveThresholdPercent": 32.87743159650804,
-    "geographicBounds": [
-     72.53320425005069,
-     33.98779729439411,
-     72.96877746185946,
-     34.412286489220236
-    ],
-    "displayRange": [
-     -6,
-     6
-    ],
-    "warning": "Backscatter change is a measured radar-response difference, not a confirmed flood, deforestation event or ground displacement. Independent interpretation and validation are still required."
-   },
-   "waterImage": "water_before_to_after.png",
-   "differenceImage": "difference_before_to_after.png",
-   "waterRaster": "water_before_to_after.tif",
-   "differenceRaster": "difference_before_to_after.tif"
-  }
- ],
- "createdUtc": "2026-11-14T23:02:47Z",
- "outputSha256": {
-  "after.png": "3219d109f94b2084a02275ac86f1162f9c6a2e785926382f6dfcde3d3fda6233",
-  "before.png": "4a3ca619ae539ddc6834b2819f3d12d7b61178df727e8db7a553bee464e1c3a5",
-  "difference_before_to_after.png": "eb237ae6caea2f3e0da31767853bc598a108adb270e1d530673d6a2535666fae",
-  "difference_before_to_after.tif": "fdb34ef0df19fd45a603917174b26a2d6f1dd0ca4a014d040c4d81a411dfaa2a",
-  "water_before_to_after.png": "94b47b7a01ba1175612fe77f62b08410bc78609e2f52dce57dfbe9a424cd857b",
-  "water_before_to_after.tif": "a625bba64f905f36611c1220fcc20a88dd66ff96cbc16008e98288310bd42761"
- }
+    "grid": {
+      "width": 1284,
+      "height": 1525,
+      "crs": "EPSG:32642",
+      "transform": [
+        29.99221183800623,
+        0.0,
+        826370.0,
+        0.0,
+        -29.98688524590164,
+        3813580.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
 }

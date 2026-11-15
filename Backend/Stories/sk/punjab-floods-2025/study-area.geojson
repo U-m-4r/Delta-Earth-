@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "properties": {
+    "owner": "sk",
+    "name": "Lower Chenab near Multan, Punjab, Pakistan",
+    "scope": "Focused subregion, not the full national event"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          71.25,
+          29.8
+        ],
+        [
+          71.55,
+          29.8
+        ],
+        [
+          71.55,
+          30.05
+        ],
+        [
+          71.25,
+          30.05
+        ],
+        [
+          71.25,
+          29.8
+        ]
+      ]
+    ]
+  }
+}

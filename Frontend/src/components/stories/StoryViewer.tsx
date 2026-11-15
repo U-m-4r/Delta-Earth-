@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { PointerEvent } from 'react';
+import type { CSSProperties, PointerEvent } from 'react';
 import { AcquisitionTimeline } from '../timeline/AcquisitionTimeline';
 import { useTimelineFrames } from '../timeline/useTimelineFrames';
 import type { StoryDefinition } from './storyDefinition';
@@ -16,19 +16,35 @@ type Preview = Frame & { imageUrl: string; width: number; height: number; baseli
 const keyOf = (frame: Frame) => frame.key;
 async function decodeImage(url: string, signal: AbortSignal) {
   if (!url) throw new Error('Observation unavailable: NAN');
-  let response: Response;
-  try { response = await fetch(url, { signal, cache: 'force-cache' }); }
-  catch (error) {
-    if (signal.aborted) throw error;
-    throw new Error('This observation image could not be loaded. The previous acquisition remains visible.');
+  for (let attempt = 0; attempt < 3; attempt++) {
+    let imageUrl: string | undefined;
+    let retryable = true;
+    try {
+      signal.throwIfAborted();
+      const response = await fetch(url, { signal, cache: attempt ? 'reload' : 'force-cache' });
+      if (!response.ok) {
+        retryable = response.status >= 500 || response.status === 408 || response.status === 429;
+        throw new Error(`Image request failed (HTTP ${response.status}).`);
+      }
+      if (!response.headers.get('content-type')?.startsWith('image/')) throw new Error('Image response was not an image.');
+      imageUrl = URL.createObjectURL(await response.blob());
+      const image = new Image(); image.src = imageUrl; await image.decode();
+      signal.throwIfAborted();
+      return { imageUrl, width: image.naturalWidth, height: image.naturalHeight };
+    } catch (error) {
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
+      if (signal.aborted) throw new DOMException('Superseded acquisition', 'AbortError');
+      if (!retryable || attempt === 2) {
+        throw new Error('This observation image could not be loaded. The previous acquisition remains visible. ' + (error instanceof Error ? error.message : 'Check the local image server.'));
+      }
+      await new Promise<void>((resolve, reject) => {
+        const timer = window.setTimeout(() => { signal.removeEventListener('abort', abort); resolve(); }, 200 * (attempt + 1));
+        const abort = () => { window.clearTimeout(timer); reject(new DOMException('Superseded acquisition', 'AbortError')); };
+        signal.addEventListener('abort', abort, { once: true });
+      });
+    }
   }
-  if (!response.ok) throw new Error('This observation image could not be loaded. The previous acquisition remains visible.');
-  const imageUrl = URL.createObjectURL(await response.blob());
-  try {
-    const image = new Image(); image.src = imageUrl; await image.decode();
-    if (signal.aborted) throw new DOMException('Superseded acquisition', 'AbortError');
-    return { imageUrl, width: image.naturalWidth, height: image.naturalHeight };
-  } catch (error) { URL.revokeObjectURL(imageUrl); throw error; }
+  throw new Error('Observation image unavailable.');
 }
 
 export function StoryViewer({ story }: { story: StoryDefinition }) {
@@ -53,7 +69,7 @@ export function StoryViewer({ story }: { story: StoryDefinition }) {
     const effectiveMode = (mode === 'changes' && !chapter.changeImage && !pair) || (mode === 'water' && !pair) ? 'observation' : mode;
     const image = effectiveMode === 'changes' ? chapter.changeImage ?? (pair ? `${root}/${pair.differenceImage}` : '')
       : effectiveMode === 'water' ? (pair ? `${root}/${pair.waterImage}` : '') : chapter.image;
-    return { key: `${story.slug}/${chapter.id}/${effectiveMode}/${pairIndex}`, index, mode: effectiveMode,
+    return { key: `${story.slug}/${chapter.id}/${effectiveMode}/${pairIndex}/${image}/${baseline?.image ?? ''}`, index, mode: effectiveMode,
       image: chapter.available ? image : '', baseline: baseline?.image ?? '', pairIndex };
   }), [story, mode, pairChoice]);
   const loader = useCallback(async (frame: Frame, signal: AbortSignal): Promise<Preview> => {
@@ -61,11 +77,13 @@ export function StoryViewer({ story }: { story: StoryDefinition }) {
     try {
       let baselineUrl: string | undefined;
       if (frame.mode === 'compare') {
-        let baseline = baselineImages.current.get(frame.baseline);
+        const cache = baselineImages.current;
+        let baseline = cache.get(frame.baseline);
         if (!baseline) {
           baseline = decodeImage(frame.baseline, baselineController.current.signal);
-          baselineImages.current.set(frame.baseline, baseline);
-          void baseline.catch(() => baselineImages.current.delete(frame.baseline));
+          cache.set(frame.baseline, baseline);
+          const pending = baseline;
+          void pending.catch(() => { if (cache.get(frame.baseline) === pending) cache.delete(frame.baseline); });
         }
         baselineUrl = (await baseline).imageUrl;
         if (signal.aborted) throw new DOMException('Superseded acquisition', 'AbortError');
@@ -76,9 +94,17 @@ export function StoryViewer({ story }: { story: StoryDefinition }) {
   const { displayed, incoming, transitionStarted, loading, error, retry } = useTimelineFrames({
     frames, index: cursor, version: `${story.slug}/${mode}/${pairChoice}`, loader, keyOf,
   });
-  useEffect(() => () => { baselineController.current.abort(); baselineImages.current.forEach(promise => {
-    void promise.then(image => URL.revokeObjectURL(image.imageUrl)).catch(() => {});
-  }); }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    const cache = new Map<string, Promise<{ imageUrl: string; width: number; height: number }>>();
+    baselineController.current = controller;
+    baselineImages.current = cache;
+    return () => {
+      controller.abort();
+      cache.forEach(promise => { void promise.then(image => URL.revokeObjectURL(image.imageUrl)).catch(() => {}); });
+      cache.clear();
+    };
+  }, []);
   useEffect(() => { pixelRequest.current += 1; setPixel(story.isBhagalpur
     ? 'Click the image to inspect radar values. Drag to pan.' : 'Drag to pan. Zoom and comparison views stay synchronized.'); }, [displayed?.key, story.isBhagalpur]);
   if (!story.chapters.length) return <p role="alert">No observations are available: NAN</p>;
@@ -126,7 +152,7 @@ export function StoryViewer({ story }: { story: StoryDefinition }) {
       {!url && <span className="flood-map-empty">{loading ? 'Preparing local observation…' : 'NAN'}</span>}
     </figure>;
   }
-  return <article className="flood-documentary" data-story={story.slug}>
+  return <article className="flood-documentary" data-story={story.slug} style={{ '--story-raster-aspect': `${width} / ${height}` } as CSSProperties}>
     <div className="flood-intro"><span className="section-kicker">{story.kicker}</span><h2>{story.introTitle}{story.introEmphasis && <><br /><em>{story.introEmphasis}</em></>}</h2><p>{story.introduction}</p><span>{story.summary}</span></div>
     <section className="flood-viewer" aria-label="Interactive story">
       <div className="flood-evidence">

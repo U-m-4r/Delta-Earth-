@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "verifiedHttpAssets": 18,
+  "results": [
+    {
+      "origin": "http://localhost:5173",
+      "slug": "assam-brahmaputra-2026",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://localhost:5173",
+      "slug": "pakistan-tarbela-2026",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://localhost:5173",
+      "slug": "punjab-floods-2025",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://localhost:5173",
+      "slug": "pakistan-floods-2022",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://localhost:5173",
+      "slug": "nepal-glacier-flood-2026",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://127.0.0.1:5173",
+      "slug": "assam-brahmaputra-2026",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://127.0.0.1:5173",
+      "slug": "pakistan-tarbela-2026",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://127.0.0.1:5173",
+      "slug": "punjab-floods-2025",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://127.0.0.1:5173",
+      "slug": "pakistan-floods-2022",
+      "cycles": 3,
+      "status": "passed"
+    },
+    {
+      "origin": "http://127.0.0.1:5173",
+      "slug": "nepal-glacier-flood-2026",
+      "cycles": 3,
+      "status": "passed"
+    }
+  ],
+  "automatic503Recovery": true,
+  "backgroundIdleRecovery": true,
+  "strictLifecycleComparison": true,
+  "errors": []
+}
