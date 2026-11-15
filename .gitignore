@@ -17,6 +17,10 @@ case-study/
 data/granules/
 data/study_areas/
 data/manifests/
+data/harmony_jobs/
+data/retrieval_sessions/
+data/studies/
+data/raster_registry.json
 !data/.gitkeep
 *.h5
 *.nc
