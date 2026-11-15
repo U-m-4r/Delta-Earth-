@@ -95,5 +95,7 @@ async def build(location):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('location', choices=['bangalore', 'jeddah'])
+    story_root = Path(__file__).resolve().parents[1] / 'Stories' / 'umar'
+    parser.add_argument('location', choices=sorted(path.name for path in story_root.iterdir()
+                                                  if (path / 'study-area.geojson').is_file()))
     asyncio.run(build(parser.parse_args().location))

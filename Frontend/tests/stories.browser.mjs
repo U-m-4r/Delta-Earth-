@@ -30,7 +30,11 @@ try {
   await page.getByRole('button', { name:'Stories',exact:true }).click();
   await page.locator('.story-card').first().waitFor();
   const catalogue = await (await page.request.get('http://localhost:8787/api/stories')).json();
-  assert.equal(catalogue.length,7);
+  for (const slug of ['bhagalpur-flood-2026', 'bangalore-sequence-2026', 'jeddah-sequence-2026',
+    'po-delta-sequence-2026', 'senegal-river-sequence-2026', 'pakistan-indus-2026',
+    'pakistan-manchar-2026', 'pakistan-tarbela-2026', 'assam-brahmaputra-2026']) {
+    assert.ok(catalogue.some(entry => entry.slug === slug), `Missing story: ${slug}`);
+  }
   for (const entry of catalogue) {
     const raw = await (await page.request.get(`http://localhost:8787/api/stories/${entry.slug}`)).json();
     await page.locator('.story-card').filter({hasText:entry.title}).click();

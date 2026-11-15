@@ -1,9 +1,11 @@
 # Umar's location stories
 
-These location folders contain story copy, study polygons, original NASA browse images and reproducible acquisition evidence. Bangalore and Jeddah are now integrated into the browser story catalog as five-date observation sequences, alongside the existing water-change stories.
+These location folders contain story copy, study polygons, original NASA browse images and reproducible acquisition evidence. Bangalore, Jeddah, Italy's Po Delta and the Senegal River near Podor are integrated into the browser story catalog as five-date observation sequences, alongside the existing water-change stories.
 
 - [Bangalore: lake corridor](bangalore/story.md)
 - [Jeddah: drainage landscape](jeddah/story.md)
+- [Europe — Po Delta, Italy](po-delta/story.md)
+- [Africa — Senegal River near Podor](senegal-river/story.md)
 
 `discovery.json` records the actual catalog response and candidate pairs. `assets.json` records downloaded full-scene browse images. Browse images provide context; quantitative analysis uses the individual extracted GeoTIFFs. The live API check records its steps in each location's `pipeline-check.json`. Successful change exports add `change-statistics.json`, `change.png` and `comparison.png`.
 
