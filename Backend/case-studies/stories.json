@@ -1,0 +1,66 @@
+[
+ {
+  "slug": "pakistan-indus-2026",
+  "title": "Indus River flood near Sukkur",
+  "location": "Sukkur, Sindh, Pakistan",
+  "changeType": "River flooding",
+  "channel": "HVHV",
+  "threshold": -22.25,
+  "thresholdReason": "-22.25 dB on the HV channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (HH could not separate the turbulent river from dry land). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
+  "headline": "Did the Indus spill across its floodplain during the 2026 monsoon flood?",
+  "floodplainBufferM": 5000,
+  "event": "Pakistan's Flood Forecasting Division reported the Indus at medium flood level at the Guddu and Sukkur barrages at the end of July 2026; by 30 August Sukkur had receded to low flood.",
+  "ring": [[68.70,27.45],[69.20,27.45],[69.20,27.75],[68.70,27.75],[68.70,27.45]],
+  "observations": [
+   {"key": "before", "label": "Before the flood", "granule": "G4249953107-ASF"},
+   {"key": "flood", "label": "Flood season", "granule": "G4260316008-ASF"},
+   {"key": "later", "label": "Falling water", "granule": "G4284558138-ASF"},
+   {"key": "after", "label": "After the monsoon", "granule": "G4371789260-ASF"}
+  ],
+  "pairs": [["before","flood"],["flood","after"]],
+  "references": [
+   {"title": "Dawn: Parts of Punjab, Sindh face urban flooding risk (1 Aug 2026)", "url": "https://www.dawn.com/news/2019823"},
+   {"title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026", "url": "https://ffd.pmd.gov.pk/bulletin/89/download"}
+  ]
+ },
+ {
+  "slug": "assam-brahmaputra-2026",
+  "title": "Brahmaputra flood around Majuli",
+  "location": "Majuli and Jorhat, Assam, India",
+  "changeType": "River flooding",
+  "headline": "How far did the July 2026 Upper Assam flood spread around Majuli?",
+  "event": "Assam University's 2026 flood report describes the July 2026 Upper Assam floods (about 2.12 lakh people displaced) and a 20 July embankment breach in Jorhat that flooded villages and cut ferry links to Majuli.",
+  "ring": [[94.00,26.75],[94.45,26.75],[94.45,27.10],[94.00,27.10],[94.00,26.75]],
+  "observations": [
+   {"key": "before", "label": "Before the flood", "granule": "G4250154757-ASF"},
+   {"key": "flood", "label": "Flood peak", "granule": "G4260008113-ASF"},
+   {"key": "later", "label": "Late monsoon", "granule": "G4284391494-ASF"},
+   {"key": "after", "label": "After the monsoon", "granule": "G4371508431-ASF"}
+  ],
+  "pairs": [["before","flood"],["flood","after"]],
+  "references": [
+   {"title": "Assam University: Report on the 2026 Assam floods", "url": "https://www.aus.ac.in/wp-content/uploads/2026/08/Report_Flood_2026_Assam-University.pdf"},
+   {"title": "Sentinel Assam: Brahmaputra erosion puts lower Majuli at risk", "url": "https://www.sentinelassam.com/topheadlines/brahmaputra-erosion-puts-lower-majuli-at-risk-locals-slam-official-negligence"}
+  ]
+ },
+ {
+  "slug": "pakistan-tarbela-2026",
+  "title": "Tarbela Reservoir filling",
+  "location": "Tarbela Dam, Khyber Pakhtunkhwa, Pakistan",
+  "changeType": "Reservoir filling",
+  "threshold": -13,
+  "thresholdReason": "-13 dB on the HH channel, calibrated so that it best separates JRC permanent water from never-flooded land in this area (wind-roughened reservoir water is brighter than the default -18 dB). Because JRC was used to calibrate, the JRC agreement shown is not an independent check.",
+  "headline": "How much did Tarbela's lake grow as monsoon and snowmelt water arrived?",
+  "event": "WAPDA figures reported by Dawn show Tarbela rising from 1,504 ft on 16 July to 1,537 ft on 31 July 2026; the 30 August flood bulletin lists it at its 1,550 ft maximum conservation level.",
+  "ring": [[72.55,34.00],[72.95,34.00],[72.95,34.40],[72.55,34.40],[72.55,34.00]],
+  "observations": [
+   {"key": "before", "label": "Early summer", "granule": "G4243410607-ASF"},
+   {"key": "after", "label": "Reservoir full", "granule": "G4281806562-ASF"}
+  ],
+  "pairs": [["before","after"]],
+  "references": [
+   {"title": "Dawn: Tarbela level rose from 1,504 ft to 1,537 ft (1 Aug 2026)", "url": "https://www.dawn.com/news/2019823"},
+   {"title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026", "url": "https://ffd.pmd.gov.pk/bulletin/89/download"}
+  ]
+ }
+]

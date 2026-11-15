@@ -21,7 +21,7 @@ export async function submitStudyArea(geoJson: GeoJsonFeature): Promise<Submissi
     const dateCount = result.acquisitionDates?.length ?? 0;
     return {
       ok: true,
-      message: `Analysis ready: ${observationCount} observation${observationCount === 1 ? '' : 's'} across ${dateCount} acquisition date${dateCount === 1 ? '' : 's'}.`,
+      message: `Analysis ready: ${observationCount} observation${observationCount === 1 ? '' : 's'} across ${dateCount} acquisition date${dateCount === 1 ? '' : 's'}. Open Data or Visualizations next.`,
       payload,
     };
   } catch {

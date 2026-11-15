@@ -1,0 +1,216 @@
+{
+ "slug": "pakistan-manchar-2026",
+ "title": "Manchar Lake in the monsoon",
+ "location": "Jamshoro district, Sindh, Pakistan",
+ "changeType": "Lake and wetland change",
+ "headline": "Pakistan's largest freshwater lake expands and shrinks with the monsoon. What did NISAR see in 2026?",
+ "event": "Manchar Lake is fed by monsoon runoff and Indus water through canals; its area changes from season to season. No specific 2026 flood event is claimed here.",
+ "references": [
+  {
+   "title": "JRC Global Surface Water Explorer",
+   "url": "https://global-surface-water.appspot.com/"
+  }
+ ],
+ "polygon": {
+  "type": "Feature",
+  "geometry": {
+   "type": "Polygon",
+   "coordinates": [
+    [
+     [
+      67.6,
+      26.3
+     ],
+     [
+      67.85,
+      26.3
+     ],
+     [
+      67.85,
+      26.5
+     ],
+     [
+      67.6,
+      26.5
+     ],
+     [
+      67.6,
+      26.3
+     ]
+    ]
+   ]
+  },
+  "properties": {
+   "name": "Manchar Lake in the monsoon"
+  }
+ },
+ "areaKm2": 553.744,
+ "observations": [
+  {
+   "key": "before",
+   "label": "Early monsoon",
+   "granule": "G4249953107-ASF",
+   "id": "G4249953107-ASF",
+   "granuleId": "NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001",
+   "date": "2026-06-17T00:45:23.000Z",
+   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001/NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001.h5",
+   "maturity": "PROVISIONAL",
+   "bytesRead": 20971521,
+   "fileSizeMb": 6536.013325691223,
+   "geographicBounds": [
+    67.59757925496102,
+    26.297704714882588,
+    67.85200528321624,
+    26.50224962689855
+   ],
+   "image": "before.png",
+   "measurement": "HHHH",
+   "frequency": "frequencyA",
+   "track": "41",
+   "frame": "15",
+   "pass": "Ascending",
+   "validPixelCount": 2107033
+  },
+  {
+   "key": "after",
+   "label": "Late monsoon",
+   "granule": "G4310040375-ASF",
+   "id": "G4310040375-ASF",
+   "granuleId": "NISAR_L2_PR_GCOV_030_041_A_015_4005_DHDH_A_20260909T004519_20260909T004554_P05023_N_F_J_001",
+   "date": "2026-09-09T00:45:19.000Z",
+   "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_030_041_A_015_4005_DHDH_A_20260909T004519_20260909T004554_P05023_N_F_J_001/NISAR_L2_PR_GCOV_030_041_A_015_4005_DHDH_A_20260909T004519_20260909T004554_P05023_N_F_J_001.h5",
+   "maturity": "PROVISIONAL",
+   "bytesRead": 20971521,
+   "fileSizeMb": 6535.789344787598,
+   "geographicBounds": [
+    67.59757925496102,
+    26.297704714882588,
+    67.85200528321624,
+    26.50224962689855
+   ],
+   "image": "after.png",
+   "measurement": "HHHH",
+   "frequency": "frequencyA",
+   "track": "41",
+   "frame": "15",
+   "pass": "Ascending",
+   "validPixelCount": 2108504
+  }
+ ],
+ "pairs": [
+  {
+   "from": "before",
+   "to": "after",
+   "water": {
+    "measurement": "HHHH",
+    "thresholdDb": -18.0,
+    "thresholdMethod": "Fixed -18 dB fallback (histogram split -13.4 dB was outside -24 to -14 dB)",
+    "speckleFilter": "5x5 boxcar mean in linear power",
+    "pixelAreaKm2": 0.0001,
+    "validAreaKm2": 210.7033,
+    "waterBeforeKm2": 22.8179,
+    "waterAfterKm2": 27.657,
+    "newWaterKm2": 10.507,
+    "recededWaterKm2": 5.6679,
+    "stableWaterKm2": 17.150000000000002,
+    "netWaterChangeKm2": 4.839099999999998,
+    "classes": {
+     "0": "No data",
+     "1": "Land on both dates",
+     "2": "Water on both dates",
+     "3": "New water (candidate flooding)",
+     "4": "Water receded"
+    },
+    "colors": {
+     "2": "#2563eb",
+     "3": "#ef4444",
+     "4": "#facc15"
+    },
+    "geographicBounds": [
+     67.59757925496102,
+     26.297704714882588,
+     67.85200528321624,
+     26.50224962689855
+    ],
+    "baseline": "NISAR_L2_PR_GCOV_023_041_A_015_4005_DHDH_A_20260617T004523_20260617T004558_P05023_F_F_J_001",
+    "comparison": "NISAR_L2_PR_GCOV_030_041_A_015_4005_DHDH_A_20260909T004519_20260909T004554_P05023_N_F_J_001",
+    "baselineDate": "2026-06-17T00:45:23.000000000",
+    "comparisonDate": "2026-09-09T00:45:19.000000000",
+    "note": "Candidate open water is radar-dark surface below the threshold. Wind-roughened water, flooded vegetation (which can appear bright in L-band HH), radar shadow and very smooth dry surfaces can cause errors.",
+    "reference": {
+     "dataset": "JRC Global Surface Water v1.4 occurrence (1984-2021, Landsat)",
+     "urls": [
+      "https://storage.googleapis.com/global-surface-water/downloads2021/occurrence/occurrence_60E_30Nv1_4_2021.tif"
+     ],
+     "referenceWaterRule": "water in at least 50% of valid Landsat observations 1984-2021",
+     "comparedAreaKm2": 210.7033,
+     "beforeAgreement": {
+      "truePositive": 125424,
+      "falsePositive": 102755,
+      "falseNegative": 120869,
+      "trueNegative": 1757985,
+      "precision": 0.5496737210698618,
+      "recall": 0.5092471162396008,
+      "iou": 0.35933166785084,
+      "overallAgreement": 0.8938678226681784
+     },
+     "afterAgreement": {
+      "truePositive": 166327,
+      "falsePositive": 110243,
+      "falseNegative": 79966,
+      "trueNegative": 1750497,
+      "precision": 0.6013920526449,
+      "recall": 0.6753216697185872,
+      "iou": 0.46650829088787665,
+      "overallAgreement": 0.9097266155774494
+     },
+     "permanentWaterDetectedBefore": 0.9679063360881542,
+     "newWaterOutsideUsualWaterShare": 0.47382697249452743,
+     "note": "Long-term reference, not a same-day flood map. It checks that normally wet river channels are detected and shows how much new water lies outside them."
+    }
+   },
+   "difference": {
+    "units": "dB",
+    "measurement": "HHHH",
+    "validPixelCount": 2107033,
+    "meanDifference": 0.11718177050352097,
+    "medianDifference": 0.09478759765625,
+    "standardDeviation": 3.312415838241577,
+    "minimumDifference": -22.892610549926758,
+    "maximumDifference": 26.929035186767578,
+    "thresholdDb": 3,
+    "aboveThresholdPixelCount": 716397,
+    "aboveThresholdPercent": 34.00027431938655,
+    "geographicBounds": [
+     67.59757925496102,
+     26.297704714882588,
+     67.85200528321624,
+     26.50224962689855
+    ],
+    "displayRange": [
+     -6,
+     6
+    ],
+    "warning": "Backscatter change is a measured radar-response difference, not a confirmed flood, deforestation event or ground displacement. Independent interpretation and validation are still required."
+   },
+   "waterImage": "water_before_to_after.png",
+   "differenceImage": "difference_before_to_after.png",
+   "waterRaster": "water_before_to_after.tif",
+   "differenceRaster": "difference_before_to_after.tif"
+  }
+ ],
+ "threshold": {
+  "valueDb": -18.0,
+  "method": "Fixed -18 dB fallback (histogram split -13.4 dB was outside -24 to -14 dB)",
+  "speckleFilter": "5x5 boxcar mean in linear power"
+ },
+ "createdUtc": "2026-11-14T22:33:39Z",
+ "outputSha256": {
+  "after.png": "21983793a83fe8c7fdb601d44c9c0a9747f19b2f4c2384fb12e2c239c12a38cc",
+  "before.png": "c025f8730af8cbf82720a28ffb417c2d8f13c5dac439066307931443963c04f6",
+  "difference_before_to_after.png": "781fcabb2b3c81b43b059c67467faf6a2ecc8169f9847414c380da9f62953ad5",
+  "difference_before_to_after.tif": "4420ea193871cd57dd9428b4accde6681006c8e8ff905238b1658cbbd9e2e2f0",
+  "water_before_to_after.png": "1977de7a675b2f3a23d5f418338a8a96345aaa1d408ed759d5d8d55033b49b6c",
+  "water_before_to_after.tif": "86b41938b982752596148e0b2d90a9b33ccd76a93cbf32bb315454a6223a636d"
+ }
+}

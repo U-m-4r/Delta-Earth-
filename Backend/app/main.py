@@ -40,7 +40,7 @@ def _cmr_http_error(error: CMRRequestError) -> HTTPException:
         status_code = 502
     return HTTPException(status_code=status_code, detail=str(error))
 
-app = FastAPI(title="Dancing with SAR — NISAR Data API", version="0.1.0")
+app = FastAPI(title="Delta Earth — NISAR Data API", version="0.1.0")
 app.add_middleware(CORSMiddleware, allow_origins=[settings.frontend_origin], allow_credentials=True,
                    allow_methods=["GET", "POST"], allow_headers=["*"])
 
@@ -55,7 +55,7 @@ class ExtractRequest(BaseModel):
 
 @app.get("/api/health")
 async def health():
-    return {"status": "ok", "service": "dancing-with-sar", "collectionId": settings.nisar_gcov_collection}
+    return {"status": "ok", "service": "delta-earth", "collectionId": settings.nisar_gcov_collection}
 
 
 @app.get("/api/nisar/capabilities")

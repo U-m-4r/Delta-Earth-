@@ -7,7 +7,16 @@ __pycache__/
 .pytest_cache/
 Frontend/node_modules/
 Frontend/dist/
+Backend/node_modules/
+Backend/dist/
+Backend/data/
+.local-run/
+_local_preserve/
+LOCAL_FIXES.md
+case-study/
 data/granules/
 data/study_areas/
 data/manifests/
 !data/.gitkeep
+*.h5
+*.nc
