@@ -8,6 +8,7 @@ from rasterio.transform import from_origin
 from pydantic import SecretStr
 
 from app import harmony, main
+from app.geometry import study_id_for_feature
 from app.settings import Settings
 
 
@@ -87,7 +88,9 @@ async def test_retry_reuses_existing_raster_without_submitting_or_downloading(mo
                        dtype="float32", crs="EPSG:4326", transform=from_origin(0, 2, 1, 1),
                        nodata=float("nan")) as dataset:
         dataset.write(np.array([[1, 2], [3, 4]], dtype="float32"), 1)
-    (granule_dir / "metadata.json").write_text(json.dumps({"variables": [{"variable": "HHHH", "jobId": "existing-job"}]}))
+    study_id = study_id_for_feature(feature)
+    (granule_dir / "metadata.json").write_text(json.dumps({"studyArea": f"study_areas/{study_id}.geojson",
+        "variables": [{"variable": "HHHH", "jobId": "existing-job"}]}))
 
     result = await harmony.extract_granule("G123-ASF", feature, ["HHHH"])
 

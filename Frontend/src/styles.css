@@ -35,6 +35,10 @@ button { cursor: pointer; }
 .visual-scroll { padding-left: 34px; }
 .map-analysis-card { background: #0b202c; }
 .analysis-map { min-height: 360px; position: relative; border: 1px solid #315764; border-radius: 6px; overflow: hidden; background: #0c2a37; }
+.analysis-map > svg { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+.analysis-map .raster-preview { position: absolute; z-index: 0; object-fit: fill; opacity: .78; pointer-events: none; }
+.raster-variable-select { display: inline-flex; align-items: center; gap: 7px; color: #b8d6d8; font-size: 12px; }
+.raster-variable-select select { background: #0c2532; color: #d9eeeb; border: 1px solid #315765; padding: 7px; border-radius: 5px; }
 .submit-progress { margin-top: 14px; }
 .submit-progress .prepare-track, .submit-progress-track {
   height: 4px;

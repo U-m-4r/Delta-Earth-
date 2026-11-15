@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { ArrowLeft, ChevronLeft, ChevronRight, CirclePause, CirclePlay, Image, Info, Layers3, SlidersHorizontal, TriangleAlert } from 'lucide-react';
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import type { GeoJsonFeature } from '../../types/geojson';
@@ -20,12 +20,6 @@ function formatDate(value?: string): string {
   return value ? new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : 'Unknown date';
 }
 
-function formatBytes(bytes: number): string {
-  if (bytes < 1024 ** 2) return `${(bytes / 1024).toFixed(0)} KB`;
-  if (bytes < 1024 ** 3) return `${(bytes / 1024 ** 2).toFixed(1)} MB`;
-  return `${(bytes / 1024 ** 3).toFixed(2)} GB`;
-}
-
 function polygonPoints(selection: GeoJsonFeature, bounds?: [number, number, number, number]): string {
   const coordinates = selection.geometry.coordinates[0];
   if (!bounds) return '';
@@ -35,10 +29,27 @@ function polygonPoints(selection: GeoJsonFeature, bounds?: [number, number, numb
   return coordinates.map(([longitude, latitude]) => `${8 + ((longitude - minX) / width) * 84},${92 - ((latitude - minY) / height) * 84}`).join(' ');
 }
 
+function rasterPlacement(bounds: [number, number, number, number] | undefined,
+                         studyBounds: [number, number, number, number] | undefined): CSSProperties {
+  if (!bounds || !studyBounds) return { display: 'none' };
+  const [minX, minY, maxX, maxY] = studyBounds;
+  const width = Math.max(maxX - minX, 0.000001);
+  const height = Math.max(maxY - minY, 0.000001);
+  const [rasterMinX, rasterMinY, rasterMaxX, rasterMaxY] = bounds;
+  return {
+    left: `${8 + ((rasterMinX - minX) / width) * 84}%`,
+    top: `${8 + ((maxY - rasterMaxY) / height) * 84}%`,
+    width: `${Math.max(0, ((rasterMaxX - rasterMinX) / width) * 84)}%`,
+    height: `${Math.max(0, ((rasterMaxY - rasterMinY) / height) * 84)}%`,
+  };
+}
+
 export function VisualizationPage({ selection, analysis, loading, error, rasterClick, onRasterOverlayChange, onBack }: Props) {
-  const acquisitions = useMemo(() => [...(analysis?.acquisitions ?? [])].filter((item) => item.acquiredAt).sort((a, b) => (a.acquiredAt ?? '').localeCompare(b.acquiredAt ?? '')), [analysis]);
-  const observations = analysis?.observations ?? [];
   const [processed, setProcessed] = useState<ProcessedObservation[]>([]);
+  const [processedLoading, setProcessedLoading] = useState(false);
+  const [selectedVariable, setSelectedVariable] = useState('');
+  const [previewError, setPreviewError] = useState<string | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
   const [pixel, setPixel] = useState<Record<string, unknown> | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [comparisonIndex, setComparisonIndex] = useState<number | null>(null);
@@ -47,12 +58,28 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
   const [comparisonStats, setComparisonStats] = useState<Record<string, unknown> | null>(null);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [pollError, setPollError] = useState<string | null>(null);
+  const observations = processed;
+  const acquisitions = useMemo(() => {
+    const grouped = new Map<string, ProcessedObservation[]>();
+    for (const observation of processed) {
+      const key = observation.acquiredAt ?? 'undated';
+      grouped.set(key, [...(grouped.get(key) ?? []), observation]);
+    }
+    return [...grouped.entries()].map(([acquiredAt, items]) => ({
+      id: acquiredAt,
+      acquiredAt: acquiredAt === 'undated' ? undefined : acquiredAt,
+      observationIds: items.map((item) => item.id), mission: 'NISAR',
+      productTypes: [...new Set(items.map((item) => item.productType ?? 'GCOV'))],
+    })).sort((a, b) => (a.acquiredAt ?? '').localeCompare(b.acquiredAt ?? ''));
+  }, [processed]);
 
   useEffect(() => {
     setSelectedIndex(0);
     setComparisonIndex(null);
     setPlaying(false);
     setProcessed([]);
+    setSelectedVariable('');
+    setPreviewError(null);
     setPixel(null);
     setComparisonStats(null);
   }, [analysis?.studyId]);
@@ -67,18 +94,18 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
     if (!studyId) return undefined;
     let cancelled = false;
     const load = async () => {
+      setProcessedLoading(true);
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/studies/${encodeURIComponent(studyId)}/processed-observations`);
-        if (!response.ok) throw new Error(`Processing status request returned HTTP ${response.status}.`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/study-areas/${encodeURIComponent(studyId)}/processed-observations`);
+        if (!response.ok) throw new Error(`Saved raster lookup returned HTTP ${response.status}.`);
         const body = await response.json() as { observations?: ProcessedObservation[] };
         if (!cancelled) { setPollError(null); setProcessed(body.observations ?? []); }
       } catch (pollingError) {
         if (!cancelled) setPollError(pollingError instanceof Error ? pollingError.message : 'Unable to poll processing status.');
-      }
+      } finally { if (!cancelled) setProcessedLoading(false); }
     };
     void load();
-    const timer = window.setInterval(() => void load(), 5000);
-    return () => { cancelled = true; window.clearInterval(timer); };
+    return () => { cancelled = true; };
   }, [analysis?.studyId]);
 
   useEffect(() => {
@@ -94,25 +121,35 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
 
   const selectedAcquisition = acquisitions[selectedIndex];
   const selectedObservation = observations.find((item) => item.id === selectedAcquisition?.observationIds[0]);
-  const selectedProcessed = processed.find((item) => item.id === selectedObservation?.id);
+  const availableVariables = selectedObservation?.variables ?? [];
+  const activeVariable = availableVariables.some((item) => item.name === selectedVariable) ? selectedVariable : availableVariables[0]?.name ?? '';
+  const selectedLayer = availableVariables.find((item) => item.name === activeVariable);
+  const selectedProcessed = useMemo(() => selectedObservation ? { ...selectedObservation, raster: selectedLayer ? {
+    ...selectedLayer.raster, measurement: selectedLayer.name, previewUrl: selectedLayer.previewUrl, url: selectedLayer.rasterUrl,
+  } : selectedObservation.raster } : undefined, [selectedObservation, selectedLayer]);
   const comparisonAcquisition = comparisonIndex === null ? undefined : acquisitions[comparisonIndex];
   const selectedDate = selectedAcquisition?.acquiredAt;
   const comparisonDate = comparisonAcquisition?.acquiredAt;
+  const displayPreviewUrl = layer === 'change' && comparisonIndex !== null && comparisonAcquisition && selectedObservation && activeVariable
+    ? `/api/visualization/${encodeURIComponent(analysis?.studyId ?? '')}/difference/${encodeURIComponent(comparisonAcquisition.observationIds[0])}/${encodeURIComponent(selectedObservation.id)}/${encodeURIComponent(activeVariable)}`
+    : selectedProcessed?.raster?.previewUrl;
   useEffect(() => {
-    if (!selectedProcessed?.raster?.previewUrl || !selectedProcessed.raster.boundsWgs84) {
+    setPreviewError(null);
+    setPreviewLoading(Boolean(selectedProcessed?.raster?.previewUrl));
+    if (!displayPreviewUrl || !selectedProcessed?.raster?.boundsWgs84) {
       onRasterOverlayChange(null);
       return;
     }
     onRasterOverlayChange({
-      url: `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}${selectedProcessed.raster.previewUrl}`,
+      url: `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}${displayPreviewUrl}`,
       boundsWgs84: selectedProcessed.raster.boundsWgs84,
       opacity: layer === 'coverage' ? 0.7 : 0.9,
     });
-  }, [layer, selectedProcessed, onRasterOverlayChange]);
+  }, [layer, selectedProcessed, displayPreviewUrl, onRasterOverlayChange]);
   useEffect(() => {
     if (!rasterClick || !selectedProcessed?.raster || !analysis) return;
     const [longitude, latitude] = rasterClick;
-    const url = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/studies/${analysis.studyId}/observations/${selectedProcessed.id}/pixel?longitude=${longitude}&latitude=${latitude}`;
+    const url = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/studies/${analysis.studyId}/observations/${selectedProcessed.id}/pixel?variable=${encodeURIComponent(activeVariable)}&longitude=${longitude}&latitude=${latitude}`;
     void fetch(url).then((response) => response.ok ? response.json() as Promise<Record<string, unknown>> : null).then((value) => setPixel(value));
   }, [rasterClick, selectedProcessed, analysis]);
   useEffect(() => {
@@ -123,11 +160,11 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
     }
     const baselineObservation = baseline.observationIds[0];
     const currentObservation = selectedAcquisition.observationIds[0];
-    const url = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/studies/${analysis.studyId}/compare?baseline=${encodeURIComponent(baselineObservation)}&current=${encodeURIComponent(currentObservation)}`;
+    const url = `${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/studies/${analysis.studyId}/compare?baseline=${encodeURIComponent(baselineObservation)}&current=${encodeURIComponent(currentObservation)}&variable=${encodeURIComponent(activeVariable)}`;
     let cancelled = false;
     void fetch(url).then((response) => response.ok ? response.json() as Promise<Record<string, unknown>> : null).then((value) => { if (!cancelled) setComparisonStats(value); });
     return () => { cancelled = true; };
-  }, [analysis?.studyId, comparisonIndex, selectedAcquisition, acquisitions]);
+  }, [analysis?.studyId, comparisonIndex, selectedAcquisition, acquisitions, activeVariable]);
   const chartData = acquisitions.map((acquisition) => ({
     date: acquisition.acquiredAt?.slice(0, 10),
     granules: acquisition.observationIds.length,
@@ -139,10 +176,7 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
     return counts;
   }, {});
   const points = polygonPoints(selection, analysis?.area.bbox);
-  const totalDatasetBytes = observations.reduce((total, observation) => total + (observation.sourceMetadata?.granuleSizeMb ?? 0) * 1024 ** 2, 0);
-  const downloadedBytes = processed.reduce((total, observation) => total + (observation.download?.bytes ?? 0), 0);
-  const downloadPercent = totalDatasetBytes > 0 ? Math.min(100, (downloadedBytes / totalDatasetBytes) * 100) : 0;
-  const activeDownloads = processed.some((observation) => observation.processingStatus === 'downloading');
+  const savedRasterCount = processed.reduce((total, observation) => total + (observation.variables?.length ?? 0), 0);
 
   const moveSelection = (direction: -1 | 1) => {
     if (!acquisitions.length) return;
@@ -157,7 +191,7 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
     </header>
     {loading && <div className="visual-warning"><Info size={15} /> Loading complete catalogue coverage…</div>}
     {error && <div className="visual-error"><TriangleAlert size={16} /> {error}</div>}
-    {pollError && <div className="visual-warning"><Info size={15} /> Processing status temporarily unavailable: {pollError}</div>}
+    {pollError && <div className="visual-warning"><Info size={15} /> Saved raster lookup failed: {pollError}</div>}
     <div className="visual-scroll">
       <section className="visual-page-hero">
         <div className="visual-page-icon"><Layers3 size={24} /></div>
@@ -165,24 +199,28 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
       </section>
 
       <section className="visual-card map-analysis-card">
-        <div className="visual-card-heading"><div><span className="section-kicker">Processed satellite raster</span><h2>{selectedDate ? formatDate(selectedDate) : 'No dated acquisition selected'}</h2></div><div className="layer-controls">{(['coverage', 'observation', 'backscatter', 'change'] as Layer[]).map((item) => <button key={item} className={layer === item ? 'filter-chip active' : 'filter-chip'} disabled={item !== 'coverage' && selectedProcessed?.processingStatus !== 'processed'} onClick={() => setLayer(item)}>{item === 'backscatter' ? 'VV Backscatter' : item === 'coverage' ? 'Valid Data Coverage' : item}</button>)}</div></div>
+        <div className="visual-card-heading"><div><span className="section-kicker">Locally saved raster · {activeVariable || 'no layer selected'}</span><h2>{selectedDate ? formatDate(selectedDate) : 'No processed acquisition selected'}</h2></div><div className="layer-controls">{availableVariables.length > 1 && <label className="raster-variable-select">Variable <select value={activeVariable} onChange={(event) => { setSelectedVariable(event.target.value); setPixel(null); }} aria-label="Raster variable">{availableVariables.map((item) => <option key={item.name} value={item.name}>{item.name}</option>)}</select></label>}{(['coverage', 'observation', 'backscatter', 'change'] as Layer[]).map((item) => <button key={item} className={layer === item ? 'filter-chip active' : 'filter-chip'} disabled={(item !== 'coverage' && selectedProcessed?.processingStatus !== 'processed') || (item === 'change' && comparisonIndex === null)} onClick={() => setLayer(item)}>{item === 'backscatter' ? `${activeVariable || 'Raster'} values` : item === 'coverage' ? 'Valid Data Coverage' : item}</button>)}</div></div>
+        {processedLoading && <div className="visual-warning"><Info size={15} /> Loading locally saved rasters…</div>}
+        {!processedLoading && !pollError && processed.length === 0 && <div className="visual-empty">No processed rasters are saved for this study area yet. Run an extraction from NISAR data retrieval first.</div>}
         <div className="analysis-map">
-          <svg viewBox="0 0 100 100" role="img" aria-label="Selected study polygon and processing coverage">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Selected study polygon and processing coverage">
             <defs><pattern id="map-grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="#35616a" strokeWidth=".25" /></pattern></defs>
             <rect width="100" height="100" fill="url(#map-grid)" />
             {points && <polygon points={points} fill={layer === 'coverage' ? '#65d6ca24' : '#6f879018'} stroke="#65d6ca" strokeWidth=".8" />}
             {points && <polyline points={points} fill="none" stroke="#b3eee5" strokeWidth=".25" strokeDasharray="1 1" />}
           </svg>
-          {selectedProcessed?.raster?.previewUrl && <img className="raster-preview" src={`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}${selectedProcessed.raster.previewUrl}`} alt={`Processed ${selectedProcessed.raster.measurement}`} />}
-          <div className="map-overlay-label"><span className="status-live" /> {selectedProcessed?.processingStatus === 'processed' ? `${selectedProcessed.raster?.measurement ?? 'Raster'} · click for pixel value` : `${selectedProcessed?.processingStatus ?? 'processing'} · catalog footprint`}</div>
+          {displayPreviewUrl && <img className="raster-preview" style={rasterPlacement(selectedProcessed?.raster?.boundsWgs84, analysis?.area.bbox)} src={`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}${displayPreviewUrl}`} alt={`${layer === 'change' ? 'Difference' : 'Processed'} ${selectedProcessed?.raster?.measurement ?? activeVariable}`} onLoad={() => setPreviewLoading(false)} onError={() => { setPreviewLoading(false); setPreviewError(layer === 'change' ? 'These rasters cannot be compared on a common grid.' : 'Saved raster preview could not be loaded.'); }} />}
+          <div className="map-overlay-label"><span className="status-live" /> {selectedProcessed?.processingStatus === 'processed' ? `${selectedProcessed.raster?.measurement ?? 'Raster'} · ${formatDate(selectedDate)} · click for pixel value` : 'Choose an acquisition with a saved raster'}</div>
           <div className="map-legend"><span><i className="legend-swatch polygon-swatch" />Study polygon</span><span><i className="legend-swatch nodata-swatch" />No processed pixels</span></div>
         </div>
+        {previewLoading && <div className="visual-warning"><Info size={15} /> Preparing cached raster preview…</div>}
+        {previewError && <div className="visual-error"><TriangleAlert size={16} /> {previewError}</div>}
         <div className="pixel-unavailable"><Image size={16} /><span><strong>{pixel ? `${String(pixel.measurement ?? selectedProcessed?.raster?.measurement ?? 'Pixel measurement')} · ${formatDate(selectedDate)}` : selectedProcessed?.processingStatus === 'processed' ? 'Click the processed raster on the globe to inspect a pixel' : 'Pixel inspection is waiting for processed raster data.'}</strong><small>{pixel ? `${String(pixel.value ?? 'NoData')} · ${String(pixel.longitude)}°, ${String(pixel.latitude)}°${comparisonStats ? ` · Δ ${String(comparisonStats.meanDifference ?? 'N/A')}` : ''}` : selectedProcessed?.processingError ?? 'NoData remains transparent and is never interpreted as zero change.'}</small></span></div>
       </section>
 
       <section className="visual-card timeline-card">
         <div className="visual-card-heading"><div><span className="section-kicker">Temporal observation timeline</span><h2>{acquisitions.length ? `${selectedIndex + 1} of ${acquisitions.length} acquisitions` : 'No acquisitions available'}</h2></div><div className="timeline-actions"><button className="icon-action" disabled={!acquisitions.length} onClick={() => moveSelection(-1)} title="Previous acquisition"><ChevronLeft size={16} /></button><button className="icon-action play-action" disabled={acquisitions.length < 2} onClick={() => setPlaying((value) => !value)} title={playing ? 'Pause playback' : 'Play acquisitions'}>{playing ? <CirclePause size={18} /> : <CirclePlay size={18} />}</button><button className="icon-action" disabled={!acquisitions.length} onClick={() => moveSelection(1)} title="Next acquisition"><ChevronRight size={16} /></button></div></div>
-        {acquisitions.length ? <div className="observation-timeline">{acquisitions.map((acquisition, index) => { const item = processed.find((candidate) => acquisition.observationIds.includes(candidate.id)); const status = item?.processingStatus ?? 'downloaded'; const selectable = status === 'processed'; return <button key={acquisition.id} className={`timeline-observation ${index === selectedIndex ? 'selected' : ''} status-${status}`} disabled={!selectable} onClick={() => { setSelectedIndex(index); setPlaying(false); }} title={`${formatDate(acquisition.acquiredAt)} · ${status}`}><i /><span>{formatDate(acquisition.acquiredAt)}</span><small>{status}</small></button>; })}</div> : <div className="visual-empty">Only actual acquisition dates from NASA CMR appear here.</div>}
+        {acquisitions.length ? <div className="observation-timeline">{acquisitions.map((acquisition, index) => { const item = processed.find((candidate) => acquisition.observationIds.includes(candidate.id)); const status = item?.processingStatus ?? 'missing'; return <button key={acquisition.id} className={`timeline-observation ${index === selectedIndex ? 'selected' : ''} status-${status}`} onClick={() => { setSelectedIndex(index); setPlaying(false); setPixel(null); }} title={`${formatDate(acquisition.acquiredAt)} · ${item?.variables?.length ?? 0} saved variables`}><i /><span>{formatDate(acquisition.acquiredAt)}</span><small>{item?.variables?.length ?? 0} layers</small></button>; })}</div> : <div className="visual-empty">No acquisition dates are available from locally saved raster manifests.</div>}
         <div className="comparison-controls"><span className="section-kicker">Compare dates</span><select value={comparisonIndex ?? ''} onChange={(event) => { setComparisonIndex(event.target.value === '' ? null : Number(event.target.value)); setLayer(event.target.value === '' ? 'observation' : 'change'); }}><option value="">Select a baseline acquisition</option>{acquisitions.map((acquisition, index) => <option key={acquisition.id} value={index} disabled={index === selectedIndex || !acquisition.observationIds.some((id) => processed.some((item) => item.id === id && item.processingStatus === 'processed'))}>{formatDate(acquisition.acquiredAt)}</option>)}</select><span className="comparison-arrow">→</span><strong>{comparisonDate ? formatDate(comparisonDate) : 'Current date'}</strong>{comparisonStats && <small className="comparison-result">mean Δ {String(comparisonStats.meanDifference ?? 'N/A')}</small>}<label>Speed <select value={playbackSpeed} onChange={(event) => setPlaybackSpeed(Number(event.target.value))}><option value={0.5}>0.5×</option><option value={1}>1×</option><option value={2}>2×</option><option value={4}>4×</option></select></label></div>
       </section>
 
@@ -191,18 +229,10 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
         <section className="visual-card"><div className="visual-card-heading"><div><span className="section-kicker">Selected source</span><h2>{selectedObservation?.productShortName ?? selectedObservation?.productType ?? 'No source selected'}</h2></div></div>{selectedObservation ? <dl className="metadata-list"><div><dt>Provider</dt><dd>{selectedObservation.provider}</dd></div><div><dt>Polarization</dt><dd>{selectedObservation.polarizations.join(', ') || 'Not reported'}</dd></div><div><dt>Frequency</dt><dd>{selectedObservation.frequencies.join(', ') || 'Not reported'}</dd></div><div><dt>Maturity</dt><dd>{selectedObservation.processingMaturity ?? 'Unknown'}</dd></div></dl> : <div className="visual-empty">Select a dated acquisition to inspect source metadata.</div>}</section>
       </div>
 
-      <section className="visual-card"><div className="visual-card-heading"><div><span className="section-kicker">Historical record</span><h2>Catalog granules over time</h2></div></div>{chartData.length ? <ResponsiveContainer width="100%" height={220}><LineChart data={chartData} onClick={(event) => { const index = event.activeTooltipIndex; if (typeof index === 'number') setSelectedIndex(index); }}><CartesianGrid stroke="#23414b" strokeDasharray="3 3" /><XAxis dataKey="date" stroke="#719198" tick={{ fontSize: 10 }} /><YAxis allowDecimals={false} stroke="#719198" tick={{ fontSize: 10 }} /><Tooltip contentStyle={{ background: '#0b2431', border: '1px solid #315764', color: '#d9eeeb' }} /><Line type="monotone" dataKey="granules" name="Catalog granules" stroke="#65d6ca" strokeWidth={2} dot={{ fill: '#65d6ca', r: 3 }} /></LineChart></ResponsiveContainer> : <div className="visual-empty">No actual acquisition dates were returned for this polygon.</div>}<p className="data-note">This is a catalog availability series, not a backscatter or environmental-change series. Measurement graphs will be added from processed pixels only.</p></section>
+      <section className="visual-card"><div className="visual-card-heading"><div><span className="section-kicker">Saved raster record</span><h2>Locally available acquisitions</h2></div></div>{chartData.length ? <ResponsiveContainer width="100%" height={220}><LineChart data={chartData} onClick={(event) => { const index = event.activeTooltipIndex; if (typeof index === 'number') setSelectedIndex(index); }}><CartesianGrid stroke="#23414b" strokeDasharray="3 3" /><XAxis dataKey="date" stroke="#719198" tick={{ fontSize: 10 }} /><YAxis allowDecimals={false} stroke="#719198" tick={{ fontSize: 10 }} /><Tooltip contentStyle={{ background: '#0b2431', border: '1px solid #315764', color: '#d9eeeb' }} /><Line type="monotone" dataKey="granules" name="Saved observations" stroke="#65d6ca" strokeWidth={2} dot={{ fill: '#65d6ca', r: 3 }} /></LineChart></ResponsiveContainer> : <div className="visual-empty">No saved raster dates yet.</div>}<p className="data-note">Dates appear here only when at least one valid raster is persisted locally for this study area.</p></section>
 
-      <section className="visual-card"><div className="visual-card-heading"><div><span className="section-kicker">Processing boundary</span><h2>What can be concluded now?</h2></div></div><div className="evidence-grid"><div><strong>Observed</strong><p>{acquisitions.length ? `${acquisitions.length} dated acquisition${acquisitions.length === 1 ? '' : 's'} intersect the selected polygon.` : 'No dated acquisitions intersect the selected polygon.'}</p></div><div><strong>Not measured</strong><p>Backscatter, valid-pixel area, differences, percentages, and environmental events are not available without processed raster measurements.</p></div><div><strong>Quality context</strong><p>Maturity counts: {Object.entries(maturityCounts).map(([name, count]) => `${name} ${count}`).join(' · ') || 'No quality metadata returned'}.</p></div></div></section>
+      <section className="visual-card"><div className="visual-card-heading"><div><span className="section-kicker">Processing boundary</span><h2>What can be concluded now?</h2></div></div><div className="evidence-grid"><div><strong>Observed</strong><p>{acquisitions.length ? `${acquisitions.length} locally processed acquisition${acquisitions.length === 1 ? '' : 's'} are available.` : 'No saved raster acquisitions are available.'}</p></div><div><strong>Raster comparison</strong><p>Pixel differences are calculated only for matching grids and available same-variable inputs. No environmental event classification is inferred.</p></div><div><strong>Quality context</strong><p>Maturity counts: {Object.entries(maturityCounts).map(([name, count]) => `${name} ${count}`).join(' · ') || 'No quality metadata returned'}.</p></div></div></section>
     </div>
-    <div className="download-progress" role="status" aria-label="Dataset download progress">
-      <div className="download-progress-copy">
-        <span className="section-kicker">Dataset download</span>
-        <strong>{totalDatasetBytes > 0 ? `${formatBytes(downloadedBytes)} / ${formatBytes(totalDatasetBytes)}` : 'Dataset size unavailable'}</strong>
-      </div>
-      <div className="download-progress-track" aria-hidden="true"><span style={{ width: `${downloadPercent}%` }} /></div>
-      <span className="download-progress-percent">{totalDatasetBytes > 0 ? `${downloadPercent.toFixed(0)}%` : '—'}</span>
-      <span className="download-progress-state">{activeDownloads ? 'Downloading' : downloadPercent >= 100 ? 'Download complete' : 'Waiting'}</span>
-    </div>
+    <div className="download-progress" role="status" aria-label="Saved raster availability"><div className="download-progress-copy"><span className="section-kicker">Persistent local storage</span><strong>{savedRasterCount} raster layer{savedRasterCount === 1 ? '' : 's'} available</strong></div><span className="download-progress-state">Visualization reads saved outputs only</span></div>
   </main>;
 }

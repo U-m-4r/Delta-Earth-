@@ -15,6 +15,7 @@ from rasterio.mask import mask as raster_mask
 from rasterio.warp import transform_geom
 from shapely.geometry import shape
 from .geometry import study_id_for_feature
+from .raster_registry import persist_processed_raster
 from .settings import get_settings
 
 log = logging.getLogger(__name__)
@@ -529,6 +530,26 @@ def _validate_raster(path: Path) -> dict:
                 "dtype": dataset.dtypes[0]}
 
 
+def _raster_output_path(data_root: Path, granule_dir: Path, study_id: str,
+                        variable_directory: str, variable: str) -> Path:
+    """Reuse a granule raster only when its manifest ties it to this same study."""
+    shared = granule_dir / variable_directory / f"{variable}.tif"
+    scoped = data_root / "studies" / study_id / "observations" / granule_dir.name / "rasters" / f"{variable}.tif"
+    if scoped.exists():
+        return scoped
+    if not shared.exists():
+        return shared
+    manifest_path = granule_dir / "metadata.json"
+    try:
+        manifest = json.loads(manifest_path.read_text())
+        match = re.search(r"([a-f0-9]{16})\.geojson$", str(manifest.get("studyArea", "")))
+        if match and match.group(1) == study_id:
+            return shared
+    except (OSError, ValueError, TypeError):
+        pass
+    return scoped
+
+
 def _clip_raster_to_polygon(source: Path, feature: dict, destination: Path) -> None:
     """Mask bbox-extracted cells outside the input WGS84 polygon without changing inside values."""
     with rasterio.open(source) as dataset:
@@ -574,10 +595,13 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
             var_dir = "measurements" if variable in MEASUREMENTS else "auxiliary"
             out_dir = area_dir / var_dir
             out_dir.mkdir(parents=True, exist_ok=True)
-            target = out_dir / f"{variable}.tif"
+            target = _raster_output_path(cfg.resolved_data_dir, area_dir, study_hash, var_dir, variable)
+            target.parent.mkdir(parents=True, exist_ok=True)
             if target.exists():
                 try:
                     raster_meta = _validate_raster(target)
+                    registry_item = persist_processed_raster(cfg.resolved_data_dir, study_hash, granule_id,
+                        acquisition_metadata or {}, variable, target, feature)
                     prior_manifest = area_dir / "metadata.json"
                     prior_job_id = None
                     if prior_manifest.is_file():
@@ -589,7 +613,8 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
                             pass
                     results.append({"variable": variable, "status": "already_present", "jobId": prior_job_id,
                                     "path": str(target), "url": f"/api/data/{target.relative_to(cfg.resolved_data_dir).as_posix()}",
-                                    "bytes": target.stat().st_size, "raster": raster_meta})
+                                    "bytes": target.stat().st_size, "raster": registry_item["raster"],
+                                    "registryPersistence": "success"})
                     continue
                 except Exception:
                     target.unlink(missing_ok=True)
@@ -662,7 +687,9 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
                 except Exception:
                     temporary.unlink(missing_ok=True)
                     raise
-                results.append({"variable": variable, "variablePath": path, "status": "downloaded", "jobId": source_job, "path": str(target), "url": f"/api/data/{target.relative_to(cfg.resolved_data_dir).as_posix()}", "bytes": target.stat().st_size, "spatialSubsetMode": spatial_mode, "polygonClipAppliedLocally": spatial_mode == "bbox", "raster": raster_meta})
+                registry_item = persist_processed_raster(cfg.resolved_data_dir, study_hash, granule_id,
+                    acquisition_metadata or {}, variable, target, feature)
+                results.append({"variable": variable, "variablePath": path, "status": "downloaded", "jobId": source_job, "path": str(target), "url": f"/api/data/{target.relative_to(cfg.resolved_data_dir).as_posix()}", "bytes": target.stat().st_size, "spatialSubsetMode": spatial_mode, "polygonClipAppliedLocally": spatial_mode == "bbox", "raster": registry_item["raster"], "registryPersistence": "success"})
             except Exception as exc:
                 stage = "submission" if isinstance(exc, (HarmonySubmissionError, HarmonySubmissionUnknownError)) else "processing"
                 if record_path.exists():

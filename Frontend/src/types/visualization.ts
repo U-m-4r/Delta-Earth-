@@ -66,6 +66,25 @@ export type AnalysisResult = {
   warnings: string[];
 };
 
+export type RasterMetadata = {
+  url?: string;
+  previewUrl?: string;
+  bounds: [number, number, number, number];
+  boundsWgs84: [number, number, number, number];
+  crs?: string;
+  width: number;
+  height: number;
+  resolution: [number, number];
+  measurement: string;
+  units?: string;
+  validPixelCount: number;
+  nodataPixelCount: number;
+  minimum: number;
+  maximum: number;
+  mean: number;
+  median: number;
+};
+
 export type ProcessedObservation = Observation & {
   processingStatus: 'downloaded' | 'downloading' | 'processing' | 'processed' | 'ready' | 'failed' | 'unsupported_product_format';
   processingError?: string;
@@ -75,24 +94,18 @@ export type ProcessedObservation = Observation & {
     complete: boolean;
     validated: boolean;
   };
-  raster?: {
-    url?: string;
-    previewUrl?: string;
-    bounds: [number, number, number, number];
-    boundsWgs84: [number, number, number, number];
-    crs?: string;
-    width: number;
-    height: number;
-    resolution: [number, number];
-    measurement: string;
-    units?: string;
-    validPixelCount: number;
-    nodataPixelCount: number;
-    minimum: number;
-    maximum: number;
-    mean: number;
-    median: number;
-  };
+  raster?: RasterMetadata;
+  variables?: Array<{
+    name: string;
+    available: boolean;
+    rasterAvailable: boolean;
+    visualizationAvailable: boolean;
+    previewUrl: string;
+    rasterUrl: string;
+    raster: RasterMetadata;
+    processingTimestamp?: string;
+    bytes?: number;
+  }>;
 };
 
 export type RasterOverlay = {

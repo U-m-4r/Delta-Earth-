@@ -6,16 +6,19 @@ from pathlib import Path
 from typing import Any
 
 import rasterio
+import numpy as np
 import httpx
+from rasterio.warp import transform as transform_coordinates
 from shapely.geometry import shape
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response, StreamingResponse
 from pydantic import BaseModel, Field
 
 from .cmr import CMRRequestError, search_granules
 from .geometry import PolygonInputError, study_id_for_feature, validate_geojson
 from .harmony import HarmonyConfigurationError, extract_granule, inspect_capabilities, json_safe, refresh_job_status, _sanitize_text, _write_job_record
+from .raster_registry import generate_difference_preview, generate_preview, query_registry
 from .settings import get_settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -219,6 +222,170 @@ async def extract(request: ExtractRequest):
         safe_error = _sanitize_text(exc)
         log.error("Extraction request failed %s", json.dumps({"failure_reason": safe_error}))
         raise HTTPException(status_code=502, detail=f"NISAR extraction failed: {safe_error}") from exc
+
+
+def _local_processed_observations(study_id: str) -> dict[str, Any]:
+    try:
+        entries = query_registry(settings.resolved_data_dir, study_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    grouped: dict[str, dict[str, Any]] = {}
+    for entry in entries:
+        obs_id = entry["observationId"]
+        metadata = entry.get("acquisitionMetadata") or {}
+        item = grouped.setdefault(obs_id, {
+            **metadata, "id": obs_id, "observationId": obs_id, "granuleId": obs_id,
+            "acquiredAt": entry.get("acquisitionDate") or metadata.get("acquiredAt") or metadata.get("startAt"),
+            "acquisitionDate": entry.get("acquisitionDate"), "processingStatus": "processed",
+            "variables": [], "polarizations": [],
+        })
+        variable = entry["variable"]
+        preview_path = f"/api/visualization/{study_id}/preview/{obs_id}/{variable}"
+        raster_url = f"/api/visualization/{study_id}/raster/{obs_id}/{variable}"
+        variable_data = {"name": variable, "available": True, "rasterAvailable": True,
+                         "visualizationAvailable": entry["raster"].get("validPixelCount", 0) > 0,
+                         "previewUrl": preview_path, "rasterUrl": raster_url,
+                         "raster": entry["raster"], "processingTimestamp": entry.get("processingTimestamp"),
+                         "bytes": entry.get("bytes")}
+        item["variables"].append(variable_data)
+        if variable not in item["polarizations"]:
+            item["polarizations"].append(variable)
+    observations = []
+    for item in grouped.values():
+        item["variables"].sort(key=lambda variable: variable["name"])
+        selected = item["variables"][0]
+        item["raster"] = {**selected["raster"], "measurement": selected["name"],
+                           "previewUrl": selected["previewUrl"], "url": selected["rasterUrl"]}
+        observations.append(item)
+    observations.sort(key=lambda item: (item.get("acquiredAt") or "", item["id"]))
+    return json_safe({"studyId": study_id, "observations": observations})
+
+
+@app.get("/api/study-areas/{study_id}/processed-observations")
+async def locally_processed_observations(study_id: str):
+    """Return only manifest-registered local rasters; this route never contacts Harmony."""
+    return _local_processed_observations(study_id)
+
+
+def _registered_raster(study_id: str, observation_id: str, variable: str) -> tuple[Path, dict[str, Any]]:
+    try:
+        entries = query_registry(settings.resolved_data_dir, study_id,
+                                 observation_id=observation_id, variable=variable)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    if not entries:
+        raise HTTPException(status_code=404, detail="No successfully persisted raster matches this study, observation, and variable.")
+    path = (settings.resolved_data_dir / entries[0]["rasterPath"]).resolve()
+    if not path.is_relative_to(settings.resolved_data_dir.resolve()) or not path.is_file():
+        raise HTTPException(status_code=404, detail="The registered raster is no longer available locally.")
+    return path, entries[0]
+
+
+async def _stream_local_file(path: Path, chunk_size: int = 1024 * 1024):
+    with path.open("rb") as stream:
+        while chunk := stream.read(chunk_size):
+            yield chunk
+
+
+@app.get("/api/visualization/{study_id}/observations")
+async def visualization_observations(study_id: str):
+    return _local_processed_observations(study_id)
+
+
+@app.get("/api/visualization/{study_id}/raster/{observation_id}/{variable}")
+async def visualization_raster(study_id: str, observation_id: str, variable: str):
+    path, _ = _registered_raster(study_id, observation_id, variable)
+    try:
+        with rasterio.open(path) as dataset:
+            if dataset.driver != "GTiff" or dataset.count < 1 or dataset.width < 1 or dataset.height < 1:
+                raise ValueError("Raster is empty or invalid.")
+    except Exception as exc:
+        raise HTTPException(status_code=422, detail="The registered GeoTIFF is invalid or corrupted.") from exc
+    return StreamingResponse(_stream_local_file(path), media_type="image/tiff",
+                             headers={"Content-Disposition": f'attachment; filename="{path.name}"'})
+
+
+@app.get("/api/visualization/{study_id}/preview/{observation_id}/{variable}")
+async def visualization_preview(study_id: str, observation_id: str, variable: str):
+    path, entry = _registered_raster(study_id, observation_id, variable)
+    relative = f"studies/{study_id}/observations/{observation_id}/visualizations/{variable}.png"
+    try:
+        preview = generate_preview(settings.resolved_data_dir, path, relative)
+    except (OSError, ValueError, rasterio.errors.RasterioError) as exc:
+        raise HTTPException(status_code=422, detail=f"Raster preview could not be generated: {exc}") from exc
+    return Response(content=preview.read_bytes(), media_type="image/png",
+                    headers={"Content-Disposition": f'inline; filename="{variable}.png"',
+                             "X-Raster-CRS": str(entry.get("raster", {}).get("crs", ""))})
+
+
+@app.get("/api/visualization/{study_id}/difference/{baseline}/{current}/{variable}")
+async def visualization_difference(study_id: str, baseline: str, current: str, variable: str):
+    baseline_path, _ = _registered_raster(study_id, baseline, variable)
+    current_path, _ = _registered_raster(study_id, current, variable)
+    relative = f"studies/{study_id}/observations/{baseline}/visualizations/difference_{current}_{variable}.png"
+    try:
+        preview = generate_difference_preview(settings.resolved_data_dir, baseline_path, current_path, relative)
+    except (OSError, ValueError, rasterio.errors.RasterioError) as exc:
+        raise HTTPException(status_code=409, detail=f"Raster difference is unavailable: {exc}") from exc
+    return Response(content=preview.read_bytes(), media_type="image/png",
+                    headers={"Content-Disposition": f'inline; filename="difference_{variable}.png"'})
+
+
+@app.get("/api/studies/{study_id}/observations/{observation_id}/pixel")
+async def local_raster_pixel(study_id: str, observation_id: str, longitude: float, latitude: float, variable: str = "HHHH"):
+    if not np.isfinite(longitude) or not np.isfinite(latitude) or not (-180 <= longitude <= 180) or not (-90 <= latitude <= 90):
+        raise HTTPException(status_code=400, detail="Pixel coordinates must be finite WGS84 longitude/latitude values.")
+    path, _ = _registered_raster(study_id, observation_id, variable)
+    try:
+        with rasterio.open(path) as dataset:
+            x, y = transform_coordinates("EPSG:4326", dataset.crs, [longitude], [latitude])
+            row, column = dataset.index(x[0], y[0])
+            if row < 0 or column < 0 or row >= dataset.height or column >= dataset.width:
+                return {"studyId": study_id, "observationId": observation_id, "measurement": variable,
+                        "longitude": longitude, "latitude": latitude, "value": None, "nodata": True}
+            sample = dataset.read(1, window=((row, row + 1), (column, column + 1)), masked=True)[0, 0]
+            valid = not np.ma.is_masked(sample) and bool(np.isfinite(sample))
+            return {"studyId": study_id, "observationId": observation_id, "measurement": variable,
+                    "longitude": longitude, "latitude": latitude,
+                    "value": float(sample) if valid else None, "nodata": not valid}
+    except (OSError, rasterio.errors.RasterioError) as exc:
+        raise HTTPException(status_code=422, detail="The registered GeoTIFF is invalid or corrupted.") from exc
+
+
+@app.get("/api/studies/{study_id}/compare")
+async def compare_local_rasters(study_id: str, baseline: str, current: str, variable: str = "HHHH"):
+    baseline_path, _ = _registered_raster(study_id, baseline, variable)
+    current_path, _ = _registered_raster(study_id, current, variable)
+    try:
+        with rasterio.open(baseline_path) as before, rasterio.open(current_path) as after:
+            if (before.crs != after.crs or before.transform != after.transform or
+                    before.width != after.width or before.height != after.height):
+                raise HTTPException(status_code=409, detail="These local rasters are not on the same grid and cannot be compared directly.")
+            count, total = 0, 0.0
+            minimum = maximum = None
+            for _, window in before.block_windows(1):
+                first = before.read(1, window=window, masked=True)
+                second = after.read(1, window=window, masked=True)
+                a, b = np.asarray(first.data, dtype=np.float64), np.asarray(second.data, dtype=np.float64)
+                valid = (~np.ma.getmaskarray(first) & ~np.ma.getmaskarray(second) &
+                         np.isfinite(a) & np.isfinite(b))
+                if not valid.any():
+                    continue
+                differences = b[valid] - a[valid]
+                count += int(differences.size)
+                total += float(differences.sum(dtype=np.float64))
+                low, high = float(differences.min()), float(differences.max())
+                minimum = low if minimum is None else min(minimum, low)
+                maximum = high if maximum is None else max(maximum, high)
+            if not count:
+                raise HTTPException(status_code=422, detail="The aligned rasters have no overlapping finite, valid pixels.")
+            return {"studyId": study_id, "baselineObservationId": baseline,
+                    "currentObservationId": current, "variable": variable,
+                    "validPixelCount": count, "meanDifference": total / count,
+                    "minimumDifference": minimum, "maximumDifference": maximum,
+                    "note": "Difference is current minus baseline on matching local raster grids."}
+    except (OSError, rasterio.errors.RasterioError) as exc:
+        raise HTTPException(status_code=422, detail="A comparison GeoTIFF is invalid or corrupted.") from exc
 
 
 @app.get("/api/data/{relative_path:path}")
