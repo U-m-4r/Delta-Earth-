@@ -14,6 +14,7 @@ export type Observation = {
   acquisitionKey?: string;
   frequencies: string[];
   polarizations: string[];
+  availableVariables?: Array<{ frequency: string; variable: string }>;
   bbox?: [number, number, number, number];
   downloadUrl?: string;
   metadataUrl?: string;

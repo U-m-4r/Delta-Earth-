@@ -42,6 +42,19 @@ JOB_SUCCESS_STATES = {"successful", "complete", "completed", "succeeded"}
 JOB_FAILURE_STATES = {"failed", "canceled", "cancelled"}
 
 
+def json_safe(value):
+    """Recursively convert non-finite numeric values to strict-JSON nulls."""
+    if isinstance(value, dict):
+        return {key: json_safe(item) for key, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return [json_safe(item) for item in value]
+    if isinstance(value, np.generic):
+        value = value.item()
+    if isinstance(value, float) and not np.isfinite(value):
+        return None
+    return value
+
+
 def _sanitize_text(value: object, limit: int = 500) -> str:
     text = str(value)[:limit]
     cfg = get_settings()
@@ -504,9 +517,14 @@ def _validate_raster(path: Path) -> dict:
     with rasterio.open(path) as dataset:
         if dataset.driver != "GTiff" or dataset.count < 1 or dataset.width < 1 or dataset.height < 1:
             raise ValueError("Harmony output is not a valid GeoTIFF raster.")
+        nodata = dataset.nodata
+        nodata_non_finite = None
+        if isinstance(nodata, (float, np.floating)) and not np.isfinite(nodata):
+            nodata_non_finite = "nan" if np.isnan(nodata) else "positive_infinity" if nodata > 0 else "negative_infinity"
         return {"crs": dataset.crs.to_string() if dataset.crs else None,
                 "transform": list(dataset.transform)[:6], "width": dataset.width,
-                "height": dataset.height, "resolution": list(dataset.res), "nodata": dataset.nodata,
+                "height": dataset.height, "resolution": list(dataset.res), "nodata": json_safe(nodata),
+                "nodataNonFinite": nodata_non_finite,
                 "bounds": [dataset.bounds.left, dataset.bounds.bottom, dataset.bounds.right, dataset.bounds.top],
                 "dtype": dataset.dtypes[0]}
 
@@ -560,7 +578,18 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
             if target.exists():
                 try:
                     raster_meta = _validate_raster(target)
-                    results.append({"variable": variable, "status": "already_present", "path": str(target), "raster": raster_meta})
+                    prior_manifest = area_dir / "metadata.json"
+                    prior_job_id = None
+                    if prior_manifest.is_file():
+                        try:
+                            prior = json.loads(prior_manifest.read_text())
+                            prior_job_id = next((item.get("jobId") for item in prior.get("variables", [])
+                                                 if item.get("variable") == variable and item.get("jobId")), None)
+                        except (OSError, ValueError, TypeError):
+                            pass
+                    results.append({"variable": variable, "status": "already_present", "jobId": prior_job_id,
+                                    "path": str(target), "url": f"/api/data/{target.relative_to(cfg.resolved_data_dir).as_posix()}",
+                                    "bytes": target.stat().st_size, "raster": raster_meta})
                     continue
                 except Exception:
                     target.unlink(missing_ok=True)
@@ -648,7 +677,8 @@ async def extract_granule(granule_id: str, feature: dict, variables: list[str], 
                                 "jobId": json.loads(record_path.read_text()).get("jobId") if record_path.exists() else None,
                                 "submissionRecord": str(record_path), "error": _sanitize_text(exc)})
     manifest = {"granuleId": granule_id, "collectionId": cfg.nisar_gcov_collection, "studyArea": f"study_areas/{study_hash}.geojson", "crs": "EPSG:4326", "processedAt": datetime.now(timezone.utc).isoformat(), "capabilities": capability_report, "variables": results}
-    (area_dir / "metadata.json").write_text(json.dumps(manifest, indent=2))
+    manifest = json_safe(manifest)
+    (area_dir / "metadata.json").write_text(json.dumps(manifest, indent=2, allow_nan=False))
     acquisition_record = {"granuleId": granule_id, "collectionId": cfg.nisar_gcov_collection, **(acquisition_metadata or {})}
     (area_dir / "acquisition_metadata.json").write_text(json.dumps(acquisition_record, indent=2))
     log.info("Harmony extraction manifest persisted %s", json.dumps({"granule_id": granule_id, "study_id": study_hash,

@@ -15,7 +15,7 @@ from pydantic import BaseModel, Field
 
 from .cmr import CMRRequestError, search_granules
 from .geometry import PolygonInputError, study_id_for_feature, validate_geojson
-from .harmony import HarmonyConfigurationError, extract_granule, inspect_capabilities, refresh_job_status, _sanitize_text, _write_job_record
+from .harmony import HarmonyConfigurationError, extract_granule, inspect_capabilities, json_safe, refresh_job_status, _sanitize_text, _write_job_record
 from .settings import get_settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -210,7 +210,7 @@ async def extract(request: ExtractRequest):
         if request.frequency not in {"frequencyA", "frequencyB"}:
             raise PolygonInputError("Frequency must be frequencyA or frequencyB.")
         result = await extract_granule(request.granuleId, request.studyArea, request.variables, request.frequency, request.acquisitionMetadata)
-        return result
+        return json_safe(result)
     except PolygonInputError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     except HarmonyConfigurationError as exc:

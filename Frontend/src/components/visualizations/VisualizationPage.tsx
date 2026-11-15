@@ -63,11 +63,12 @@ export function VisualizationPage({ selection, analysis, loading, error, rasterC
   }, [processed, acquisitions]);
 
   useEffect(() => {
-    if (!analysis?.studyId) return undefined;
+    const studyId = analysis?.studyId;
+    if (!studyId) return undefined;
     let cancelled = false;
     const load = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/studies/${encodeURIComponent(analysis.studyId)}/processed-observations`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}/api/studies/${encodeURIComponent(studyId)}/processed-observations`);
         if (!response.ok) throw new Error(`Processing status request returned HTTP ${response.status}.`);
         const body = await response.json() as { observations?: ProcessedObservation[] };
         if (!cancelled) { setPollError(null); setProcessed(body.observations ?? []); }

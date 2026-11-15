@@ -120,6 +120,19 @@ def _record(entry: dict[str, Any]) -> dict[str, Any]:
     frequency_names = [f"frequency{value.upper()}" for value in frequencies]
     polarizations = sorted(set(re.findall(r"(?:^|_)((?:HH|HV|VV|VH|RH|RV){2})(?:_|$)", title)))
     links = _asset_links(entry.get("links", []))
+    available_variables = set()
+    for link in links:
+        if link["type"] != "browse":
+            continue
+        searchable = f"{link.get('title', '')} {link.get('url', '')}"
+        for match in re.finditer(r"NATIVE_([AB])_((?:HH|HV|VV|VH|RH|RV){2})", searchable, re.IGNORECASE):
+            frequency = f"frequency{match.group(1).upper()}"
+            polarization = match.group(2).upper()
+            available_variables.add((frequency, polarization))
+            frequency_names.append(frequency)
+            polarizations.append(polarization)
+    frequency_names = sorted(set(frequency_names))
+    polarizations = sorted(set(polarizations))
     bbox = entry.get("boxes", [None])[0]
     box_values = [float(value) for value in bbox.split()] if bbox else None
     assets = links
@@ -133,6 +146,8 @@ def _record(entry: dict[str, Any]) -> dict[str, Any]:
         "acquiredAt": start, "startAt": start, "endAt": entry.get("time_end"),
         "productType": "GCOV", "processingMaturity": "PROVISIONAL",
         "frequencies": frequency_names, "polarizations": polarizations,
+        "availableVariables": [{"frequency": frequency, "variable": variable}
+                               for frequency, variable in sorted(available_variables)],
         "bbox": box_values, "assets": assets,
         "downloadUrl": next((x["url"] for x in assets if x["type"] == "data"), None),
         "metadataUrl": next((x["url"] for x in assets if x["type"] == "metadata"), None),

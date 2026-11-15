@@ -24,6 +24,26 @@ def test_cmr_record_keeps_catalog_provenance_without_downloading_source():
     assert record["assets"][0]["mediaType"] == "application/x-hdf5"
 
 
+def test_cmr_browse_assets_report_granule_specific_gcove_variables():
+    entry = {
+        "id": "G4239572407-ASF",
+        "producer_granule_id": "NISAR_L2_PR_GCOV_023_066_D_080_2005_SHSH_A_20260618T185939",
+        "links": [
+            {"href": "https://example.test/NATIVE_A_HHHH.png", "rel": "browse", "title": "NATIVE_A_HHHH browse"},
+            {"href": "https://example.test/NATIVE_B_HHHH.png", "rel": "browse", "title": "NATIVE_B_HHHH browse"},
+        ],
+    }
+
+    record = _record(entry)
+
+    assert record["frequencies"] == ["frequencyA", "frequencyB"]
+    assert record["polarizations"] == ["HHHH"]
+    assert record["availableVariables"] == [
+        {"frequency": "frequencyA", "variable": "HHHH"},
+        {"frequency": "frequencyB", "variable": "HHHH"},
+    ]
+
+
 @pytest.mark.asyncio
 async def test_scene_search_maps_mocked_cmr_feed():
     url = "https://cmr.earthdata.nasa.gov/search/granules.json"

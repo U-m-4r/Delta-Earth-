@@ -31,13 +31,22 @@ export function NisarDataPanel({ selection, onBack }: { selection: GeoJsonFeatur
 
   useEffect(() => { void search(); }, [search]);
   const selectedScene = useMemo(() => analysis?.observations.find((scene) => scene.id === selectedGranule), [analysis, selectedGranule]);
+  const layerInventory = useMemo(() => selectedScene?.availableVariables?.filter((item) => item.frequency === frequency).map((item) => item.variable) ?? [], [selectedScene, frequency]);
+  const inventoryKnown = Boolean(selectedScene?.availableVariables?.length);
+  const isVariableAvailable = (variable: string) => !inventoryKnown || !MEASUREMENTS.includes(variable) || layerInventory.includes(variable);
+  const requestableVariables = selectedVariables.filter(isVariableAvailable);
+
+  useEffect(() => {
+    if (!inventoryKnown) return;
+    setSelectedVariables((current) => current.filter(isVariableAvailable));
+  }, [selectedGranule, frequency, inventoryKnown, layerInventory.join(',')]);
+
   const toggleVariable = (variable: string) => setSelectedVariables((current) => current.includes(variable) ? current.filter((item) => item !== variable) : [...current, variable]);
 
   const extract = async () => {
-    if (!selectedGranule || selectedVariables.length === 0) return;
+    if (!selectedGranule || requestableVariables.length === 0 || !selectedScene) return;
     setExtracting(true); setError(null); setManifest(null);
-    if (!selectedScene) return;
-    try { setManifest(await extractNisarVariables(selection, selectedScene, selectedVariables, frequency)); }
+    try { setManifest(await extractNisarVariables(selection, selectedScene, requestableVariables, frequency)); }
     catch (reason) { setError(reason instanceof Error ? reason.message : 'Harmony extraction failed.'); }
     finally { setExtracting(false); }
   };
@@ -55,9 +64,10 @@ export function NisarDataPanel({ selection, onBack }: { selection: GeoJsonFeatur
 
       <section className="visual-card nisar-extract-card">
         <div className="visual-card-heading"><div><span className="section-kicker">Step 2 · Variable extraction</span><h2>Choose GCOV layer candidates</h2></div><CalendarDays size={18} /></div>
-        <p className="analysis-copy">Available datasets vary by acquisition. Each candidate is requested separately from Harmony; returned GeoTIFFs confirm availability, and absent layers are reported as missing. The source HDF5 is never downloaded as a fallback.</p>
-        <div className="nisar-variable-groups"><fieldset><legend>Covariance measurements</legend><div className="nisar-variable-list">{MEASUREMENTS.map((name) => <label key={name}><input type="checkbox" checked={selectedVariables.includes(name)} onChange={() => toggleVariable(name)} />{name}</label>)}</div></fieldset><fieldset><legend>Auxiliary quality layers</legend><div className="nisar-variable-list">{AUXILIARY.map((name) => <label key={name}><input type="checkbox" checked={selectedVariables.includes(name)} onChange={() => toggleVariable(name)} />{name}</label>)}</div></fieldset></div>
-        <div className="nisar-extract-controls"><label>Frequency<select value={frequency} onChange={(event) => setFrequency(event.target.value)}><option value="frequencyA">Frequency A</option><option value="frequencyB">Frequency B</option></select></label><button className="primary-action" onClick={() => void extract()} disabled={!selectedGranule || !selectedVariables.length || extracting}>{extracting ? <><LoaderCircle size={15} className="spin" /> Processing Harmony jobs…</> : <><Download size={15} /> Extract {selectedVariables.length} layer{selectedVariables.length === 1 ? '' : 's'}</>}</button></div>
+        <p className="analysis-copy">Available datasets vary by acquisition. Catalog browse assets are used to disable measurement layers known to be absent; Harmony remains the final availability check. The source HDF5 is never downloaded as a fallback.</p>
+        {inventoryKnown && <p className="layer-inventory-note">Browse assets list {layerInventory.length ? layerInventory.join(', ') : 'no measurement layers'} for {frequency}. Unlisted measurement layers are disabled.</p>}
+        <div className="nisar-variable-groups"><fieldset><legend>Covariance measurements</legend><div className="nisar-variable-list">{MEASUREMENTS.map((name) => { const available = isVariableAvailable(name); return <label key={name} className={!available ? 'variable-unavailable' : ''}><input type="checkbox" checked={selectedVariables.includes(name)} disabled={!available || extracting} onChange={() => toggleVariable(name)} />{name}{!available && <small>not listed</small>}</label>; })}</div></fieldset><fieldset><legend>Auxiliary quality layers</legend><div className="nisar-variable-list">{AUXILIARY.map((name) => <label key={name}><input type="checkbox" checked={selectedVariables.includes(name)} disabled={extracting} onChange={() => toggleVariable(name)} />{name}</label>)}</div></fieldset></div>
+        <div className="nisar-extract-controls"><label>Frequency<select value={frequency} onChange={(event) => setFrequency(event.target.value)}><option value="frequencyA">Frequency A</option><option value="frequencyB">Frequency B</option></select></label><button className="primary-action" onClick={() => void extract()} disabled={!selectedGranule || !requestableVariables.length || extracting}>{extracting ? <><LoaderCircle size={15} className="spin" /> Processing Harmony jobs…</> : <><Download size={15} /> Extract {requestableVariables.length} layer{requestableVariables.length === 1 ? '' : 's'}</>}</button></div>
         {extracting && <div className="visual-warning"><LoaderCircle size={15} className="spin" /> Harmony submits and monitors a separate job for each selected layer. This can take several minutes.</div>}
         {manifest && <div className="nisar-result-list"><h3>Extraction manifest · {manifest.granuleId}</h3>{manifest.variables.map((result) => <div className="nisar-result-row" key={result.variable}><span className={`nisar-result-status ${result.status}`}>{result.status.replaceAll('_', ' ')}</span><strong>{result.variable}</strong>{result.url ? <a href={`${import.meta.env.VITE_BACKEND_URL ?? 'http://localhost:8787'}${result.url}`} target="_blank" rel="noreferrer">GeoTIFF · {((result.bytes ?? 0) / 1024 / 1024).toFixed(2)} MB <Download size={13} /></a> : <small>{result.error}</small>}</div>)}<p className="data-note">CRS, pixel transform, raster dimensions, resolution, data type, and NoData are stored in the local manifest.</p></div>}
       </section>
