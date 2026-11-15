@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowLeft, BookOpen, ExternalLink } from 'lucide-react';
-import type { StoryIndexItem, StoryObservation, StoryResult } from '../../types/stories';
+import type { StoryIndexItem, StoryObservation, StoryResult, SequenceStoryResult } from '../../types/stories';
+import { SequenceStory } from './SequenceStory';
 import './stories.css';
 
 const root = '/case-studies';
@@ -27,6 +28,7 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
   const [index, setIndex] = useState<StoryIndexItem[]>([]);
   const [slug, setSlug] = useState<string | null>(initialSlug);
   const [story, setStory] = useState<StoryResult | null>(null);
+  const [sequence, setSequence] = useState<SequenceStoryResult | null>(null);
   const [pairIndex, setPairIndex] = useState(0);
   const [view, setView] = useState<'water' | 'before' | 'after' | 'difference'>('water');
   const [error, setError] = useState<string | null>(null);
@@ -63,21 +65,25 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
   useEffect(() => {
     if (!slug) {
       setStory(null);
+      setSequence(null);
       return;
     }
     let active = true;
     setLoading(true);
+    setStory(null);
+    setSequence(null);
     setError(null);
     setPairIndex(0);
     setView('water');
     fetch(`${root}/${slug}/result.json`)
       .then(async (response) => {
         if (!response.ok) throw new Error('Could not load this story.');
-        return response.json() as Promise<StoryResult>;
+        return response.json() as Promise<StoryResult | SequenceStoryResult>;
       })
       .then((result) => {
         if (!active) return;
-        setStory(result);
+        if ('kind' in result && result.kind === 'sequence') setSequence(result);
+        else setStory(result as StoryResult);
       })
       .catch((err: unknown) => {
         if (active) {
@@ -112,14 +118,15 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
           <ArrowLeft size={16} /> {slug ? 'All stories' : 'Globe'}
         </button>
         <div>
-          <span className="section-kicker">Real NISAR flood stories</span>
-          <h1>{story?.title ?? 'Stories from real satellite radar'}</h1>
-          <p>{story ? `${story.location} · ${story.changeType}` : 'Open a finished flood or water story built from NASA NISAR files already on this machine.'}</p>
+          <span className="section-kicker">Real NISAR stories</span>
+          <h1>{sequence?.title ?? story?.title ?? 'Stories from real satellite radar'}</h1>
+          <p>{sequence ? `${sequence.location} · ${sequence.changeType}` : story ? `${story.location} · ${story.changeType}` : 'Explore prepared observation sequences and water-change stories.'}</p>
         </div>
       </header>
 
       <div className="stories-scroll">
         {error && <div className="stories-alert stories-alert-error" role="alert">{error}</div>}
+        {loading && slug && <div className="stories-alert" role="status">Loading story…</div>}
         {loading && !story && !index.length && <div className="stories-alert" role="status">Loading saved stories…</div>}
 
         {!slug && (
@@ -129,7 +136,7 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
               <div>
                 <span className="section-kicker">Token-free showcase</span>
                 <h2>These maps are already prepared.</h2>
-                <p>Each story reads only the selected area from multi-gigabyte NISAR radar files, maps candidate open water, and compares dates. Nothing new is downloaded when you open them here.</p>
+                <p>Follow real radar observations through time, compare consistent colour scales, and explore candidate water changes. These prepared stories open without new NASA downloads.</p>
               </div>
             </section>
 
@@ -149,6 +156,7 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
           </>
         )}
 
+        {sequence && <SequenceStory key={sequence.slug} story={sequence} />}
         {story && pair && (
           <>
             <section className="story-panel story-lead">

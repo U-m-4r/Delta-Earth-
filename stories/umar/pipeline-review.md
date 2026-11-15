@@ -1,6 +1,6 @@
 # Pipeline review — 15 November 2026
 
-Tested checkout: latest `main` pulled before work; Windows, Python 3.14.7, local virtual environment. The check exercised the FastAPI app in-process against real NASA services. Browser interaction and a deployed environment were not tested.
+Tested checkout: latest `main` pulled before work; Windows, Python 3.14.7, local virtual environment. The API check exercised FastAPI against real NASA services. The completed five-date stories were also tested in installed Chrome through Playwright on the local frontend. A deployed environment was not tested.
 
 ## Verified
 
@@ -20,4 +20,10 @@ The registry and both session stores wrote temporary JSON, reopened it read-only
 4. **Review quality masks before event publication.** GDAL warned that a source per-dataset mask was ignored where explicit NoData was also supplied to the warper. The extracted files used NaN outside this polygon, and the comparison statistics excluded nonfinite values. Independently verify the mission quality layers and mask behavior before treating any classification as validated.
 5. **Use confirmed event timing.** These longest-span compatible pairs provide seasonal baselines, not verified flood-event pairs. A Jeddah flash flood may be shorter than the revisit interval. Match a confirmed storm to available acquisition timestamps and independent reference imagery before adding a flood narrative.
 
-The location content is intentionally provided in separate folders for review and handoff, following the assignment to prepare images and story copy while avoiding simultaneous edits to the shared story interface. No new flood markers or unvalidated water statistics were added to the app.
+## Browser story verification
+
+Bangalore and Jeddah now each have five pipeline-derived observations in the browser Stories catalog. All dates use the same geographic grid per location and viridis −30 to +5 dB display limits. The viewer supports direct date selection, previous/next boundaries, first-date comparison, acquisition details and keyboard navigation. A narrow-screen header overflow found during screenshot review was fixed.
+
+Automated Chrome checks passed for all ten images, matching captions/dates, fixed legends, baseline comparison, provenance, keyboard selection and 390-pixel layout. The original Indus water story and return-to-globe flow also passed. Injected missing-story and failed-image responses displayed errors and recovered successfully. Normal navigation produced no page errors or missing story assets. See `browser-verification.json` and `Frontend/tests/stories.browser.mjs`.
+
+All source TIFF and rendered PNG hashes were independently verified against the sequence metadata. Each location has five distinct image hashes and identical dimensions across frames: Bangalore 1637 × 902; Jeddah 1555 × 1883. No new flood markers or unvalidated water-area statistics were added. The sequences provide seasonal radar observations rather than an independently confirmed flood-and-recovery chronology.

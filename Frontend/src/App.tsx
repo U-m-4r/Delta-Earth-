@@ -103,7 +103,7 @@ function App() {
         <div className="wordmark"><span className="wordmark-orbit" /><div><strong>DELTA <em>EARTH</em></strong><small>NISAR CHANGE EXPLORER</small></div></div>
         <div className="top-center">
           <button className={`mode-pill ${selectionActive ? 'active' : ''}`} onClick={startSelection}><span className="mode-dot" />{selectionActive ? 'Polygon selection active' : 'Explore mode'}</button>
-          <button className="top-search-button" onClick={() => setSearchOpen((open) => !open)}><Search size={16} /><span>Search anywhere on Earth</span><kbd>⌘ K</kbd></button>
+          <button className="top-search-button" aria-label="Search anywhere on Earth" onClick={() => setSearchOpen((open) => !open)}><Search size={16} /><span>Search anywhere on Earth</span><kbd>⌘ K</kbd></button>
         </div>
         <div className="top-actions"><button className="top-icon"><Settings size={17} /></button><div className="user-badge">DE</div></div>
       </header>

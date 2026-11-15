@@ -61,3 +61,23 @@ export type StoryResult = {
   references?: { title: string; url: string }[];
   areaKm2?: number;
 };
+
+export type SequenceStoryResult = {
+  kind: 'sequence';
+  slug: string;
+  title: string;
+  location: string;
+  changeType: string;
+  headline: string;
+  introduction: string;
+  conclusion: string;
+  method: string;
+  display: { palette: string; minimum: number; maximum: number; units: string };
+  references: { title: string; url: string }[];
+  observations: {
+    key: string; date: string; image: string; label: string; caption: string;
+    granuleId: string; productId: string; sourceUrl: string;
+    meanDb: number; medianDb: number; validPixelCount: number;
+    changeFromPrevious?: { meanDb: number; medianDb: number; validPixelCount: number };
+  }[];
+};

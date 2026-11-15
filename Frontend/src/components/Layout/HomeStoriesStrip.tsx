@@ -25,10 +25,10 @@ export function HomeStoriesStrip({ onOpenStory }: { onOpenStory: (slug: string) 
   if (!items.length) return null;
 
   return (
-    <section className="home-stories" aria-label="Flood stories">
+    <section className="home-stories" aria-label="Satellite stories">
       <div className="home-stories-heading">
         <span className="section-kicker">Stories</span>
-        <p>Open a finished NISAR flood story without drawing an area.</p>
+        <p>Follow a NISAR observation story without drawing an area.</p>
       </div>
       <div className="home-stories-scroll">
         {items.map((item) => (
