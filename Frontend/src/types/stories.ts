@@ -4,6 +4,7 @@ export type StoryIndexItem = {
   location: string;
   changeType: string;
   preview?: string;
+  center?: [number, number];
 };
 
 export type StoryObservation = {

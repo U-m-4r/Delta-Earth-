@@ -29,7 +29,7 @@ export function VisualizationWorkspace({ selection, analysis, loading, error, on
     <header className="visualization-header">
       <button className="visual-back" onClick={onBack}><ArrowLeft size={16} /> Globe</button>
       <div><span className="section-kicker">Earth observation analytics</span><h1>Visualizations</h1><p>{selection.properties?.name ?? 'Selected study area'} · {analysis ? `${analysis.area.centroid[1].toFixed(4)}°, ${analysis.area.centroid[0].toFixed(4)}°` : 'Loading study area'}</p></div>
-      <div className="visual-header-actions"><span className={`data-status ${error ? 'offline' : ''}`}><span className="status-live" /> {error ? 'Data unavailable' : loading ? 'Updating' : 'Live catalog data'}</span><button className="secondary-action" onClick={onRefresh} disabled={loading}><RefreshCw size={14} /> Refresh</button></div>
+      <div className="visual-header-actions">{error ? <span className="data-status offline">Data unavailable</span> : null}<button className="secondary-action" onClick={onRefresh} disabled={loading}><RefreshCw size={14} /> Refresh</button></div>
     </header>
 
     {error && <div className="visual-error"><TriangleAlert size={16} /> {error}</div>}

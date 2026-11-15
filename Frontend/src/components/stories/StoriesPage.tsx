@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowLeft, BookOpen, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ExternalLink } from 'lucide-react';
 import type { StoryIndexItem, StoryObservation, StoryResult } from '../../types/stories';
 import './stories.css';
 
@@ -112,9 +112,9 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
           <ArrowLeft size={16} /> {slug ? 'All stories' : 'Globe'}
         </button>
         <div>
-          <span className="section-kicker">Real NISAR flood stories</span>
-          <h1>{story?.title ?? 'Stories from real satellite radar'}</h1>
-          <p>{story ? `${story.location} · ${story.changeType}` : 'Open a finished flood or water story built from NASA NISAR files already on this machine.'}</p>
+          <span className="section-kicker">Case studies · NISAR L2 GCOV</span>
+          <h1>{story?.title ?? 'Surface water stories'}</h1>
+          <p>{story ? `${story.location} · ${story.changeType}` : 'Flood and reservoir events, mapped from NISAR radar and compared across dates.'}</p>
         </div>
       </header>
 
@@ -125,11 +125,10 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
         {!slug && (
           <>
             <section className="story-hero">
-              <div className="story-hero-icon"><BookOpen size={22} /></div>
               <div>
-                <span className="section-kicker">Token-free showcase</span>
-                <h2>These maps are already prepared.</h2>
-                <p>Each story reads only the selected area from multi-gigabyte NISAR radar files, maps candidate open water, and compares dates. Nothing new is downloaded when you open them here.</p>
+                <span className="section-kicker">How these were made</span>
+                <h2>Precomputed from full NISAR granules</h2>
+                <p>For each event we read only the study area out of the original radar files (several GB each), marked pixels darker than a backscatter threshold as likely open water, and compared dates. The results are saved with the app, so opening a story doesn't download anything.</p>
               </div>
             </section>
 
@@ -151,8 +150,8 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
 
         {story && pair && (
           <>
-            <section className="story-panel story-lead">
-              <span className="section-kicker">What this story asks</span>
+            <section key={story.slug} className="story-panel story-lead">
+              <span className="section-kicker">Question</span>
               <h2>{story.headline}</h2>
               <p>{story.event}</p>
               {story.references?.length ? (
@@ -195,7 +194,7 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
               </div>
 
               <div className={`story-map${view === 'water' || view === 'difference' ? ' dark-board' : ''}`}>
-                {imageSrc ? <img src={imageSrc} alt={view === 'water' ? 'Candidate water change' : view === 'difference' ? 'Radar backscatter difference' : 'Radar backscatter'} /> : <p>Image missing for this view.</p>}
+                {imageSrc ? <img key={imageSrc} src={imageSrc} alt={view === 'water' ? 'Candidate water change' : view === 'difference' ? 'Radar backscatter difference' : 'Radar backscatter'} /> : <p>Image missing for this view.</p>}
               </div>
 
               {view === 'water' && (
@@ -219,7 +218,7 @@ export function StoriesPage({ onBack, initialSlug = null }: { onBack: () => void
             </section>
 
             <section className="story-panel">
-              <span className="section-kicker">How to read these numbers</span>
+              <span className="section-kicker">Method</span>
               <h2>Radar-dark surfaces below {story.threshold.valueDb} dB are treated as candidate open water.</h2>
               <p className="story-note">{story.threshold.method}</p>
               {pair.water.analysisZone && <p className="story-note">{pair.water.analysisZone.rule}. {pair.water.analysisZone.reason}</p>}

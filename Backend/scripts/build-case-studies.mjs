@@ -58,7 +58,7 @@ for (const story of stories.filter((item) => !only.length || only.includes(item.
 
 const index = [];
 for (const story of stories) {
-  try { await readFile(join(outputRoot, story.slug, 'result.json')); index.push({ slug: story.slug, title: story.title, location: story.location, changeType: story.changeType }); } catch { /* not built yet */ }
+  try { await readFile(join(outputRoot, story.slug, 'result.json')); const xs = story.ring.map((p) => p[0]); const ys = story.ring.map((p) => p[1]); index.push({ slug: story.slug, title: story.title, location: story.location, changeType: story.changeType, center: [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2] }); } catch { /* not built yet */ }
 }
 await writeFile(join(outputRoot, 'index.json'), JSON.stringify(index, null, 1));
 console.log(`\nStories available: ${index.map((item) => item.slug).join(', ')}`);

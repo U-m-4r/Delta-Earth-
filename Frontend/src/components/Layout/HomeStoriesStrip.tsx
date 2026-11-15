@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import type { StoryIndexItem } from '../../types/stories';
 
 const root = '/case-studies';
@@ -24,24 +24,26 @@ export function HomeStoriesStrip({ onOpenStory }: { onOpenStory: (slug: string) 
 
   if (!items.length) return null;
 
+  const [feature, ...rest] = items;
+  const card = (item: StoryIndexItem, featured = false) => (
+    <button key={item.slug} type="button" className={`story-tile${featured ? ' featured' : ''}`} onClick={() => onOpenStory(item.slug)}>
+      {item.preview ? <img src={`${root}/${item.slug}/${item.preview}`} alt="" loading="lazy" /> : null}
+      <span className="story-tile-copy">
+        <span className="story-tile-kicker">{item.changeType}</span>
+        <strong>{item.title} <ArrowRight className="nasa-arrow" size={14} /></strong>
+        {featured ? <small>{item.location}</small> : null}
+      </span>
+    </button>
+  );
+
   return (
     <section className="home-stories" aria-label="Flood stories">
       <div className="home-stories-heading">
         <span className="section-kicker">Stories</span>
-        <p>Open a finished NISAR flood story without drawing an area.</p>
+        <p><span className="welcome-dot" /> Click a red spot on the globe, or pick one below.</p>
       </div>
-      <div className="home-stories-scroll">
-        {items.map((item) => (
-          <button key={item.slug} type="button" className="home-story-chip" onClick={() => onOpenStory(item.slug)}>
-            {item.preview ? <img src={`${root}/${item.slug}/${item.preview}`} alt="" loading="lazy" /> : null}
-            <span>
-              <strong>{item.title}</strong>
-              <small>{item.location}</small>
-            </span>
-            <ChevronRight size={14} />
-          </button>
-        ))}
-      </div>
+      {card(feature, true)}
+      {rest.length ? <div className="story-tile-grid">{rest.map((item) => card(item))}</div> : null}
     </section>
   );
 }

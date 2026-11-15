@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { BarChart3, BookOpen, Crosshair, Database, Home, Map, MousePointer2, PanelRight, Search, Settings, Undo2, X } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import type { StoryIndexItem } from './types/stories';
+import { BarChart3, BookOpen, Crosshair, Database, Home, Map, MousePointer2, PanelRight, Moon, Search, Settings, Sun, Undo2, X } from 'lucide-react';
 import { EarthGlobe } from './components/Globe/EarthGlobe';
 import { LocationSearch } from './components/Globe/LocationSearch';
 import { InformationPanel } from './components/Layout/InformationPanel';
@@ -14,12 +15,14 @@ import type { RasterOverlay } from './types/visualization';
 function App() {
   const initialQuery = new URLSearchParams(window.location.search);
   const [selectionActive, setSelectionActive] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => { try { return localStorage.getItem('theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } });
+  useEffect(() => { document.documentElement.dataset.theme = theme; try { localStorage.setItem('theme', theme); } catch { /* storage blocked */ } }, [theme]);
   const [panelOpen, setPanelOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
   const [location, setLocation] = useState<LocationResult | undefined>();
   const [selection, setSelection] = useState<GeoJsonFeature | null>(null);
   const [draftVertexCount, setDraftVertexCount] = useState(0);
-  const [cursor, setCursor] = useState<[number, number] | null>(null);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   const [submitLoading, setSubmitLoading] = useState(false);
   const [analysisReady, setAnalysisReady] = useState(false);
@@ -34,6 +37,17 @@ function App() {
   const [storiesOpen, setStoriesOpen] = useState(false);
   const [storySlug, setStorySlug] = useState<string | null>(null);
   const [rasterOverlay, setRasterOverlay] = useState<RasterOverlay | null>(null);
+  const [stories, setStories] = useState<StoryIndexItem[]>([]);
+  useEffect(() => {
+    fetch('/case-studies/index.json').then((r) => (r.ok ? r.json() : [])).then(setStories).catch(() => setStories([]));
+  }, []);
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); setSearchOpen((open) => !open); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   const clearRetrievalUrl = () => window.history.replaceState({}, '', window.location.pathname);
 
   const startSelection = () => {
@@ -100,12 +114,17 @@ function App() {
   return (
     <div className="earth-app">
       <header className="top-navigation">
-        <div className="wordmark"><span className="wordmark-orbit" /><div><strong>DELTA <em>EARTH</em></strong><small>NISAR CHANGE EXPLORER</small></div></div>
+        <div className="wordmark"><span className="wordmark-orbit" /><div><strong>Delta <em>Earth</em></strong><small>NISAR Change Explorer</small></div></div>
         <div className="top-center">
-          <button className={`mode-pill ${selectionActive ? 'active' : ''}`} onClick={startSelection}><span className="mode-dot" />{selectionActive ? 'Polygon selection active' : 'Explore mode'}</button>
           <button className="top-search-button" onClick={() => setSearchOpen((open) => !open)}><Search size={16} /><span>Search anywhere on Earth</span><kbd>⌘ K</kbd></button>
         </div>
-        <div className="top-actions"><button className="top-icon"><Settings size={17} /></button><div className="user-badge">DE</div></div>
+        <div className="top-actions">
+          <button className="top-icon" aria-label="Settings" aria-expanded={settingsOpen} onClick={() => setSettingsOpen((open) => !open)}><Settings size={17} /></button>
+          <div className={`settings-menu${settingsOpen ? ' open' : ''}`} role="group" aria-label="Theme">
+              <button className={theme === 'dark' ? 'active' : ''} onClick={() => setTheme('dark')}><Moon size={14} />Dark</button>
+              <button className={theme === 'light' ? 'active' : ''} onClick={() => setTheme('light')}><Sun size={14} />Light</button>
+          </div>
+        </div>
       </header>
 
       {storiesOpen ? (
@@ -119,21 +138,21 @@ function App() {
       ) : (
         <div className="workspace">
           <aside className="floating-toolbar" aria-label="Globe tools">
-            <button className={!selectionActive ? 'active' : ''} onClick={() => setSelectionActive(false)} title="Navigate"><MousePointer2 size={18} /><span>Navigate</span></button>
-            <button className={selectionActive ? 'active' : ''} onClick={startSelection} title="Select polygon"><Map size={18} /><span>Select polygon</span></button>
+            <button className={!selectionActive ? 'active' : ''} onClick={() => setSelectionActive(false)}><MousePointer2 size={18} /><span>Navigate</span></button>
+            <button className={selectionActive ? 'active' : ''} onClick={startSelection}><Map size={18} /><span>Select area</span></button>
             <div className="toolbar-divider" />
-            <button onClick={() => openStories()} title="Stories"><BookOpen size={18} /><span>Stories</span></button>
-            <button className={dataOpen ? 'active' : ''} onClick={() => void openData()} disabled={!selection} title="Data"><Database size={18} /><span>Data</span></button>
-            <button className={visualizationsOpen ? 'active' : ''} onClick={() => void openVisualizations()} disabled={!retrievalSessionId || !retrievalStudyId} title="Visualizations"><BarChart3 size={18} /><span>Visualizations</span></button>
-            <button onClick={() => setUndoSignal((signal) => signal + 1)} disabled={!selectionActive || draftVertexCount === 0} title="Undo last point"><Undo2 size={18} /><span>Undo point</span></button>
-            <button onClick={clearSelection} disabled={!selection && !selectionActive} title="Clear selection"><X size={18} /><span>Clear</span></button>
-            <div className="toolbar-bottom">          <button title="Home view" onClick={() => { setLocation(undefined); setHomeSignal((signal) => signal + 1); }}><Home size={18} /></button><button title="Toggle panel" onClick={() => setPanelOpen((open) => !open)}><PanelRight size={18} /></button></div>
+            <button onClick={() => openStories()}><BookOpen size={18} /><span>Stories</span></button>
+            <button className={dataOpen ? 'active' : ''} onClick={() => void openData()} disabled={!selection}><Database size={18} /><span>Data</span></button>
+            <button className={visualizationsOpen ? 'active' : ''} onClick={() => void openVisualizations()} disabled={!retrievalSessionId || !retrievalStudyId}><BarChart3 size={18} /><span>Visualize</span></button>
+            <button onClick={() => setUndoSignal((signal) => signal + 1)} disabled={!selectionActive || draftVertexCount === 0}><Undo2 size={18} /><span>Undo</span></button>
+            <button onClick={clearSelection} disabled={!selection && !selectionActive}><X size={18} /><span>Clear</span></button>
+            <div className="toolbar-divider" />
+            <button onClick={() => { setLocation(undefined); setHomeSignal((signal) => signal + 1); }}><Home size={18} /><span>Home</span></button><button onClick={() => setPanelOpen((open) => !open)}><PanelRight size={18} /><span>Panel</span></button>
           </aside>
 
           <main className="globe-workspace">
-            <EarthGlobe selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={() => {}} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} onCursorChange={setCursor} />
+            <EarthGlobe stories={stories} onStoryClick={(slug) => openStories(slug)} selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={() => {}} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} />
             <div className="globe-hint"><Crosshair size={14} /> {selectionActive ? 'Click the globe to add polygon vertices' : 'Click and drag to rotate · Pinch or two-finger scroll to zoom · Right-drag to pan'}</div>
-            <div className="bottom-status"><span className="status-live" /> <strong>{selectionActive ? 'SELECTING AREA' : 'GLOBE NAVIGATION'}</strong><i /> {draftVertexCount} {draftVertexCount === 1 ? 'vertex' : 'vertices'}<i /> {cursor ? `${cursor[1].toFixed(4)}°, ${cursor[0].toFixed(4)}°` : 'Move cursor over globe'}</div>
           </main>
 
           {panelOpen && (
