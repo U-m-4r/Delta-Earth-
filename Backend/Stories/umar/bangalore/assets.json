@@ -1,0 +1,18 @@
+[
+  {
+    "file": "browse-before.png",
+    "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_024_012_A_008_4005_DHDH_A_20260627T002449_20260627T002523_P05023_N_F_J_001/NISAR_L2_PR_GCOV_024_012_A_008_4005_DHDH_A_20260627T002449_20260627T002523_P05023_N_F_J_001_LATLON.png",
+    "granuleId": "G4243038533-ASF",
+    "acquiredAt": "2026-06-27T00:24:49.000Z",
+    "sha256": "bf2a90830ff0b383f3f4f99efc21330b32f95f9b98787d30f76d5fdff4235c32",
+    "role": "Full-scene browse context; not an AOI GeoTIFF or quantitative result"
+  },
+  {
+    "file": "browse-after.png",
+    "url": "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_012_A_008_4005_DHDH_A_20261013T002446_20261013T002521_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_012_A_008_4005_DHDH_A_20261013T002446_20261013T002521_P05023_N_F_J_001_LATLON.png",
+    "granuleId": "G4366260007-ASF",
+    "acquiredAt": "2026-10-13T00:24:46.000Z",
+    "sha256": "ad77337db84f141d7afa308bcbcae69fa2d97418b3492bc9b7bc4d79232311fe",
+    "role": "Full-scene browse context; not an AOI GeoTIFF or quantitative result"
+  }
+]

@@ -1,0 +1,171 @@
+{
+  "kind": "sequence",
+  "slug": "assam-brahmaputra-2026",
+  "title": "Brahmaputra flood around Majuli",
+  "location": "Majuli and Jorhat, Assam, India",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Majuli and Jorhat, Assam, India across 4 real radar observations",
+  "introduction": "Assam University's 2026 flood report describes the July 2026 Upper Assam floods (about 2.12 lakh people affected) and a 20 July embankment breach in Jorhat that flooded villages and cut ferry links to Majuli.",
+  "conclusion": "Follow the actual radar observations across the season. Differences are measured radar response, not proof of flooding. Independent flood evidence and classification limits remain applicable.",
+  "references": [
+    {
+      "title": "Assam University: Report on the 2026 Assam floods",
+      "url": "https://www.aus.ac.in/wp-content/uploads/2026/08/Report_Flood_2026_Assam-University.pdf"
+    },
+    {
+      "title": "Sentinel Assam: Brahmaputra erosion puts lower Majuli at risk",
+      "url": "https://www.sentinelassam.com/topheadlines/brahmaputra-erosion-puts-lower-majuli-at-risk-locals-slam-official-negligence"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-16T23:05:30.000Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2026-06-16: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4250154757-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_040_A_015_4005_DHDH_A_20260616T230530_20260616T230604_P05023_F_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_040_A_015_4005_DHDH_A_20260616T230530_20260616T230604_P05023_F_F_J_001/NISAR_L2_PR_GCOV_023_040_A_015_4005_DHDH_A_20260616T230530_20260616T230604_P05023_F_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "eacd09881f37617dd028db8e96f8804b98915a6dd2a47bd623626fcf212a63b6",
+      "imageSha256": "f39d01b4299d0cf08dfc21c3d281af20621f512c4c7c703d0ccb37da786547f4",
+      "meanDb": -11.363553047180176,
+      "medianDb": -10.82043170928955,
+      "validPixelCount": 1925057,
+      "validFraction": 0.9806139633256143
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-22T23:05:28.000Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2026-07-22: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4260008113-ASF",
+      "productId": "NISAR_L2_PR_GCOV_026_040_A_015_4005_DHDH_A_20260722T230528_20260722T230602_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_040_A_015_4005_DHDH_A_20260722T230528_20260722T230602_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_040_A_015_4005_DHDH_A_20260722T230528_20260722T230602_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "22672ed95d421e7de6d17b3e20dbeb79a1e749ae4854a5ec709ed2f8149a7c30",
+      "imageSha256": "77c4b54ea3d9093a1b4a30b6a925225b6a5ab35bae55b0c847635c3ad3314386",
+      "meanDb": -12.499823570251465,
+      "medianDb": -12.346670150756836,
+      "validPixelCount": 1925057,
+      "validFraction": 0.9806139633256143,
+      "changeFromPrevious": {
+        "meanDb": -1.1362653970718384,
+        "medianDb": -0.34503936767578125,
+        "validPixelCount": 1925057
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-15T23:05:27.000Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2026-08-15: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4284391494-ASF",
+      "productId": "NISAR_L2_PR_GCOV_028_040_A_015_4005_DHDH_A_20260815T230527_20260815T230601_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_040_A_015_4005_DHDH_A_20260815T230527_20260815T230601_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_040_A_015_4005_DHDH_A_20260815T230527_20260815T230601_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "5eeb1f2acdbbb183dd5a5a38f02e1b3e62ceb1b473793fcd9b2cfe48aed10d20",
+      "imageSha256": "a4660292a0320f688e849cf249374904d7727b9316eb2ec47851de34d13c5a73",
+      "meanDb": -11.39887523651123,
+      "medianDb": -11.002838134765625,
+      "validPixelCount": 1925057,
+      "validFraction": 0.9806139633256143,
+      "changeFromPrevious": {
+        "meanDb": 1.1009489297866821,
+        "medianDb": 0.7375068664550781,
+        "validPixelCount": 1925057
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2026-10-14T23:05:26.000Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2026-10-14: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4371508431-ASF",
+      "productId": "NISAR_L2_PR_GCOV_033_040_A_015_4005_DHDH_A_20261014T230526_20261014T230601_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_040_A_015_4005_DHDH_A_20261014T230526_20261014T230601_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_040_A_015_4005_DHDH_A_20261014T230526_20261014T230601_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "91a37eb87cff18e78613255a0af89094e3dabcaeac57e30b7fdd665ac10a4075",
+      "imageSha256": "dd9f078f9683ede4a2ea37b964574409eefc4e2c010236289d2f0efcc6456e2f",
+      "meanDb": -9.552910804748535,
+      "medianDb": -8.698948860168457,
+      "validPixelCount": 1925057,
+      "validFraction": 0.9806139633256143,
+      "changeFromPrevious": {
+        "meanDb": 1.8459631204605103,
+        "medianDb": 0.7591919898986816,
+        "validPixelCount": 1925057
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            94,
+            26.75
+          ],
+          [
+            94.45,
+            26.75
+          ],
+          [
+            94.45,
+            27.1
+          ],
+          [
+            94,
+            27.1
+          ],
+          [
+            94,
+            26.75
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Brahmaputra flood around Majuli"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1502,
+      "height": 1307,
+      "crs": "EPSG:32646",
+      "transform": [
+        30.0,
+        0.0,
+        599130.0,
+        0.0,
+        -30.0,
+        2998340.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

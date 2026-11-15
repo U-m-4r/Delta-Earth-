@@ -26,7 +26,7 @@ log = logging.getLogger(__name__)
 SESSION_ID_RE = re.compile(r"^[a-f0-9]{32}$")
 PRODUCT_ID_RE = re.compile(r"^[a-f0-9]{32}$")
 POLARIZATION_LABELS = {"HHHH": "HH", "HVHV": "HV", "VHVH": "VH", "VVVV": "VV"}
-SESSION_DIRECTORIES = ("rgb", "aligned", "comparisons", "previews", "products")
+SESSION_DIRECTORIES = ("rgb", "aligned", "comparisons", "previews", "products", "exports")
 
 
 class VisualizationSessionError(RuntimeError):
@@ -47,8 +47,9 @@ def _atomic_json(path: Path, value: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(f".{path.name}.{uuid4().hex}.tmp")
     try:
-        temporary.write_text(json.dumps(value, allow_nan=False, indent=2))
-        with temporary.open("rb") as stream:
+        with temporary.open("w", encoding="utf-8") as stream:
+            stream.write(json.dumps(value, allow_nan=False, indent=2))
+            stream.flush()
             os.fsync(stream.fileno())
         os.replace(temporary, path)
     finally:

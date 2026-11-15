@@ -1,0 +1,33 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          94,
+          26.75
+        ],
+        [
+          94.45,
+          26.75
+        ],
+        [
+          94.45,
+          27.1
+        ],
+        [
+          94,
+          27.1
+        ],
+        [
+          94,
+          26.75
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "name": "Brahmaputra flood around Majuli"
+  }
+}

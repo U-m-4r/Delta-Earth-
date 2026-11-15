@@ -1,0 +1,38 @@
+[
+  {
+    "path": "D:\\nas\\Delta-Earth-\\Backend\\data\\studies\\study_mwgzcl2i_qtbtlk\\observations\\G4250154757-ASF\\clipped.tif",
+    "id": "G4250154757-ASF",
+    "date": "2026-06-16T23:05:30.000Z",
+    "productId": "NISAR_L2_PR_GCOV_023_040_A_015_4005_DHDH_A_20260616T230530_20260616T230604_P05023_F_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_040_A_015_4005_DHDH_A_20260616T230530_20260616T230604_P05023_F_F_J_001/NISAR_L2_PR_GCOV_023_040_A_015_4005_DHDH_A_20260616T230530_20260616T230604_P05023_F_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\Backend\\data\\studies\\study_mwgzcl2i_qtbtlk\\observations\\G4260008113-ASF\\clipped.tif",
+    "id": "G4260008113-ASF",
+    "date": "2026-07-22T23:05:28.000Z",
+    "productId": "NISAR_L2_PR_GCOV_026_040_A_015_4005_DHDH_A_20260722T230528_20260722T230602_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_040_A_015_4005_DHDH_A_20260722T230528_20260722T230602_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_040_A_015_4005_DHDH_A_20260722T230528_20260722T230602_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\Backend\\data\\studies\\study_mwgzcl2i_qtbtlk\\observations\\G4284391494-ASF\\clipped.tif",
+    "id": "G4284391494-ASF",
+    "date": "2026-08-15T23:05:27.000Z",
+    "productId": "NISAR_L2_PR_GCOV_028_040_A_015_4005_DHDH_A_20260815T230527_20260815T230601_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_040_A_015_4005_DHDH_A_20260815T230527_20260815T230601_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_040_A_015_4005_DHDH_A_20260815T230527_20260815T230601_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\Backend\\data\\studies\\study_mwgzcl2i_qtbtlk\\observations\\G4371508431-ASF\\clipped.tif",
+    "id": "G4371508431-ASF",
+    "date": "2026-10-14T23:05:26.000Z",
+    "productId": "NISAR_L2_PR_GCOV_033_040_A_015_4005_DHDH_A_20261014T230526_20261014T230601_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_040_A_015_4005_DHDH_A_20261014T230526_20261014T230601_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_040_A_015_4005_DHDH_A_20261014T230526_20261014T230601_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  }
+]

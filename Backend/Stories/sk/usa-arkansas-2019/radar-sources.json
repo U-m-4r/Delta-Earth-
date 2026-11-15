@@ -1,0 +1,294 @@
+[
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\usa-arkansas-2019\\S1A_IW_GRDH_1SDV_20190517T001151_20190517T001216_027260_0312D8_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20190517T001151_20190517T001216_027260_0312D8_rtc",
+    "date": "2019-05-17T00:12:03.635625Z",
+    "productId": "S1A_IW_GRDH_1SDV_20190517T001151_20190517T001216_027260_0312D8_rtc",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/5/17/IW/DV/S1A_IW_GRDH_1SDV_20190517T001151_20190517T001216_027260_0312D8_B3DB/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 63,
+    "direction": "ascending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2019-05-17T00:12:03.635625Z",
+      "platform": "SENTINEL-1A",
+      "s1:shape": [
+        28272,
+        21129
+      ],
+      "proj:bbox": [
+        345420.0,
+        3846280.0,
+        628140.0,
+        4057570.0
+      ],
+      "proj:epsg": 32615,
+      "proj:shape": [
+        21129,
+        28272
+      ],
+      "end_datetime": "2019-05-17 00:12:16.135070+00:00",
+      "constellation": "Sentinel-1",
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        345420.0,
+        0.0,
+        -10.0,
+        4057570.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "201432",
+      "start_datetime": "2019-05-17 00:11:51.136181+00:00",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "18",
+      "s1:total_slices": "22",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 27260,
+      "sat:relative_orbit": 63,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_timeliness": "Fast-24h",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "6",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\usa-arkansas-2019\\S1A_IW_GRDH_1SDV_20190529T001151_20190529T001216_027435_03184E_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20190529T001151_20190529T001216_027435_03184E_rtc",
+    "date": "2019-05-29T00:12:04.155902Z",
+    "productId": "S1A_IW_GRDH_1SDV_20190529T001151_20190529T001216_027435_03184E_rtc",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/5/29/IW/DV/S1A_IW_GRDH_1SDV_20190529T001151_20190529T001216_027435_03184E_547A/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 63,
+    "direction": "ascending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2019-05-29T00:12:04.155902Z",
+      "platform": "SENTINEL-1A",
+      "s1:shape": [
+        28272,
+        21129
+      ],
+      "proj:bbox": [
+        345400.0,
+        3846270.0,
+        628120.0,
+        4057560.0
+      ],
+      "proj:epsg": 32615,
+      "proj:shape": [
+        21129,
+        28272
+      ],
+      "end_datetime": "2019-05-29 00:12:16.655444+00:00",
+      "constellation": "Sentinel-1",
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        345400.0,
+        0.0,
+        -10.0,
+        4057560.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "202830",
+      "start_datetime": "2019-05-29 00:11:51.656360+00:00",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "18",
+      "s1:total_slices": "22",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 27435,
+      "sat:relative_orbit": 63,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_timeliness": "Fast-24h",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "6",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\usa-arkansas-2019\\S1A_IW_GRDH_1SDV_20190610T001152_20190610T001217_027610_031DB0_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20190610T001152_20190610T001217_027610_031DB0_rtc",
+    "date": "2019-06-10T00:12:04.724170Z",
+    "productId": "S1A_IW_GRDH_1SDV_20190610T001152_20190610T001217_027610_031DB0_rtc",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/6/10/IW/DV/S1A_IW_GRDH_1SDV_20190610T001152_20190610T001217_027610_031DB0_64CD/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 63,
+    "direction": "ascending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2019-06-10T00:12:04.724170Z",
+      "platform": "SENTINEL-1A",
+      "s1:shape": [
+        28271,
+        21129
+      ],
+      "proj:bbox": [
+        345440.0,
+        3846280.0,
+        628150.0,
+        4057570.0
+      ],
+      "proj:epsg": 32615,
+      "proj:shape": [
+        21129,
+        28271
+      ],
+      "end_datetime": "2019-06-10 00:12:17.223668+00:00",
+      "constellation": "Sentinel-1",
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        345440.0,
+        0.0,
+        -10.0,
+        4057570.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "204208",
+      "start_datetime": "2019-06-10 00:11:52.224672+00:00",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "18",
+      "s1:total_slices": "22",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 27610,
+      "sat:relative_orbit": 63,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_timeliness": "Fast-24h",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "6",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\usa-arkansas-2019\\S1A_IW_GRDH_1SDV_20190622T001153_20190622T001218_027785_0322EA_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20190622T001153_20190622T001218_027785_0322EA_rtc",
+    "date": "2019-06-22T00:12:05.526355Z",
+    "productId": "S1A_IW_GRDH_1SDV_20190622T001153_20190622T001218_027785_0322EA_rtc",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2019/6/22/IW/DV/S1A_IW_GRDH_1SDV_20190622T001153_20190622T001218_027785_0322EA_617F/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 63,
+    "direction": "ascending",
+    "validSourceCoverage": 1.0,
+    "stacProperties": {
+      "datetime": "2019-06-22T00:12:05.526355Z",
+      "platform": "SENTINEL-1A",
+      "s1:shape": [
+        28269,
+        21128
+      ],
+      "proj:bbox": [
+        345480.0,
+        3846320.0,
+        628170.0,
+        4057600.0
+      ],
+      "proj:epsg": 32615,
+      "proj:shape": [
+        21128,
+        28269
+      ],
+      "end_datetime": "2019-06-22 00:12:18.025748+00:00",
+      "constellation": "Sentinel-1",
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        345480.0,
+        0.0,
+        -10.0,
+        4057600.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "205546",
+      "start_datetime": "2019-06-22 00:11:53.026961+00:00",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "18",
+      "s1:total_slices": "22",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 27785,
+      "sat:relative_orbit": 63,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_timeliness": "Fast-24h",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "6",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  }
+]

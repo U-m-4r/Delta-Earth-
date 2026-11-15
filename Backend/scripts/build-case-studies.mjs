@@ -9,8 +9,8 @@ const exec = promisify(execFile);
 const api = process.env.BACKEND_URL ?? 'http://127.0.0.1:8787';
 const python = process.env.PYTHON_BIN ?? (process.platform === 'win32' ? 'python' : 'python3');
 const backendDir = resolve(import.meta.dirname, '..');
-const outputRoot = resolve(backendDir, '../Frontend/public/case-studies');
-const stories = JSON.parse(await readFile(join(backendDir, 'case-studies/stories.json'), 'utf8'));
+const outputRoot = resolve(backendDir, 'Stories/case-studies');
+const stories = JSON.parse(await readFile(join(backendDir, 'Stories/definitions.json'), 'utf8'));
 const only = process.argv.slice(2);
 
 async function call(path, init) {
@@ -56,9 +56,10 @@ for (const story of stories.filter((item) => !only.length || only.includes(item.
   console.log(`  ${stdout.trim()}`);
 }
 
-const index = [];
+let index = [];
+try { index = JSON.parse(await readFile(join(outputRoot, 'index.json'), 'utf8')); } catch { /* first build */ }
 for (const story of stories) {
-  try { await readFile(join(outputRoot, story.slug, 'result.json')); const xs = story.ring.map((p) => p[0]); const ys = story.ring.map((p) => p[1]); index.push({ slug: story.slug, title: story.title, location: story.location, changeType: story.changeType, center: [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2] }); } catch { /* not built yet */ }
+  try { await readFile(join(outputRoot, story.slug, 'result.json')); const entry = { slug: story.slug, title: story.title, location: story.location, changeType: story.changeType }; const position = index.findIndex(item => item.slug === story.slug); if (position < 0) index.push(entry); else index[position] = { ...index[position], ...entry }; } catch { /* not built yet */ }
 }
 await writeFile(join(outputRoot, 'index.json'), JSON.stringify(index, null, 1));
 console.log(`\nStories available: ${index.map((item) => item.slug).join(', ')}`);

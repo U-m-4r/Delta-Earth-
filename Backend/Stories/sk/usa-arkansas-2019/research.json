@@ -1,0 +1,27 @@
+{
+  "eventVerified": true,
+  "scope": "Dardanelle floodplain, Arkansas, USA",
+  "references": [
+    {
+      "title": "NASA: Flooding Along the Arkansas River (May 2019)",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flooding-along-the-arkansas-river-145108/"
+    },
+    {
+      "title": "National Weather Service: Historic Arkansas River flooding in 2019",
+      "url": "https://www.weather.gov/lzk/flood2019.htm"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "selectedDates": [
+    "2019-05-17",
+    "2019-05-29",
+    "2019-06-10",
+    "2019-06-22"
+  ],
+  "dateGapsDisclosed": true,
+  "source": "Public Sentinel-1 C-band VV RTC; no NISAR existed for these historical dates",
+  "independentPixelAccuracy": "not established"
+}

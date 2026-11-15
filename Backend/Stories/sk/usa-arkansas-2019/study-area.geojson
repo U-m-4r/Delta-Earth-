@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "properties": {
+    "owner": "sk",
+    "name": "Dardanelle floodplain, Arkansas, USA",
+    "scope": "Focused river corridor, not the entire disaster"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -93.3,
+          35.15
+        ],
+        [
+          -93.05,
+          35.15
+        ],
+        [
+          -93.05,
+          35.35
+        ],
+        [
+          -93.3,
+          35.35
+        ],
+        [
+          -93.3,
+          35.15
+        ]
+      ]
+    ]
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "kind": "sequence",
+  "slug": "pakistan-tarbela-2026",
+  "title": "Tarbela: three radar views across the season",
+  "location": "Tarbela Reservoir, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Tarbela Reservoir, Pakistan across 3 real radar observations",
+  "introduction": "Three compatible NISAR frequency-A HHHH observations show the reservoir landscape on 25 June, 19 July and 12 August 2026. The saved calibrated August dB raster is restored to linear power before common-grid resampling, so all three frames use the same processing order.",
+  "conclusion": "Compare the shoreline and neighboring terrain through the actual acquisition dates. Radar response does not measure stored water volume or establish a flood. Wind, vegetation, roughness and geometry can influence brightness.",
+  "references": [
+    {
+      "title": "Dawn: Tarbela level rose from 1,504 ft to 1,537 ft (1 Aug 2026)",
+      "url": "https://www.dawn.com/news/2019823"
+    },
+    {
+      "title": "PMD Flood Forecasting Division daily bulletin, 30 Aug 2026",
+      "url": "https://ffd.pmd.gov.pk/bulletin/89/download"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-25T14:03:09.000Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2026-06-25: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4243410607-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001/NISAR_L2_PR_GCOV_023_164_D_071_4005_DHDH_A_20260625T140309_20260625T140344_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "add2014789e37679a0686e553b5487869ac27a193913d81a1e2612f1b942a0cc",
+      "imageSha256": "f2b598edad26817236e23d5fa68d7ee51a16b12ffbd7b1e77524b7e9a4f75e1c",
+      "meanDb": -8.2158842086792,
+      "medianDb": -7.8355913162231445,
+      "validPixelCount": 1603449,
+      "validFraction": 0.8188800367703386
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-19T14:03:08.000Z",
+      "image": "frame-2.png",
+      "label": "Intermediate observation",
+      "caption": "2026-07-19: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4255934283-ASF",
+      "productId": "NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_164_D_071_4005_DHDH_A_20260719T140308_20260719T140343_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "cb7bd5eee53abd1dd179974c9e204e8acfbc5592999a50b6f49686397b2f31c4",
+      "imageSha256": "39cafd717c6f7fbfa07068b29e8abef04fd62c7f7d0a253df13b2cc16c7a62fd",
+      "meanDb": -9.031379699707031,
+      "medianDb": -8.487585067749023,
+      "validPixelCount": 1603030,
+      "validFraction": 0.8186660538276901,
+      "changeFromPrevious": {
+        "meanDb": -0.815894603729248,
+        "medianDb": -0.6928863525390625,
+        "validPixelCount": 1602753
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-12T14:03:07.000Z",
+      "image": "frame-3.png",
+      "label": "Final observation",
+      "caption": "2026-08-12: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4281806562-ASF",
+      "productId": "NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001/NISAR_L2_PR_GCOV_027_164_D_071_4005_DHDH_A_20260812T140307_20260812T140341_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "ec67c63e205e57da22a4136756fa3268f73d6b81110ae670f1e39468e7e82adf",
+      "imageSha256": "fc4504f27546ac5327cbf20a96f1201f32d9fd547c962588d60a67a765084855",
+      "meanDb": -7.4655585289001465,
+      "medianDb": -6.893022537231445,
+      "validPixelCount": 1601272,
+      "validFraction": 0.8177682447270314,
+      "changeFromPrevious": {
+        "meanDb": 1.5619443655014038,
+        "medianDb": 1.4236156940460205,
+        "validPixelCount": 1600492
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            72.55,
+            34
+          ],
+          [
+            72.95,
+            34
+          ],
+          [
+            72.95,
+            34.4
+          ],
+          [
+            72.55,
+            34.4
+          ],
+          [
+            72.55,
+            34
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Tarbela Reservoir filling"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1284,
+      "height": 1525,
+      "crs": "EPSG:32642",
+      "transform": [
+        29.99221183800623,
+        0.0,
+        826370.0,
+        0.0,
+        -29.98688524590164,
+        3813580.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

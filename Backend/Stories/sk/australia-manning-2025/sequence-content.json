@@ -1,0 +1,90 @@
+{
+  "kind": "sequence",
+  "slug": "australia-manning-2025",
+  "title": "Record Water on the Manning",
+  "location": "Taree–Wingham, Manning River, New South Wales, Australia",
+  "changeType": "Documented river flood · radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Taree–Wingham, Manning River, New South Wales, Australia across 4 real radar observations",
+  "introduction": "From 20–25 May 2025 a slow-moving trough produced a documented 1-in-500-year flood on the NSW Mid North Coast. The Manning River at Taree peaked near 6.4 m on 21 May, above the 1929 record, with major flooding at Wingham and widespread rescues. These four Sentinel-1 radar visits follow a focused Manning corridor around Taree and Wingham from before the crest through late June.",
+  "conclusion": "The 21 May acquisition falls on the documented crest day at Taree; it is still a radar brightness map, not a measured water depth or validated inundation polygon. Later frames show follow-up landscape response and must not be read as a full recovery certificate. Standing water, wet soil, crops and viewing geometry all affect brightness. No flood-area accuracy or damage estimate is claimed.",
+  "references": [
+    {
+      "title": "NSW SES: Highest flood on record for Taree (21 May 2025)",
+      "url": "https://www.ses.nsw.gov.au/news/highest-flood-record-taree-rescues-underway-people-trapped-floodwater"
+    },
+    {
+      "title": "ABC News: Manning River rises past 96-year record at Taree",
+      "url": "https://www.abc.net.au/news/2025-05-21/manning-river-rises-past-96-year-record-at-taree/105317780"
+    },
+    {
+      "title": "Wikipedia: 2025 New South Wales floods",
+      "url": "https://en.wikipedia.org/wiki/2025_New_South_Wales_floods"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Taree–Wingham, Manning River, New South Wales, Australia",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            152.35,
+            -32.05
+          ],
+          [
+            152.55,
+            -32.05
+          ],
+          [
+            152.55,
+            -31.85
+          ],
+          [
+            152.35,
+            -31.85
+          ],
+          [
+            152.35,
+            -32.05
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 950,
+      "height": 1113,
+      "crs": "EPSG:32756",
+      "transform": [
+        20.010526315789473,
+        0.0,
+        438500.0,
+        0.0,
+        -20.0,
+        6476110.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null,
+  "continent": "Oceania",
+  "eventEvidence": "Documented by NSW SES, ABC News and the 2025 NSW floods summary; radar observations are not a validated flood classification."
+}

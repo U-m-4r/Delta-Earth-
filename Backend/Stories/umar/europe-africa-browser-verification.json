@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "slug": "po-delta-sequence-2026",
+      "chapters": 5,
+      "status": "passed"
+    },
+    {
+      "slug": "senegal-river-sequence-2026",
+      "chapters": 5,
+      "status": "passed"
+    },
+    {
+      "slug": "bhagalpur-flood-2026",
+      "chapters": 8,
+      "status": "passed"
+    },
+    {
+      "slug": "bangalore-sequence-2026",
+      "chapters": 5,
+      "status": "passed"
+    },
+    {
+      "slug": "jeddah-sequence-2026",
+      "chapters": 5,
+      "status": "passed"
+    },
+    {
+      "slug": "pakistan-indus-2026",
+      "chapters": 4,
+      "status": "passed"
+    },
+    {
+      "slug": "assam-brahmaputra-2026",
+      "chapters": 4,
+      "status": "passed"
+    },
+    {
+      "slug": "pakistan-tarbela-2026",
+      "chapters": 2,
+      "status": "passed"
+    },
+    {
+      "slug": "pakistan-manchar-2026",
+      "chapters": 2,
+      "status": "passed"
+    }
+  ],
+  "visualization": "passed",
+  "dragging": "passed",
+  "staleAndFailedFrames": "passed",
+  "errors": []
+}

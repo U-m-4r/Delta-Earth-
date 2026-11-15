@@ -1,0 +1,198 @@
+{
+  "kind": "sequence",
+  "slug": "senegal-river-sequence-2026",
+  "dates": [
+    "2026-06-22",
+    "2026-07-16",
+    "2026-09-02",
+    "2026-09-26",
+    "2026-10-20"
+  ],
+  "title": "Following the Senegal's Seasonal Pulse",
+  "location": "Podor floodplain, Senegal\u2013Mauritania border",
+  "changeType": "Seasonal river and floodplain",
+  "continent": "Africa",
+  "headline": "How does a Sahelian floodplain appear across the river's rising-water season?",
+  "introduction": "Near Podor, the Senegal River links a broad floodplain with the livelihoods of farmers, fishers and herders. Research on this valley describes a seasonal flood pulse, influenced by rainfall upstream and river management, with historical peaks often occurring in September or October. These five NISAR visits follow the landscape from June to October 2026, giving us a repeatable way to inspect the river corridor and its surrounding lowlands.",
+  "conclusion": "Mean HH radar response is nearly unchanged between June (\u221215.12 dB) and July (\u221215.17 dB), rises to \u221212.92 dB in late September, then decreases to \u221214.20 dB in October. This is a measured seasonal pattern across the study area, not a direct measurement of water extent: vegetation and moisture can strengthen returns even where smooth open water would darken. The historical flood cycle provides context, not validation of a 2026 event. Water-level records and a contemporary independent water map are needed to explain the changes. The missing August visit leaves part of the transition unresolved.",
+  "references": [
+    {
+      "title": "Ogilvie et al. (2020): Senegal floodplain observations and seasonal hydrology",
+      "url": "https://piahs.copernicus.org/articles/383/255/2020/index.html"
+    },
+    {
+      "title": "NASA NISAR provisional GCOV collection",
+      "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-22T19:32:49.000Z",
+      "image": "frame-1.png",
+      "label": "Set the June reference",
+      "caption": "22 June establishes the river corridor and neighboring floodplain before the later-season visits. Locate the channel and broad lowland patterns. A dark surface can be smooth water, but dry smooth ground and radar geometry can also affect the signal.",
+      "granuleId": "G4244637580-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_124_D_080_2005_DHDH_A_20260622T193249_20260622T193324_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_124_D_080_2005_DHDH_A_20260622T193249_20260622T193324_P05023_N_F_J_001/NISAR_L2_PR_GCOV_023_124_D_080_2005_DHDH_A_20260622T193249_20260622T193324_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1490707,
+      "meanDb": -15.120068550109863,
+      "medianDb": -15.130071640014648,
+      "sourceSha256": "1c034e420e2b1f06d30d77bda807f4bbdec2a5e783ed978c4eb7f17c7c30ecde",
+      "imageSha256": "df4021544fa535fd61489b6c865d983391496251f4c0a9dfe84a65d0a8d31e3a"
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-16T19:32:48.000Z",
+      "image": "frame-2.png",
+      "label": "A similar July average",
+      "caption": "16 July returns an area-wide mean of \u221215.17 dB, close to June's \u221215.12 dB. That similar average does not imply every pixel is unchanged: compare individual channel margins and nearby lowlands with the June view. No flood onset is assigned from this image alone.",
+      "granuleId": "G4254268697-ASF",
+      "productId": "NISAR_L2_PR_GCOV_025_124_D_080_2005_DHDH_A_20260716T193248_20260716T193322_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_124_D_080_2005_DHDH_A_20260716T193248_20260716T193322_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_124_D_080_2005_DHDH_A_20260716T193248_20260716T193322_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1490707,
+      "meanDb": -15.16926097869873,
+      "medianDb": -15.16050910949707,
+      "sourceSha256": "ef94793de23ca49b93f384615ab23919c6b64c656dbe81afb7a626e420d32207",
+      "imageSha256": "1a8c21681d6c99d935e489a4c8cc8bc7d9d17e65f4044ab3135b8ab7379efc04",
+      "changeFromPrevious": {
+        "meanDb": -0.049191493541002274,
+        "medianDb": 0.0045108795166015625,
+        "validPixelCount": 1490707,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-09-02T19:32:46.000Z",
+      "image": "frame-3.png",
+      "label": "The early September visit",
+      "caption": "2 September resumes the sequence after a gap of almost seven weeks, with a mean response of \u221214.75 dB. The meandering river still anchors the view while surrounding patches can be compared through time. Without an August visit, we cannot locate the exact start of the intervening change.",
+      "granuleId": "G4298340315-ASF",
+      "productId": "NISAR_L2_PR_GCOV_029_124_D_080_2005_DHDH_A_20260902T193246_20260902T193320_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_029_124_D_080_2005_DHDH_A_20260902T193246_20260902T193320_P05023_N_F_J_001/NISAR_L2_PR_GCOV_029_124_D_080_2005_DHDH_A_20260902T193246_20260902T193320_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1490707,
+      "meanDb": -14.746821403503418,
+      "medianDb": -14.924034118652344,
+      "sourceSha256": "94000f881b3124b60e84ec0619503e9559823a319f48bbda4fe575d70c27a083",
+      "imageSha256": "5ad133a467d312d98115a31b341ff69fed54cc38ffcaaad9550d1f0f497b1427",
+      "changeFromPrevious": {
+        "meanDb": 0.4224392771720886,
+        "medianDb": 0.4274559020996094,
+        "validPixelCount": 1490707,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2026-09-26T19:32:46.000Z",
+      "image": "frame-4.png",
+      "label": "Stronger late-September returns",
+      "caption": "26 September has the strongest mean response in these five visits, at \u221212.92 dB. Compare the brighter lowland and field patterns with July and early September. Vegetation and surface moisture are possible contributors; this radar maximum is not a measured maximum flood extent.",
+      "granuleId": "G4326850227-ASF",
+      "productId": "NISAR_L2_PR_GCOV_031_124_D_080_2005_DHDH_A_20260926T193246_20260926T193320_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_031_124_D_080_2005_DHDH_A_20260926T193246_20260926T193320_P05023_N_F_J_001/NISAR_L2_PR_GCOV_031_124_D_080_2005_DHDH_A_20260926T193246_20260926T193320_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1490707,
+      "meanDb": -12.919767379760742,
+      "medianDb": -12.81094741821289,
+      "sourceSha256": "a338b322f697682e1014c7fc00043e1ba2e7e5a8e9434cb8fdbf979d913a98ff",
+      "imageSha256": "3f19fc65887f449d0dc1d002d5c19ec0088dfe39d02b69def0c1340cbeb04a3b",
+      "changeFromPrevious": {
+        "meanDb": 1.827054500579834,
+        "medianDb": 1.864309310913086,
+        "validPixelCount": 1490707,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-5",
+      "date": "2026-10-20T19:32:46.000Z",
+      "image": "frame-5.png",
+      "label": "An October shift",
+      "caption": "By 20 October, the mean response falls to \u221214.20 dB. The shift is visible against the same river bends and fixed colour scale. It is a change in measured scattering, not proof that floodwater has receded or that the landscape has returned to normal.",
+      "granuleId": "G4383725980-ASF",
+      "productId": "NISAR_L2_PR_GCOV_033_124_D_080_2005_DHDH_A_20261020T193246_20261020T193320_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_124_D_080_2005_DHDH_A_20261020T193246_20261020T193320_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_124_D_080_2005_DHDH_A_20261020T193246_20261020T193320_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1490707,
+      "meanDb": -14.200688362121582,
+      "medianDb": -14.305944442749023,
+      "sourceSha256": "c112ecd14e55c53fa23717a7848cb642b91871519a61c43e6b7a93125a8e44aa",
+      "imageSha256": "6fd1c94b1cb367e3678f55367acd78177bddc251bf34e31f3aaa913ba079e17b",
+      "changeFromPrevious": {
+        "meanDb": -1.2809220552444458,
+        "medianDb": -1.3716316223144531,
+        "validPixelCount": 1490707,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    }
+  ],
+  "studyId": "8d2060f18ea7648e",
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "name": "Senegal River: Podor floodplain",
+      "owner": "Umar",
+      "continent": "Africa"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -15.05,
+            16.5
+          ],
+          [
+            -14.82,
+            16.5
+          ],
+          [
+            -14.82,
+            16.72
+          ],
+          [
+            -15.05,
+            16.72
+          ],
+          [
+            -15.05,
+            16.5
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1226,
+      "height": 1216,
+      "crs": "EPSG:32628",
+      "transform": [
+        20.0,
+        0.0,
+        494680.0,
+        0.0,
+        -20.0,
+        1848580.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Individual frequency-A HHHH GeoTIFFs retrieved with the application Harmony extraction pipeline. Bilinear alignment to the first raster grid, nonpositive and NoData pixels masked, 10*log10(linear power), one fixed palette/range for every frame."
+}

@@ -1,0 +1,27 @@
+{
+  "eventVerified": true,
+  "scope": "Noblesville corridor, White River, Indiana, USA",
+  "references": [
+    {
+      "title": "NWS Indianapolis: Record Flooding of August 2026",
+      "url": "https://www.weather.gov/ind/august2026flooding"
+    },
+    {
+      "title": "IndyStar: How high did Indiana rivers get? (17 Aug 2026)",
+      "url": "https://www.indystar.com/story/weather/2026/08/17/how-high-did-indiana-rivers-get-see-new-records-during-floods/91337753007/"
+    },
+    {
+      "title": "CBS News: Indiana White River breaks 1913 flooding record",
+      "url": "https://www.cbsnews.com/news/indiana-white-river-flooding-record-emergency/"
+    }
+  ],
+  "selectedDates": [
+    "2026-07-23",
+    "2026-08-16",
+    "2026-08-28",
+    "2026-09-09"
+  ],
+  "geometry": "047_A_022",
+  "source": "NISAR provisional GCOV frequency-A HHHH via Harmony extraction",
+  "independentPixelAccuracy": "not established"
+}

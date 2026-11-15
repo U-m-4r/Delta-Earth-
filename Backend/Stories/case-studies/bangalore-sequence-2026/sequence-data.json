@@ -1,0 +1,196 @@
+{
+  "kind": "sequence",
+  "slug": "bangalore-sequence-2026",
+  "dates": [
+    "2026-06-27",
+    "2026-07-21",
+    "2026-08-26",
+    "2026-09-19",
+    "2026-10-13"
+  ],
+  "title": "Bangalore: five views of a lake corridor",
+  "location": "Bellandur and Varthur, Bangalore, India",
+  "changeType": "Seasonal lake landscape",
+  "headline": "How does the Bellandur\u2013Varthur landscape change across five radar visits?",
+  "introduction": "Follow Bangalore's connected lake corridor from June to October 2026. Five observations let us inspect the progression between the endpoints: lake margins, neighboring vegetation and the strong returns of the surrounding city. Each view comes from an individually extracted NISAR radar file, with identical colours and map extent.",
+  "conclusion": "The five dates reveal changes in measured radar response across the season. Use the first-date comparison to keep lake margins and nearby land in view as you step through the sequence. Moisture, vegetation, roughness and urban surfaces can all affect the signal; a changing colour alone does not confirm inundation or a change in water quality. This sequence is a reproducible starting point for checking lake dynamics against rainfall, optical images and local observations.",
+  "references": [
+    {
+      "title": "IISc: Bangalore's interconnected lake systems",
+      "url": "https://wgbis.ces.iisc.ac.in/energy/water/paper/ETR93/varthur.html"
+    },
+    {
+      "title": "NASA NISAR provisional GCOV collection",
+      "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-27T00:24:49.000Z",
+      "image": "frame-1.png",
+      "label": "Establish the lake corridor",
+      "caption": "27 June establishes the reference view. Locate the broad, lower-response lake surfaces and the brighter urban surroundings. Keep these landmarks in mind: every later image uses this same grid and colour range.",
+      "granuleId": "G4243038533-ASF",
+      "productId": "NISAR_L2_PR_GCOV_024_012_A_008_4005_DHDH_A_20260627T002449_20260627T002523_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_024_012_A_008_4005_DHDH_A_20260627T002449_20260627T002523_P05023_N_F_J_001/NISAR_L2_PR_GCOV_024_012_A_008_4005_DHDH_A_20260627T002449_20260627T002523_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1442266,
+      "meanDb": -6.058874607086182,
+      "medianDb": -6.499683856964111,
+      "sourceSha256": "39e95c9cbc28ebd69bb4752e0ee8108fd1d998ebfef85aa809e8fdb11594799b",
+      "imageSha256": "923bda99a8060b947a7e5723e0d4364d305d3adb0278ae43754db270ef14ad0d"
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-21T00:24:47.000Z",
+      "image": "frame-2.png",
+      "label": "Return in July",
+      "caption": "21 July adds the first intermediate visit. Compare the lake edges and neighboring land with June using the baseline toggle. Local differences in brightness are measured radar changes; they need independent evidence before being called new water.",
+      "granuleId": "G4258279764-ASF",
+      "productId": "NISAR_L2_PR_GCOV_026_012_A_008_4005_DHDH_A_20260721T002447_20260721T002522_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_012_A_008_4005_DHDH_A_20260721T002447_20260721T002522_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_012_A_008_4005_DHDH_A_20260721T002447_20260721T002522_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1442266,
+      "meanDb": -5.589936256408691,
+      "medianDb": -6.013713359832764,
+      "sourceSha256": "ecb9ad2f21d0c6d3ec5a592e988fc4e77fd2b7e9da2124f67c5464fb188fb9fb",
+      "imageSha256": "497e07a7982c3796c57e8006ccbbabfb4cbbb44a4167569429375c59423b4256",
+      "changeFromPrevious": {
+        "meanDb": 0.4689386487007141,
+        "medianDb": 0.4368891716003418,
+        "validPixelCount": 1442266,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-26T00:24:46.000Z",
+      "image": "frame-3.png",
+      "label": "Follow the August landscape",
+      "caption": "26 August gives a third checkpoint rather than jumping directly to the end of the season. Watch whether changes persist in the same locations, move along the corridor, or appear mainly in the surrounding land.",
+      "granuleId": "G4293236282-ASF",
+      "productId": "NISAR_L2_PR_GCOV_029_012_A_008_4005_DHDH_A_20260826T002446_20260826T002520_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_029_012_A_008_4005_DHDH_A_20260826T002446_20260826T002520_P05023_N_F_J_001/NISAR_L2_PR_GCOV_029_012_A_008_4005_DHDH_A_20260826T002446_20260826T002520_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1442266,
+      "meanDb": -5.41967248916626,
+      "medianDb": -5.842527866363525,
+      "sourceSha256": "51a981dc1d65f125a4be8988149e8a44c29f0a0dec21d73ac2808e997862a865",
+      "imageSha256": "ed1aebec575229023cbdbfb022f2d42883ee184ea17e07301cefc6ad290b3dc6",
+      "changeFromPrevious": {
+        "meanDb": 0.17026352882385254,
+        "medianDb": 0.20026898384094238,
+        "validPixelCount": 1442266,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2026-09-19T00:24:46.000Z",
+      "image": "frame-4.png",
+      "label": "Check persistence in September",
+      "caption": "19 September tests whether the August pattern continues. A persistent spatial pattern is more useful for investigation than one bright or dark patch in a single image. Compare both the previous date and the June baseline.",
+      "granuleId": "G4318002986-ASF",
+      "productId": "NISAR_L2_PR_GCOV_031_012_A_008_4005_DHDH_A_20260919T002446_20260919T002520_P05023_F_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_031_012_A_008_4005_DHDH_A_20260919T002446_20260919T002520_P05023_F_F_J_001/NISAR_L2_PR_GCOV_031_012_A_008_4005_DHDH_A_20260919T002446_20260919T002520_P05023_F_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1442266,
+      "meanDb": -5.705263614654541,
+      "medianDb": -6.125262260437012,
+      "sourceSha256": "cb3b363df7e4c185c291d67d1f7d451659253e811d044956f51dde3139b830bc",
+      "imageSha256": "71a251b657b9ea7fe5de2cac8b173c0707c9c8068e91c543fcc27a9d305ec80b",
+      "changeFromPrevious": {
+        "meanDb": -0.2855914831161499,
+        "medianDb": -0.2790027856826782,
+        "validPixelCount": 1442266,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-5",
+      "date": "2026-10-13T00:24:46.000Z",
+      "image": "frame-5.png",
+      "label": "Close the sequence in October",
+      "caption": "13 October completes the five-visit sequence. Compare the endpoint with June, then revisit the intermediate dates to see when radar differences appeared. This is a seasonal observation sequence, not a verified flood-and-recovery chronology.",
+      "granuleId": "G4366260007-ASF",
+      "productId": "NISAR_L2_PR_GCOV_033_012_A_008_4005_DHDH_A_20261013T002446_20261013T002521_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_012_A_008_4005_DHDH_A_20261013T002446_20261013T002521_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_012_A_008_4005_DHDH_A_20261013T002446_20261013T002521_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1442266,
+      "meanDb": -5.900974750518799,
+      "medianDb": -6.33760404586792,
+      "sourceSha256": "008aa1b14d95733ceb198ac67526922350ebde384325e6a508aa867b1081d0a8",
+      "imageSha256": "32ea93c68036991286ae77a30d0a6e4320ba8dd0ca07ac64366ff62a8ffdab19",
+      "changeFromPrevious": {
+        "meanDb": -0.19571039080619812,
+        "medianDb": -0.1957562267780304,
+        "validPixelCount": 1442266,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    }
+  ],
+  "studyId": "17bc8136564c7b47",
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "name": "Bangalore: Bellandur\u2013Varthur lake corridor",
+      "owner": "Umar"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            77.62,
+            12.9
+          ],
+          [
+            77.77,
+            12.9
+          ],
+          [
+            77.77,
+            12.98
+          ],
+          [
+            77.62,
+            12.98
+          ],
+          [
+            77.62,
+            12.9
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1637,
+      "height": 902,
+      "crs": "EPSG:32643",
+      "transform": [
+        10.0,
+        0.0,
+        784230.0,
+        0.0,
+        -10.0,
+        1436550.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Individual frequency-A HHHH GeoTIFFs retrieved with the application Harmony extraction pipeline. Bilinear alignment to the first raster grid, nonpositive and NoData pixels masked, 10*log10(linear power), one fixed palette/range for every frame."
+}

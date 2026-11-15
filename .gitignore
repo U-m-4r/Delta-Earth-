@@ -1,4 +1,5 @@
 .env
+Frontend/.env.local
 .venv/
 venv/
 .vscode/
@@ -18,6 +19,24 @@ case-study/
 data/granules/
 data/study_areas/
 data/manifests/
+data/harmony_jobs/
+data/retrieval_sessions/
+data/studies/
+data/raster_registry.json
 !data/.gitkeep
 *.h5
 *.nc
+
+Backend/Stories/Bagalpur/.cache/
+
+# Local processing inputs and superseded workspace copies.
+data/sk-radar/
+Backend/src/
+Frontend/public/case-studies/
+Frontend/public/saved/
+/stories/
+Backend/scripts/finish-latest-story-pull.py
+Frontend/tests/all-stories.browser.mjs
+
+Backend/.env
+

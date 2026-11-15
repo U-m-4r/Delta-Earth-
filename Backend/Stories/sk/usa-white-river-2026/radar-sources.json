@@ -1,0 +1,38 @@
+[
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\granules\\G4260446179-ASF\\measurements\\HHHH.tif",
+    "id": "G4260446179-ASF",
+    "date": "2026-07-23T10:48:35.000Z",
+    "productId": "NISAR_L2_PR_GCOV_026_047_A_022_2005_QPDH_A_20260723T104835_20260723T104910_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_026_047_A_022_2005_QPDH_A_20260723T104835_20260723T104910_P05023_N_F_J_001/NISAR_L2_PR_GCOV_026_047_A_022_2005_QPDH_A_20260723T104835_20260723T104910_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\granules\\G4284760682-ASF\\measurements\\HHHH.tif",
+    "id": "G4284760682-ASF",
+    "date": "2026-08-16T10:48:34.000Z",
+    "productId": "NISAR_L2_PR_GCOV_028_047_A_022_2005_QPDH_A_20260816T104834_20260816T104909_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_047_A_022_2005_QPDH_A_20260816T104834_20260816T104909_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_047_A_022_2005_QPDH_A_20260816T104834_20260816T104909_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\granules\\G4292412895-ASF\\measurements\\HHHH.tif",
+    "id": "G4292412895-ASF",
+    "date": "2026-08-28T10:48:34.000Z",
+    "productId": "NISAR_L2_PR_GCOV_029_047_A_022_2005_QPDH_A_20260828T104834_20260828T104909_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_029_047_A_022_2005_QPDH_A_20260828T104834_20260828T104909_P05023_N_F_J_001/NISAR_L2_PR_GCOV_029_047_A_022_2005_QPDH_A_20260828T104834_20260828T104909_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\granules\\G4311620404-ASF\\measurements\\HHHH.tif",
+    "id": "G4311620404-ASF",
+    "date": "2026-09-09T10:48:34.000Z",
+    "productId": "NISAR_L2_PR_GCOV_030_047_A_022_2005_QPDH_A_20260909T104834_20260909T104908_P05023_N_F_J_001",
+    "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_030_047_A_022_2005_QPDH_A_20260909T104834_20260909T104908_P05023_N_F_J_001/NISAR_L2_PR_GCOV_030_047_A_022_2005_QPDH_A_20260909T104834_20260909T104908_P05023_N_F_J_001.h5",
+    "measurement": "HHHH",
+    "frequency": "frequencyA"
+  }
+]

@@ -1,0 +1,84 @@
+{
+  "kind": "sequence",
+  "slug": "australia-murray-2022",
+  "title": "When the Murray Spread Beyond Its Banks",
+  "location": "Echuca–Moama, Murray River, Australia",
+  "changeType": "Multi-date radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Echuca–Moama, Murray River, Australia across 4 real radar observations",
+  "introduction": "During the 2022 eastern Australian floods, water moved through the Murray–Darling Basin over weeks rather than a single moment. NASA reported major flooding around Echuca in late October, and the basin authority subsequently reviewed the 2022–23 river flood. These four radar visits follow a defined area around Echuca and Moama across the lead-up and the weeks following the reported crest.",
+  "conclusion": "The dates bracket the documented flood period, but there is no compatible 19 October frame in this selected orbit sequence: the record jumps from 7 to 31 October. The 31 October image follows the reported local crest and must not be labelled the peak itself. Radar response can change with standing water, wet soil, crops, flooded woodland and viewing geometry. This story does not calculate flood depth, damage or validated inundation area.",
+  "references": [
+    {
+      "title": "NASA: Flooding in Eastern Australia (October 2022)",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flooding-in-eastern-australia-150542/"
+    },
+    {
+      "title": "Murray–Darling Basin Authority: River Murray 2022–23 flood review",
+      "url": "https://www.mdba.gov.au/sites/default/files/publications/river-murray-2022-2023-flood-review-final-report.pdf"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Echuca–Moama, Murray River, Australia",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            144.6,
+            -36.2
+          ],
+          [
+            144.9,
+            -36.2
+          ],
+          [
+            144.9,
+            -35.9
+          ],
+          [
+            144.6,
+            -35.9
+          ],
+          [
+            144.6,
+            -36.2
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1390,
+      "height": 1695,
+      "crs": "EPSG:32755",
+      "transform": [
+        20.0,
+        0.0,
+        283400.0,
+        0.0,
+        -20.00589970501475,
+        6025110.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

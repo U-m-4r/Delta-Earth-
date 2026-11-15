@@ -4,7 +4,13 @@ export type StoryIndexItem = {
   location: string;
   changeType: string;
   preview?: string;
-  center?: [number, number];
+  previewSha256?: string;
+  kind?: string;
+  period?: string;
+  observationCount?: number;
+  description?: string;
+  subtitle?: string;
+  markerLocation?: { longitude: number; latitude: number; method?: string } | null;
 };
 
 export type StoryObservation = {
@@ -12,6 +18,7 @@ export type StoryObservation = {
   label: string;
   date: string;
   image: string;
+  imageSha256?: string;
   measurement?: string;
   bytesRead?: number | null;
   fileSizeMb?: number | null;
@@ -61,4 +68,37 @@ export type StoryResult = {
   pairs: StoryPair[];
   references?: { title: string; url: string }[];
   areaKm2?: number;
+};
+
+export type SequenceStoryResult = {
+  kind: 'sequence';
+  mission?: string;
+  slug: string;
+  title: string;
+  location: string;
+  changeType: string;
+  headline: string;
+  introduction: string;
+  conclusion: string;
+  method: string;
+  display: { palette: string; minimum: number; maximum: number; units: string };
+  references: { title: string; url: string }[];
+  observations: {
+    key: string; date: string; image: string; label: string; caption: string;
+    imageSha256?: string;
+    granuleId: string; productId: string; sourceUrl: string;
+    meanDb: number; medianDb: number; validPixelCount: number;
+    changeFromPrevious?: { meanDb: number; medianDb: number; validPixelCount: number };
+  }[];
+};
+
+export type DocumentaryStory = {
+  kind: 'documentary'; slug: string; title: string; subtitle: string; location: string;
+  interpretation: string;
+  description?: string; introduction?: string; kicker?: string; introTitle?: string; introEmphasis?: string;
+  summary?: string; method?: string; palette?: string; stretch?: string;
+  displayRange?: { min: number; max: number }; changeRange?: number;
+  chapters: { date: string; acquisitionDate: string; observationId: string; available: boolean;
+    title: string; headline: string; narrative: string; observation: string; badge: string; stage: string;
+    raster: { crs: string } | 'NAN'; }[];
 };

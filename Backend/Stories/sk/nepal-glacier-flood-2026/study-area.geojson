@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Nepal: a mountain collapse becomes a downstream flood",
+    "owner": "sk",
+    "role": "User-requested search rectangle; not a flood boundary"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          85.05,
+          27.75
+        ],
+        [
+          85.6,
+          27.75
+        ],
+        [
+          85.6,
+          28.35
+        ],
+        [
+          85.05,
+          28.35
+        ],
+        [
+          85.05,
+          27.75
+        ]
+      ]
+    ]
+  }
+}

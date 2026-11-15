@@ -494,6 +494,21 @@ async def _download(client: httpx.AsyncClient, url: str, target: Path, *, max_by
         try:
             async with client.stream("GET", url, timeout=cfg.download_timeout_seconds, follow_redirects=True,
                                      headers=headers, **options) as response:
+                if response.status_code == 416 and offset:
+                    # A prior attempt may have finished writing the file before
+                    # local publication was interrupted. Verify it before reuse.
+                    total = re.fullmatch(r"bytes \*/(\d+)", response.headers.get("Content-Range", ""))
+                    if max_bytes is not None and offset > max_bytes:
+                        partial.unlink(missing_ok=True)
+                        raise RuntimeError("Visualization session storage limit exceeded while retrieving a Harmony raster.")
+                    if total and int(total[1]) == offset:
+                        try:
+                            _validate_raster(partial)
+                            return partial
+                        except (OSError, ValueError, rasterio.errors.RasterioError):
+                            pass
+                    partial.unlink(missing_ok=True)
+                    continue
                 if response.status_code not in (200, 206):
                     response.raise_for_status()
                     raise RuntimeError(f"Unexpected download status {response.status_code}.")

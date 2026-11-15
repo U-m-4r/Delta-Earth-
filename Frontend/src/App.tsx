@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
-import type { StoryIndexItem } from './types/stories';
-import { BarChart3, BookOpen, Crosshair, Database, Home, Map, MousePointer2, PanelRight, Moon, Search, Settings, Sun, Undo2, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { BarChart3, BookOpen, Crosshair, Database, Home, Map, Moon, MousePointer2, PanelRight, Search, Settings, Sun, Undo2, X } from 'lucide-react';
+import type { GlobeCameraState } from './components/Globe/EarthGlobe';
+import { useStoryCatalog } from './services/storyCatalog';
 import { EarthGlobe } from './components/Globe/EarthGlobe';
 import { LocationSearch } from './components/Globe/LocationSearch';
 import { InformationPanel } from './components/Layout/InformationPanel';
@@ -13,12 +14,15 @@ import { StoriesPage } from './components/stories/StoriesPage';
 import type { RasterOverlay } from './types/visualization';
 
 function App() {
+  const { items: stories, loading: storiesLoading, error: storiesError } = useStoryCatalog();
+  const [storiesVisible, setStoriesVisible] = useState(true);
+  const globeCamera = useRef<GlobeCameraState | null>(null);
   const initialQuery = new URLSearchParams(window.location.search);
   const [selectionActive, setSelectionActive] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => { try { return localStorage.getItem('theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; } });
   useEffect(() => { document.documentElement.dataset.theme = theme; try { localStorage.setItem('theme', theme); } catch { /* storage blocked */ } }, [theme]);
-  const [panelOpen, setPanelOpen] = useState(true);
+  const [panelOpen, setPanelOpen] = useState(() => !window.matchMedia('(max-width: 700px)').matches);
   const [searchOpen, setSearchOpen] = useState(false);
   const [location, setLocation] = useState<LocationResult | undefined>();
   const [selection, setSelection] = useState<GeoJsonFeature | null>(null);
@@ -37,10 +41,6 @@ function App() {
   const [storiesOpen, setStoriesOpen] = useState(false);
   const [storySlug, setStorySlug] = useState<string | null>(null);
   const [rasterOverlay, setRasterOverlay] = useState<RasterOverlay | null>(null);
-  const [stories, setStories] = useState<StoryIndexItem[]>([]);
-  useEffect(() => {
-    fetch('/case-studies/index.json').then((r) => (r.ok ? r.json() : [])).then(setStories).catch(() => setStories([]));
-  }, []);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') { event.preventDefault(); setSearchOpen((open) => !open); }
@@ -116,7 +116,7 @@ function App() {
       <header className="top-navigation">
         <div className="wordmark"><span className="wordmark-orbit" /><div><strong>Delta <em>Earth</em></strong><small>NISAR Change Explorer</small></div></div>
         <div className="top-center">
-          <button className="top-search-button" onClick={() => setSearchOpen((open) => !open)}><Search size={16} /><span>Search anywhere on Earth</span><kbd>⌘ K</kbd></button>
+          <button className="top-search-button" aria-label="Search anywhere on Earth" onClick={() => setSearchOpen((open) => !open)}><Search size={16} /><span>Search anywhere on Earth</span><kbd>⌘ K</kbd></button>
         </div>
         <div className="top-actions">
           <button className="top-icon" aria-label="Settings" aria-expanded={settingsOpen} onClick={() => setSettingsOpen((open) => !open)}><Settings size={17} /></button>
@@ -151,7 +151,11 @@ function App() {
           </aside>
 
           <main className="globe-workspace">
-            <EarthGlobe stories={stories} onStoryClick={(slug) => openStories(slug)} selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={() => {}} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} />
+            <EarthGlobe stories={stories} storiesVisible={storiesVisible} onOpenStory={openStories} cameraMemory={globeCamera} selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={() => {}} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} />
+            <div className="globe-story-controls"><button className="globe-stories-toggle" aria-label="Show story markers" aria-pressed={storiesVisible}
+              onClick={() => setStoriesVisible(visible => !visible)}><BookOpen size={14} /> Stories <i className={storiesVisible ? 'on' : ''} /></button>
+              {storiesVisible && <span>{storiesLoading ? 'Loading stories…' : storiesError ? 'Story markers unavailable' : `${stories.filter(story => story.markerLocation).length} stories around the world`}</span>}
+            </div>
             <div className="globe-hint"><Crosshair size={14} /> {selectionActive ? 'Click the globe to add polygon vertices' : 'Click and drag to rotate · Pinch or two-finger scroll to zoom · Right-drag to pan'}</div>
           </main>
 

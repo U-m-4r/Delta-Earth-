@@ -1,0 +1,78 @@
+{
+  "kind": "sequence",
+  "slug": "punjab-floods-2025",
+  "title": "Punjab 2025: rivers spread across the monsoon floodplain",
+  "location": "Lower Chenab near Multan, Punjab, Pakistan",
+  "changeType": "Multi-date radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Lower Chenab near Multan, Punjab, Pakistan across 4 real radar observations",
+  "introduction": "4 calibrated Sentinel-1 C-band VV radar acquisitions over this focused study area. The image dates are actual acquisitions from 2025-08-01 to 2025-09-18. These historical observations are not NISAR data.",
+  "conclusion": "This sequence shows terrain-corrected radar response across the event period. Moisture, vegetation and surface roughness also affect brightness. This is not a validated water classification or a national flood-area estimate. The processed area is the explicitly mapped local subregion.",
+  "references": [
+    {
+      "title": "NASA: Monsoon Rains Flood Pakistan",
+      "url": "https://science.nasa.gov/earth/earth-observatory/monsoon-rains-flood-pakistan-154781/",
+      "checkedAt": "2026-11-15T15:26:40.650528+00:00",
+      "role": "External event / published satellite evidence"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Lower Chenab near Multan, Punjab, Pakistan",
+      "scope": "Focused subregion, not the full national event"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            71.25,
+            29.8
+          ],
+          [
+            71.55,
+            29.8
+          ],
+          [
+            71.55,
+            30.05
+          ],
+          [
+            71.25,
+            30.05
+          ],
+          [
+            71.25,
+            29.8
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1477,
+      "height": 1416,
+      "crs": "EPSG:32642",
+      "transform": [
+        20.00677048070413,
+        0.0,
+        716920.0,
+        0.0,
+        -20.0,
+        3327070.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

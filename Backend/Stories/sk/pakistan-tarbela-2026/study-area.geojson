@@ -1,0 +1,33 @@
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          72.55,
+          34
+        ],
+        [
+          72.95,
+          34
+        ],
+        [
+          72.95,
+          34.4
+        ],
+        [
+          72.55,
+          34.4
+        ],
+        [
+          72.55,
+          34
+        ]
+      ]
+    ]
+  },
+  "properties": {
+    "name": "Tarbela Reservoir filling"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "status": "passed",
+  "stories": [
+    {
+      "slug": "assam-brahmaputra-2026",
+      "frames": 4,
+      "mission": "NISAR",
+      "dates": [
+        "2026-06-16",
+        "2026-07-22",
+        "2026-08-15",
+        "2026-10-14"
+      ],
+      "sourceUnitsChecked": true,
+      "sourceAndImageHashes": true,
+      "imageDimensions": true,
+      "validCountsAndDbStatistics": true,
+      "commonValidDifferences": true,
+      "grid": {
+        "width": 1502,
+        "height": 1307,
+        "crs": "EPSG:32646",
+        "transform": [
+          30.0,
+          0.0,
+          599130.0,
+          0.0,
+          -30.0,
+          2998340.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "slug": "pakistan-indus-2026",
+      "frames": 4,
+      "mission": "NISAR",
+      "dates": [
+        "2026-06-17",
+        "2026-07-23",
+        "2026-08-16",
+        "2026-10-15"
+      ],
+      "sourceUnitsChecked": true,
+      "sourceAndImageHashes": true,
+      "imageDimensions": true,
+      "validCountsAndDbStatistics": true,
+      "commonValidDifferences": true,
+      "grid": {
+        "width": 1648,
+        "height": 1109,
+        "crs": "EPSG:32642",
+        "transform": [
+          29.987864077669904,
+          0.0,
+          470350.0,
+          0.0,
+          -29.99098286744815,
+          3069550.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "slug": "pakistan-tarbela-2026",
+      "frames": 3,
+      "mission": "NISAR",
+      "dates": [
+        "2026-06-25",
+        "2026-07-19",
+        "2026-08-12"
+      ],
+      "sourceUnitsChecked": true,
+      "sourceAndImageHashes": true,
+      "imageDimensions": true,
+      "validCountsAndDbStatistics": true,
+      "commonValidDifferences": true,
+      "grid": {
+        "width": 1284,
+        "height": 1525,
+        "crs": "EPSG:32642",
+        "transform": [
+          29.99221183800623,
+          0.0,
+          826370.0,
+          0.0,
+          -29.98688524590164,
+          3813580.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "slug": "nepal-glacier-flood-2026",
+      "frames": 3,
+      "mission": "NISAR",
+      "dates": [
+        "2026-08-19",
+        "2026-08-31",
+        "2026-10-06"
+      ],
+      "sourceUnitsChecked": true,
+      "sourceAndImageHashes": true,
+      "imageDimensions": true,
+      "validCountsAndDbStatistics": true,
+      "commonValidDifferences": true,
+      "grid": {
+        "width": 1372,
+        "height": 1455,
+        "crs": "EPSG:32645",
+        "transform": [
+          39.99271137026239,
+          0.0,
+          307810.0,
+          0.0,
+          -40.0,
+          3128500.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "slug": "punjab-floods-2025",
+      "frames": 4,
+      "mission": "Sentinel-1 RTC",
+      "dates": [
+        "2025-08-01",
+        "2025-08-13",
+        "2025-08-25",
+        "2025-09-18"
+      ],
+      "sourceUnitsChecked": true,
+      "sourceAndImageHashes": true,
+      "imageDimensions": true,
+      "validCountsAndDbStatistics": true,
+      "commonValidDifferences": true,
+      "grid": {
+        "width": 1477,
+        "height": 1416,
+        "crs": "EPSG:32642",
+        "transform": [
+          20.00677048070413,
+          0.0,
+          716920.0,
+          0.0,
+          -20.0,
+          3327070.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "slug": "pakistan-floods-2022",
+      "frames": 4,
+      "mission": "Sentinel-1 RTC",
+      "dates": [
+        "2022-08-03",
+        "2022-08-15",
+        "2022-08-27",
+        "2022-09-20"
+      ],
+      "sourceUnitsChecked": true,
+      "sourceAndImageHashes": true,
+      "imageDimensions": true,
+      "validCountsAndDbStatistics": true,
+      "commonValidDifferences": true,
+      "grid": {
+        "width": 1008,
+        "height": 1119,
+        "crs": "EPSG:32642",
+        "transform": [
+          40.0,
+          0.0,
+          340410.0,
+          0.0,
+          -39.99106344950849,
+          2965290.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "activeCatalogCount": 9,
+  "archived": [
+    "pakistan-indus-2026"
+  ]
+}

@@ -1,0 +1,314 @@
+[
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\punjab-floods-2025\\S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_rtc",
+    "date": "2025-08-01T13:20:44.931917Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_077FFA_3D5D",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/8/1/IW/DV/S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_077FFA_3D5D/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 71,
+    "direction": "ascending",
+    "stacProperties": {
+      "datetime": "2025-08-01T13:20:44.931917Z",
+      "platform": "sentinel-1a",
+      "s1:shape": [
+        28308,
+        21569
+      ],
+      "proj:bbox": [
+        510130.0,
+        3232230.0,
+        793210.0,
+        3447920.0
+      ],
+      "proj:epsg": 32642,
+      "proj:shape": [
+        21569,
+        28308
+      ],
+      "end_datetime": "2025-08-01T13:20:57.431016Z",
+      "constellation": "Sentinel-1",
+      "proj:centroid": {
+        "lat": 30.18027,
+        "lon": 70.57907
+      },
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        510130.0,
+        0.0,
+        -10.0,
+        3447920.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "491514",
+      "start_datetime": "2025-08-01T13:20:32.432819Z",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "4",
+      "s1:total_slices": "15",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 60343,
+      "sat:relative_orbit": 71,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250801T132032_20250801T132057_060343_077FFA_3D5D",
+      "s1:product_timeliness": "Fast-24h",
+      "s1:processing_datetime": "2025-08-01T15:53:36.000000Z",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\punjab-floods-2025\\S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_rtc",
+    "date": "2025-08-13T13:20:44.893614Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_078688_906C",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/8/13/IW/DV/S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_078688_906C/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 71,
+    "direction": "ascending",
+    "stacProperties": {
+      "datetime": "2025-08-13T13:20:44.893614Z",
+      "platform": "sentinel-1a",
+      "s1:shape": [
+        28309,
+        21570
+      ],
+      "proj:bbox": [
+        510100.0,
+        3232220.0,
+        793190.0,
+        3447920.0
+      ],
+      "proj:epsg": 32642,
+      "proj:shape": [
+        21570,
+        28309
+      ],
+      "end_datetime": "2025-08-13T13:20:57.392719Z",
+      "constellation": "Sentinel-1",
+      "proj:centroid": {
+        "lat": 30.18033,
+        "lon": 70.57885
+      },
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        510100.0,
+        0.0,
+        -10.0,
+        3447920.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "493192",
+      "start_datetime": "2025-08-13T13:20:32.394510Z",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "4",
+      "s1:total_slices": "15",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 60518,
+      "sat:relative_orbit": 71,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250813T132032_20250813T132057_060518_078688_906C",
+      "s1:product_timeliness": "Fast-24h",
+      "s1:processing_datetime": "2025-08-13T15:47:39.000000Z",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\punjab-floods-2025\\S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_rtc",
+    "date": "2025-08-25T13:20:45.115016Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_A6C5",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/8/25/IW/DV/S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_A6C5/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 71,
+    "direction": "ascending",
+    "stacProperties": {
+      "datetime": "2025-08-25T13:20:45.115016Z",
+      "platform": "sentinel-1a",
+      "s1:shape": [
+        28308,
+        21570
+      ],
+      "proj:bbox": [
+        510070.0,
+        3232220.0,
+        793150.0,
+        3447920.0
+      ],
+      "proj:epsg": 32642,
+      "proj:shape": [
+        21570,
+        28308
+      ],
+      "end_datetime": "2025-08-25T13:20:57.614135Z",
+      "constellation": "Sentinel-1",
+      "proj:centroid": {
+        "lat": 30.18031,
+        "lon": 70.57846
+      },
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        510070.0,
+        0.0,
+        -10.0,
+        3447920.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "494959",
+      "start_datetime": "2025-08-25T13:20:32.615896Z",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "4",
+      "s1:total_slices": "15",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 60693,
+      "sat:relative_orbit": 71,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250825T132032_20250825T132057_060693_078D6F_A6C5",
+      "s1:product_timeliness": "Fast-24h",
+      "s1:processing_datetime": "2025-08-25T15:50:38.000000Z",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  },
+  {
+    "path": "D:\\nas\\Delta-Earth-\\data\\sk-radar\\punjab-floods-2025\\S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_rtc.tif",
+    "id": "S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_rtc",
+    "date": "2025-09-18T13:20:45.554788Z",
+    "productId": "S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_8DC0",
+    "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2025/9/18/IW/DV/S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_8DC0/measurement/iw-vv.rtc.tiff",
+    "measurement": "VV",
+    "frequency": "C-band",
+    "orbit": 71,
+    "direction": "ascending",
+    "stacProperties": {
+      "datetime": "2025-09-18T13:20:45.554788Z",
+      "platform": "sentinel-1a",
+      "s1:shape": [
+        28311,
+        21570
+      ],
+      "proj:bbox": [
+        509970.0,
+        3232230.0,
+        793080.0,
+        3447930.0
+      ],
+      "proj:epsg": 32642,
+      "proj:shape": [
+        21570,
+        28311
+      ],
+      "end_datetime": "2025-09-18T13:20:58.053960Z",
+      "constellation": "Sentinel-1",
+      "proj:centroid": {
+        "lat": 30.18033,
+        "lon": 70.5776
+      },
+      "s1:resolution": "high",
+      "proj:transform": [
+        10.0,
+        0.0,
+        509970.0,
+        0.0,
+        -10.0,
+        3447930.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "s1:datatake_id": "498533",
+      "start_datetime": "2025-09-18T13:20:33.055616Z",
+      "s1:orbit_source": "RESORB",
+      "s1:slice_number": "4",
+      "s1:total_slices": "15",
+      "sar:looks_range": 5,
+      "sat:orbit_state": "ascending",
+      "sar:product_type": "GRD",
+      "sar:looks_azimuth": 1,
+      "sar:polarizations": [
+        "VV",
+        "VH"
+      ],
+      "sar:frequency_band": "C",
+      "sat:absolute_orbit": 61043,
+      "sat:relative_orbit": 71,
+      "s1:processing_level": "1",
+      "sar:instrument_mode": "IW",
+      "sar:center_frequency": 5.405,
+      "sar:resolution_range": 20,
+      "s1:product_identifier": "S1A_IW_GRDH_1SDV_20250918T132033_20250918T132058_061043_079B65_8DC0",
+      "s1:product_timeliness": "Fast-24h",
+      "s1:processing_datetime": "2025-09-18T15:46:05.000000Z",
+      "sar:resolution_azimuth": 22,
+      "sar:pixel_spacing_range": 10,
+      "sar:observation_direction": "right",
+      "sar:pixel_spacing_azimuth": 10,
+      "sar:looks_equivalent_number": 4.4,
+      "s1:instrument_configuration_ID": "7",
+      "sat:platform_international_designator": "2014-016A"
+    }
+  }
+]

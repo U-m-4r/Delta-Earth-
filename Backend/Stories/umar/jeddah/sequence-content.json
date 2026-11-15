@@ -1,0 +1,20 @@
+{
+  "dates": ["2026-06-20", "2026-07-14", "2026-08-19", "2026-09-24", "2026-10-18"],
+  "title": "Jeddah: five visits to a dry city's drainage landscape",
+  "location": "Eastern Jeddah, Saudi Arabia",
+  "changeType": "Urban drainage baseline",
+  "headline": "What changes between summer and autumn along Jeddah's urban drainage landscape?",
+  "introduction": "Follow five NISAR visits from June to October 2026 across eastern Jeddah. Step through dry-season and autumn observations to compare broad drainage features, open land and built surfaces. All five images use one radar channel, one geographic grid and one fixed colour scale, so a new colour stretch cannot imitate a change.",
+  "conclusion": "This sequence builds a multi-date baseline for investigating later runoff events. A change in radar response can identify a place to examine, but smooth dry ground, terrain shadows and urban geometry can resemble or obscure water. No flood event has been established for these dates. Confirmed storm timing, rainfall observations and independent imagery are needed to turn this baseline into an event story; short-lived runoff may disappear between satellite visits.",
+  "references": [
+    {"title": "Tekeli (2017): historical Jeddah rainfall and flash-flood context", "url": "https://www.mdpi.com/2073-4441/9/8/612"},
+    {"title": "NASA NISAR provisional GCOV collection", "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"}
+  ],
+  "chapters": [
+    {"label": "Set the summer baseline", "caption": "20 June provides the first view of eastern Jeddah. Locate the bright built surfaces, lower-response open ground and broad corridors through the landscape. Dark pixels are not automatically water in this arid setting."},
+    {"label": "Revisit in July", "caption": "14 July checks the landscape again during the usual dry-season window described in the historical research. Use the baseline view to distinguish stable spatial features from radar-response differences."},
+    {"label": "Check the August pattern", "caption": "19 August adds another observation of the same ground. Look for differences that recur in the same places rather than interpreting an isolated dark patch as flooding. The scale remains fixed at −30 to +5 dB."},
+    {"label": "Follow the September transition", "caption": "24 September supplies the fourth checkpoint. Compare open surfaces and built blocks separately: their radar responses can change for different reasons. The displayed change statistic uses only pixels valid on both consecutive dates."},
+    {"label": "Establish the autumn reference", "caption": "18 October closes the sequence before the main wetter season described in the historical study. These five visits provide a baseline for a future event comparison; they do not establish a flood or a return to normal after one."}
+  ]
+}

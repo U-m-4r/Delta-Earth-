@@ -1,0 +1,21 @@
+{
+  "dates": ["2026-06-19", "2026-07-13", "2026-08-18", "2026-09-11", "2026-10-17"],
+  "title": "Where the Po Meets the Sea",
+  "location": "Po Delta, Emilia-Romagna and Veneto, Italy",
+  "changeType": "Delta and agricultural landscape",
+  "continent": "Europe",
+  "headline": "Five radar visits to a landscape shaped by river, sea and farming",
+  "introduction": "At the edge of northern Italy, the Po divides into channels beside cultivated land and coastal lagoons. ESA's radar portrait of this region describes a productive agricultural landscape threaded by the river's distributaries. Follow five NISAR observations from June to October 2026 to see how the same channels, lagoon margins and field patterns respond through the season.",
+  "conclusion": "Across the valid study area, mean HH radar response rises from −12.55 dB in June to −9.87 dB in September, then eases to −10.14 dB in October. The field mosaic changes while the branching waterways remain recognizable. These are measurements of radar response: vegetation, moisture and agricultural activity are possible explanations, not confirmed causes. They do not measure a flood, crop yield or harvested area. Independent crop records and contemporary optical imagery would help explain the seasonal pattern.",
+  "references": [
+    {"title": "ESA: Earth from Space — Po (historical landscape and radar context)", "url": "https://www.esa.int/Applications/Observing_the_Earth/Earth_from_Space_Po"},
+    {"title": "NASA NISAR provisional GCOV collection", "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"}
+  ],
+  "chapters": [
+    {"label": "A delta in early summer", "caption": "19 June sets the reference. Trace the river branches and the coastal water margins before looking at the patchwork of fields. The dark and bright patterns describe how surfaces scatter radar energy; they are not a natural-colour photograph."},
+    {"label": "The July field mosaic", "caption": "By 13 July, mean radar response across the valid study area is −11.36 dB, about 1.19 dB above June. The field-shaped patches provide a way to follow this change while the channels anchor the comparison. Vegetation and moisture can alter radar returns without moving a field boundary."},
+    {"label": "Across the August landscape", "caption": "18 August continues the broader increase: mean response is −11.08 dB. Follow the changing field mosaic beside the darker river branches. The same −30 to +5 dB display is used throughout, so this progression is not caused by an automatic colour stretch."},
+    {"label": "The strongest selected response", "caption": "11 September has the highest area-wide mean among these five selected visits, at −9.87 dB. Many field patches appear brighter than in June while the river network remains recognizable. This is a peak in the selected radar sequence, not evidence of a flood peak or a specific harvest date."},
+    {"label": "The October return", "caption": "17 October brings a modest decline to −10.14 dB, still above the June mean. Compare the persistent field patterns with the first image, then revisit July and August to see the progression. The sequence records seasonal radar change without assigning an unverified flood, erosion or land-conversion event."}
+  ]
+}

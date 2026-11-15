@@ -1,0 +1,179 @@
+{
+  "kind": "sequence",
+  "slug": "australia-murray-2022",
+  "title": "When the Murray Spread Beyond Its Banks",
+  "location": "Echuca–Moama, Murray River, Australia",
+  "changeType": "Multi-date radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Echuca–Moama, Murray River, Australia across 4 real radar observations",
+  "introduction": "During the 2022 eastern Australian floods, water moved through the Murray–Darling Basin over weeks rather than a single moment. NASA reported major flooding around Echuca in late October, and the basin authority subsequently reviewed the 2022–23 river flood. These four radar visits follow a defined area around Echuca and Moama across the lead-up and the weeks following the reported crest.",
+  "conclusion": "The dates bracket the documented flood period, but there is no compatible 19 October frame in this selected orbit sequence: the record jumps from 7 to 31 October. The 31 October image follows the reported local crest and must not be labelled the peak itself. Radar response can change with standing water, wet soil, crops, flooded woodland and viewing geometry. This story does not calculate flood depth, damage or validated inundation area.",
+  "references": [
+    {
+      "title": "NASA: Flooding in Eastern Australia (October 2022)",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flooding-in-eastern-australia-150542/"
+    },
+    {
+      "title": "Murray–Darling Basin Authority: River Murray 2022–23 flood review",
+      "url": "https://www.mdba.gov.au/sites/default/files/publications/river-murray-2022-2023-flood-review-final-report.pdf"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2022-09-25T19:33:28.388211Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2022-09-25: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20220925T193315_20220925T193340_045165_0565F1_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20220925T193315_20220925T193340_045165_0565F1_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/9/25/IW/DV/S1A_IW_GRDH_1SDV_20220925T193315_20220925T193340_045165_0565F1_4A4C/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "ffb943aec17330e9402ae8e8c84d77b9a0c87f2cb3133eed20674716327da045",
+      "imageSha256": "eb84aeaee1f124fa9da2703189649e3f6ab42aac9d4669d7eb2a086986ef9163",
+      "meanDb": -12.388946533203125,
+      "medianDb": -12.577735900878906,
+      "validPixelCount": 2356050,
+      "validFraction": 1.0
+    },
+    {
+      "key": "frame-2",
+      "date": "2022-10-07T19:33:28.785695Z",
+      "image": "frame-2.png",
+      "label": "First return",
+      "caption": "2022-10-07: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20221007T193316_20221007T193341_045340_056BCA_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20221007T193316_20221007T193341_045340_056BCA_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/10/7/IW/DV/S1A_IW_GRDH_1SDV_20221007T193316_20221007T193341_045340_056BCA_04B1/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "714031274fddef9d032ef4df68341811569dc97042051054b93c50f152096c29",
+      "imageSha256": "d4b471ba5f233abfd7648fb2ebccd16e91b177133bc517f5dcf93fbd202e7d85",
+      "meanDb": -11.263940811157227,
+      "medianDb": -11.289730072021484,
+      "validPixelCount": 2356050,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": 1.1250032186508179,
+        "medianDb": 1.0206515789031982,
+        "validPixelCount": 2356050
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2022-10-31T19:33:28.696966Z",
+      "image": "frame-3.png",
+      "label": "Later landscape",
+      "caption": "2022-10-31: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20221031T193316_20221031T193341_045690_0576E7_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20221031T193316_20221031T193341_045690_0576E7_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/10/31/IW/DV/S1A_IW_GRDH_1SDV_20221031T193316_20221031T193341_045690_0576E7_F57E/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "510a50a5de4d6f7fcf77646fb3da21ef9859c1f07f1fa74ef120f48a53c69be6",
+      "imageSha256": "62303b00a871e9bab2f63e5705918e60f9e62eb5715635925b86a075f13daf1f",
+      "meanDb": -10.0877685546875,
+      "medianDb": -9.746843338012695,
+      "validPixelCount": 2356050,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": 1.1761746406555176,
+        "medianDb": 1.2433178424835205,
+        "validPixelCount": 2356050
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2022-11-12T19:33:28.379321Z",
+      "image": "frame-4.png",
+      "label": "Final observation",
+      "caption": "2022-11-12: Sentinel-1 RTC VV radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "S1A_IW_GRDH_1SDV_20221112T193315_20221112T193340_045865_057CCD_rtc",
+      "productId": "S1A_IW_GRDH_1SDV_20221112T193315_20221112T193340_045865_057CCD_rtc",
+      "sourceUrl": "https://sentinel1euwestrtc.blob.core.windows.net/sentinel1-grd-rtc/GRD/2022/11/12/IW/DV/S1A_IW_GRDH_1SDV_20221112T193315_20221112T193340_045865_057CCD_32A0/measurement/iw-vv.rtc.tiff",
+      "measurement": "VV",
+      "frequency": "C-band",
+      "mission": "Sentinel-1 RTC",
+      "sourceSha256": "783c1af623264e23b7112d121460c52939a301857504bc1e32c4fbdc867af8a9",
+      "imageSha256": "4b637ae22debfb7812890cf30f0795c0028dd61ac4b121a86bd14c4eaff0c896",
+      "meanDb": -9.369200706481934,
+      "medianDb": -9.021678924560547,
+      "validPixelCount": 2356050,
+      "validFraction": 1.0,
+      "changeFromPrevious": {
+        "meanDb": 0.7185693979263306,
+        "medianDb": 0.6603002548217773,
+        "validPixelCount": 2356050
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Echuca–Moama, Murray River, Australia",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            144.6,
+            -36.2
+          ],
+          [
+            144.9,
+            -36.2
+          ],
+          [
+            144.9,
+            -35.9
+          ],
+          [
+            144.6,
+            -35.9
+          ],
+          [
+            144.6,
+            -36.2
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1390,
+      "height": 1695,
+      "crs": "EPSG:32755",
+      "transform": [
+        20.0,
+        0.0,
+        283400.0,
+        0.0,
+        -20.00589970501475,
+        6025110.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null,
+  "continent": "Oceania",
+  "eventEvidence": "Documented by the linked NASA and national/regional authority reports; radar observations are not a validated flood classification."
+}

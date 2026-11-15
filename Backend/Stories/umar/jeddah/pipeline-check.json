@@ -1,0 +1,237 @@
+{
+  "checkedAt": "2026-11-15T14:26:47.734067+00:00",
+  "steps": [
+    {
+      "method": "GET",
+      "path": "/api/health",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/scenes/search",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/extractions/batch",
+      "statusCode": 202
+    },
+    {
+      "method": "GET",
+      "path": "/api/retrieval-sessions/d4e08884487346dfa1d3e51bfde5c345",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/extractions",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/7eeab13da42ed6f4/raster/G4244036293-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/7eeab13da42ed6f4/preview/G4244036293-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/nisar/extractions",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/7eeab13da42ed6f4/raster/G4379922692-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/7eeab13da42ed6f4/preview/G4379922692-ASF/HHHH",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/visualization/sessions",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/catalog",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/timeline",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/compare",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/products/f790a005fb49adb65e00c219aadfcd62",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/changes",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/exports/79976086a2474e9aba59722254d3978d",
+      "statusCode": 200
+    },
+    {
+      "method": "POST",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/timeline/exports",
+      "statusCode": 202
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/timeline/exports/872b56f042f840e0bd77a34e1b570dd0",
+      "statusCode": 200
+    },
+    {
+      "method": "GET",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5/exports/fb8f2067e09349658c03af45e36b29d8",
+      "statusCode": 200
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/visualization/sessions/bfe7642c45e14dbdb58c3e15c98b68d5",
+      "statusCode": 200
+    }
+  ],
+  "candidate": {
+    "geometry": "093_D_078_4005_DHDH_A",
+    "frequency": "frequencyA",
+    "variable": "HHHH",
+    "observationCount": 10,
+    "before": "G4244036293-ASF",
+    "after": "G4379922692-ASF",
+    "dates": [
+      "2026-06-20T15:55:15.000Z",
+      "2026-07-02T15:55:14.000Z",
+      "2026-07-14T15:55:13.000Z",
+      "2026-07-26T15:55:13.000Z",
+      "2026-08-19T15:55:12.000Z",
+      "2026-08-31T15:55:11.000Z",
+      "2026-09-12T15:55:11.000Z",
+      "2026-09-24T15:55:11.000Z",
+      "2026-10-06T15:55:12.000Z",
+      "2026-10-18T15:55:12.000Z"
+    ]
+  },
+  "status": "passed: discovery, retrieval, individual GeoTIFF downloads, previews, session catalog, timeline, comparison, change export, animated timeline export and session cleanup",
+  "studyId": "7eeab13da42ed6f4",
+  "retrievalStatus": "completed",
+  "downloads": [
+    {
+      "label": "before",
+      "observationId": "G4244036293-ASF",
+      "date": "2026-06-20T15:55:15.000Z",
+      "status": "already_present",
+      "bytes": 10677488,
+      "error": "",
+      "sha256": "a82b681d37acb332f102eb7b341aa44983ee21c0b92409ac51053124db8b0355",
+      "localFile": ".local-run/story-downloads/jeddah/before.tif",
+      "previewLegend": {
+        "palette": "viridis",
+        "stops": [
+          "#440154",
+          "#3b528b",
+          "#21918c",
+          "#5ec962",
+          "#fde725"
+        ],
+        "ticks": [
+          0.03195343166589737,
+          0.8017597924917936,
+          1.57156615331769,
+          2.341372514143586,
+          3.1111788749694824
+        ],
+        "minimum": 0.03195343166589737,
+        "maximum": 3.1111788749694824,
+        "bands": 0,
+        "bandColors": null,
+        "normalizationScale": null
+      }
+    },
+    {
+      "label": "after",
+      "observationId": "G4379922692-ASF",
+      "date": "2026-10-18T15:55:12.000Z",
+      "status": "already_present",
+      "bytes": 10689014,
+      "error": "",
+      "sha256": "3f605ac851d93fb8fcfe618074d03ca528f43baff739807eb71d41feced45b30",
+      "localFile": ".local-run/story-downloads/jeddah/after.tif",
+      "previewLegend": {
+        "palette": "viridis",
+        "stops": [
+          "#440154",
+          "#3b528b",
+          "#21918c",
+          "#5ec962",
+          "#fde725"
+        ],
+        "ticks": [
+          0.03520052134990692,
+          0.9174397028982639,
+          1.799678884446621,
+          2.681918065994978,
+          3.564157247543335
+        ],
+        "minimum": 0.03520052134990692,
+        "maximum": 3.564157247543335,
+        "bands": 0,
+        "bandColors": null,
+        "normalizationScale": null
+      }
+    }
+  ],
+  "sessionCreated": true,
+  "changeExport": {
+    "bytes": 11731559,
+    "sha256": "85dbe6f6f3cea09c3a5994b81cc997ce1485234ac208d16207126ef0e8ac33ca",
+    "localFile": ".local-run/story-downloads/jeddah/changes.zip",
+    "legend": {
+      "minimum": -4.432852325439445,
+      "maximum": 4.432852325439445,
+      "palette": "blue-neutral-red",
+      "units": "1",
+      "zero": 0
+    },
+    "boundsWgs84": [
+      39.16986092713318,
+      21.449859589884795,
+      39.320308481832086,
+      21.62020890790776
+    ]
+  },
+  "timelineExport": {
+    "bytes": 573941,
+    "sha256": "e2347e98dee2a4d383a7b017a1f547a6570c1c1bce1f8efcf8274645dd60b7ba",
+    "localFile": ".local-run/story-downloads/jeddah/timeline.zip",
+    "members": [
+      "timeline.gif",
+      "timeline_report.pdf",
+      "timeline_metadata.json"
+    ],
+    "display": {
+      "palette": "viridis",
+      "stretch": "linear",
+      "bands": 0,
+      "lowerPercentile": 2,
+      "upperPercentile": 98,
+      "minimum": 0.02229166030883789,
+      "maximum": 3.2345526123046966
+    }
+  }
+}

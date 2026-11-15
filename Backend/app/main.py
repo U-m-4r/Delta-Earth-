@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 import rasterio
 import numpy as np
@@ -17,6 +18,8 @@ from shapely.geometry import shape
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, Response, StreamingResponse
+from fastapi.staticfiles import StaticFiles
+from .stories import router as stories_router, ROOT as STORIES_ROOT
 from pydantic import BaseModel, Field
 
 from .cmr import CMRRequestError, search_granules
@@ -24,6 +27,8 @@ from .geometry import PolygonInputError, study_id_for_feature, validate_geojson
 from .harmony import (AUXILIARY, MEASUREMENTS, HarmonyConfigurationError, extract_granule,
     inspect_capabilities, json_safe, refresh_job_status, _sanitize_text, _write_job_record)
 from .raster_registry import persist_processed_raster, query_registry
+from .raster_exports import (RasterExportError, create_change_export, create_timeline_export,
+                             safe_token, _export_study_info)
 from .raster_display import (PALETTE_ANCHORS, colorize_values, log_normalization_scale,
                              palette_legend)
 from .settings import get_settings
@@ -39,6 +44,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 logging.getLogger("httpx").setLevel(logging.WARNING)
 log = logging.getLogger(__name__)
 settings = get_settings()
+_timeline_export_tasks: dict[str, asyncio.Task] = {}
 
 
 def _cmr_http_error(error: CMRRequestError) -> HTTPException:
@@ -78,10 +84,24 @@ async def lifespan(_app: FastAPI):
             pass
 
 
+def frontend_origins(origin: str) -> list[str]:
+    origins = {origin.rstrip('/')}
+    parsed = urlsplit(origin)
+    if parsed.hostname in {'localhost', '127.0.0.1'} and parsed.scheme in {'http', 'https'}:
+        port = f':{parsed.port}' if parsed.port else ''
+        origins.update(urlunsplit((parsed.scheme, host + port, '', '', ''))
+                       for host in ('localhost', '127.0.0.1'))
+    return sorted(origins)
+
+
 app = FastAPI(title="Delta Earth — NISAR Data API", version="0.1.0", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=[settings.frontend_origin], allow_credentials=True,
+app.add_middleware(CORSMiddleware, allow_origins=frontend_origins(settings.frontend_origin), allow_credentials=True,
                    allow_methods=["GET", "POST", "DELETE"], allow_headers=["*"],
-                   expose_headers=["X-Raster-Bounds-WGS84", "X-RGB-Channel-Legend", "X-Raster-Legend"])
+                   expose_headers=["X-Raster-Bounds-WGS84", "X-RGB-Channel-Legend", "X-Raster-Legend", "Content-Disposition"])
+
+app.include_router(stories_router)
+app.mount("/case-studies", StaticFiles(directory=STORIES_ROOT / "case-studies"), name="story-assets")
+
 
 class ExtractRequest(BaseModel):
     granuleId: str = Field(min_length=3, max_length=300)
@@ -102,6 +122,22 @@ class BatchExtractionRequest(BaseModel):
     startDate: date | None = None
     endDate: date | None = None
     combinations: list[dict[str, Any]] = Field(min_length=1, max_length=1000)
+
+
+class RasterReferenceRequest(BaseModel):
+    observationId: str = Field(min_length=3, max_length=300)
+    sourceVariable: str = Field(min_length=2, max_length=100)
+    frequency: str = Field(pattern=r"^frequency[AB]$")
+
+
+class ChangeExportRequest(BaseModel):
+    left: RasterReferenceRequest
+    right: RasterReferenceRequest
+
+
+class TimelineExportRequest(BaseModel):
+    frames: list[RasterReferenceRequest] = Field(min_length=2, max_length=100)
+    settings: dict[str, Any]
 
 
 @app.get("/api/health")
@@ -611,18 +647,126 @@ async def visualization_product(session_id: str, product_id: str,
                     headers={"Cache-Control": "no-store"})
 
 
+def _export_http_error(error: RasterExportError) -> HTTPException:
+    return HTTPException(status_code=error.status_code, detail=str(error))
+
+
+def _export_job_path(session_dir: Path, export_id: str) -> Path:
+    if not re.fullmatch(r"[a-f0-9]{32}", export_id):
+        raise HTTPException(status_code=400, detail="Invalid export identifier.")
+    path = session_dir / "exports" / f"{export_id}.json"
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail="Export job was not found or has expired.")
+    return path
+
+
+@app.post("/api/visualization/sessions/{session_id}/changes")
+async def visualization_changes(session_id: str, request: ChangeExportRequest,
+                                x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, metadata = _require_visualization_session(session_id, x_visualization_session_token)
+    try:
+        result = await asyncio.to_thread(create_change_export, settings.resolved_data_dir, session_dir,
+            metadata["studyId"], request.left.model_dump(), request.right.model_dump(),
+            settings.visualization_max_storage_bytes, settings.visualization_max_dimension)
+    except RasterExportError as exc:
+        raise _export_http_error(exc) from exc
+    except (OSError, rasterio.errors.RasterioError, ValueError) as exc:
+        log.exception("Comparison change export failed")
+        raise HTTPException(status_code=422, detail="Could not generate the change raster from the selected saved measurements.") from exc
+    return result
+
+
+@app.post("/api/visualization/sessions/{session_id}/timeline/exports", status_code=202)
+async def visualization_timeline_export(session_id: str, request: TimelineExportRequest,
+                                        x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, metadata = _require_visualization_session(session_id, x_visualization_session_token)
+    export_id = __import__("uuid").uuid4().hex
+    exports_dir = session_dir / "exports"; exports_dir.mkdir(exist_ok=True)
+    status_path = exports_dir / f"{export_id}.json"
+    _atomic_json(status_path, {"exportId": export_id, "status": "queued", "createdAt": datetime.now(timezone.utc).isoformat()})
+
+    async def process_export():
+        _atomic_json(status_path, {"exportId": export_id, "status": "processing", "startedAt": datetime.now(timezone.utc).isoformat()})
+        try:
+            result = await asyncio.to_thread(create_timeline_export, settings.resolved_data_dir,
+                session_dir, metadata["studyId"], [frame.model_dump() for frame in request.frames],
+                request.settings, settings.visualization_max_storage_bytes,
+                settings.visualization_max_dimension)
+            _atomic_json(exports_dir / f"{result['exportId']}.json", {"filename": result["filename"]})
+            _atomic_json(status_path, {"exportId": export_id, "status": "completed", "filename": result["filename"],
+                "downloadUrl": f"/api/visualization/sessions/{session_id}/exports/{result['exportId']}",
+                "completedAt": datetime.now(timezone.utc).isoformat()})
+        except RasterExportError as exc:
+            _atomic_json(status_path, {"exportId": export_id, "status": "failed", "error": str(exc),
+                "completedAt": datetime.now(timezone.utc).isoformat()})
+        except Exception:
+            log.exception("Timeline export job failed %s", export_id)
+            _atomic_json(status_path, {"exportId": export_id, "status": "failed",
+                "error": "Timeline export failed during raster processing.",
+                "completedAt": datetime.now(timezone.utc).isoformat()})
+        finally:
+            _timeline_export_tasks.pop(export_id, None)
+
+    _timeline_export_tasks[export_id] = asyncio.create_task(process_export())
+    return {"exportId": export_id, "status": "queued"}
+
+
+@app.get("/api/visualization/sessions/{session_id}/timeline/exports/{export_id}")
+async def visualization_timeline_export_status(session_id: str, export_id: str,
+                                               x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, _ = _require_visualization_session(session_id, x_visualization_session_token)
+    status_path = _export_job_path(session_dir, export_id)
+    try:
+        return json.loads(status_path.read_text())
+    except (OSError, ValueError) as exc:
+        raise HTTPException(status_code=500, detail="Timeline export status could not be read.") from exc
+
+
+@app.get("/api/visualization/sessions/{session_id}/exports/{export_id}")
+async def visualization_export_download(session_id: str, export_id: str,
+                                        x_visualization_session_token: str | None = Header(default=None)):
+    session_dir, _ = _require_visualization_session(session_id, x_visualization_session_token)
+    if not re.fullmatch(r"[a-f0-9]{32}", export_id):
+        raise HTTPException(status_code=400, detail="Invalid export identifier.")
+    zip_path = session_dir / "exports" / f"{export_id}.zip"
+    meta_path = session_dir / "exports" / f"{export_id}.json"
+    # Timeline export IDs use a separate status ID and record the download URL;
+    # resolve only from session-owned export files.
+    if not zip_path.is_file():
+        status_path = _export_job_path(session_dir, export_id)
+        record = json.loads(status_path.read_text())
+        download_url = str(record.get("downloadUrl", ""))
+        match = re.search(r"/exports/([a-f0-9]{32})$", download_url)
+        if record.get("status") != "completed" or not match:
+            raise HTTPException(status_code=409, detail="Export is not ready to download.")
+        export_id = match.group(1); zip_path = session_dir / "exports" / f"{export_id}.zip"
+        meta_path = session_dir / "exports" / f"{export_id}.json"
+    if not zip_path.is_file():
+        raise HTTPException(status_code=404, detail="Export file was not found or has expired.")
+    try:
+        record = json.loads(meta_path.read_text()) if meta_path.is_file() else {}
+    except (OSError, ValueError): record = {}
+    filename = safe_token(str(record.get("filename", "")).removesuffix(".zip"), f"DeltaEarth_{export_id}") + ".zip"
+    return FileResponse(zip_path, media_type="application/zip", filename=filename)
+
+
 @app.get("/api/visualization/{study_id}/raster/{observation_id}/{variable}")
 async def visualization_raster(study_id: str, observation_id: str, variable: str,
                                frequency: str = "frequencyA"):
-    path, _ = _registered_raster(study_id, observation_id, variable, frequency)
+    path, entry = _registered_raster(study_id, observation_id, variable, frequency)
     try:
         with rasterio.open(path) as dataset:
             if dataset.driver != "GTiff" or dataset.count < 1 or dataset.width < 1 or dataset.height < 1:
                 raise ValueError("Raster is empty or invalid.")
     except Exception as exc:
         raise HTTPException(status_code=422, detail="The registered GeoTIFF is invalid or corrupted.") from exc
-    return StreamingResponse(_stream_local_file(path), media_type="image/tiff",
-                             headers={"Content-Disposition": f'attachment; filename="{path.name}"'})
+    study_name, _ = _export_study_info(settings.resolved_data_dir, study_id)
+    acquired = str(entry.get("acquisitionDate") or "DateUnavailable")[:10]
+    polarization = {"HHHH": "HH", "HVHV": "HV", "VHVH": "VH", "VVVV": "VV"}.get(variable, variable)
+    filename = "_".join(("DeltaEarth", safe_token(study_name, study_id), safe_token(acquired),
+                         safe_token(observation_id), safe_token(frequency.replace("frequency", "Frequency")),
+                         safe_token(polarization))) + ".tif"
+    return FileResponse(path, media_type="image/tiff", filename=filename)
 
 
 @app.get("/api/visualization/{study_id}/preview/{observation_id}/{variable}")
@@ -634,6 +778,7 @@ async def visualization_raster_preview(study_id: str, observation_id: str, varia
                                        style: str | None = None,
                                        max_dimension: int = Query(default=1024, ge=32, le=2048),
                                        minimum: float | None = None, maximum: float | None = None,
+                                       normalization_scale: float | None = Query(default=None, gt=0),
                                        frequency: str = "frequencyA"):
     path, entry = _registered_raster(study_id, observation_id, variable, frequency)
     if style is not None:
@@ -647,9 +792,12 @@ async def visualization_raster_preview(study_id: str, observation_id: str, varia
             scale = min(1.0, max_dimension / max(dataset.width, dataset.height))
             width, height = max(1, int(dataset.width * scale)), max(1, int(dataset.height * scale))
             sample = dataset.read(1, out_shape=(height, width), masked=True, resampling=Resampling.average)
+            actual_scale = (normalization_scale if normalization_scale is not None else
+                            log_normalization_scale(sample) if stretch == "log" else None)
             rgba_last, low, high = colorize_values(sample, palette=palette, minimum=minimum,
                 maximum=maximum, lower_percentile=lower_percentile,
-                upper_percentile=upper_percentile, stretch=stretch, bands=bands)
+                upper_percentile=upper_percentile, stretch=stretch, bands=bands,
+                normalization_scale=actual_scale)
             rgba = rgba_last.transpose(2, 0, 1)
             bounds = list(transform_bounds(dataset.crs, "EPSG:4326", *dataset.bounds, densify_pts=21))
         with MemoryFile(ext=".png") as memory:
@@ -663,7 +811,8 @@ async def visualization_raster_preview(study_id: str, observation_id: str, varia
     return Response(content=content, media_type="image/png", headers={
         "X-Raster-Bounds-WGS84": json.dumps(bounds), "X-Raster-Minimum": str(low),
         "X-Raster-Maximum": str(high), "X-Raster-Units": str(entry.get("raster", {}).get("units") or "unknown"),
-        "X-Raster-Legend": json.dumps(palette_legend(palette, low, high, bands=bands)),
+        "X-Raster-Legend": json.dumps({**palette_legend(palette, low, high, bands=bands),
+            "normalizationScale": actual_scale}),
         "Cache-Control": "private, max-age=300"})
 
 
@@ -675,6 +824,7 @@ async def visualization_preview_pixel(study_id: str, observation_id: str, variab
                                       upper_percentile: float = Query(default=98, ge=0, le=100),
                                       bands: int = Query(default=0, ge=0, le=64),
                                       minimum: float | None = None, maximum: float | None = None,
+                                      normalization_scale: float | None = Query(default=None, gt=0),
                                       max_dimension: int = Query(default=1024, ge=32, le=2048),
                                       frequency: str = "frequencyA"):
     path, entry = _registered_raster(study_id, observation_id, variable, frequency)
@@ -687,10 +837,11 @@ async def visualization_preview_pixel(study_id: str, observation_id: str, variab
             if x >= width or y >= height:
                 raise HTTPException(status_code=400, detail="Preview pixel lies outside the rendered raster.")
             sample = dataset.read(1, out_shape=(height, width), masked=True, resampling=Resampling.average)
-            shared_scale = log_normalization_scale(sample) if stretch == "log" else None
+            shared_scale = (normalization_scale if normalization_scale is not None else
+                            log_normalization_scale(sample) if stretch == "log" else None)
             _, low, high = colorize_values(sample, palette=palette, minimum=minimum, maximum=maximum,
                 lower_percentile=lower_percentile, upper_percentile=upper_percentile,
-                stretch=stretch, bands=bands)
+                stretch=stretch, bands=bands, normalization_scale=shared_scale)
             source_row = min(dataset.height - 1, int((y + .5) * dataset.height / height))
             source_column = min(dataset.width - 1, int((x + .5) * dataset.width / width))
             value = dataset.read(1, window=((source_row, source_row + 1),

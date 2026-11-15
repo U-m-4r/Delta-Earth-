@@ -1,0 +1,35 @@
+{
+  "type": "Feature",
+  "properties": {
+    "owner": "sk",
+    "name": "Noblesville corridor, White River, Indiana, USA",
+    "scope": "Focused river corridor, not the entire disaster"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -86.15,
+          39.95
+        ],
+        [
+          -85.95,
+          39.95
+        ],
+        [
+          -85.95,
+          40.15
+        ],
+        [
+          -86.15,
+          40.15
+        ],
+        [
+          -86.15,
+          39.95
+        ]
+      ]
+    ]
+  }
+}

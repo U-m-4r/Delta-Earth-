@@ -1,0 +1,21 @@
+{
+  "dates": ["2026-06-22", "2026-07-16", "2026-09-02", "2026-09-26", "2026-10-20"],
+  "title": "Following the Senegal's Seasonal Pulse",
+  "location": "Podor floodplain, Senegal–Mauritania border",
+  "changeType": "Seasonal river and floodplain",
+  "continent": "Africa",
+  "headline": "How does a Sahelian floodplain appear across the river's rising-water season?",
+  "introduction": "Near Podor, the Senegal River links a broad floodplain with the livelihoods of farmers, fishers and herders. Research on this valley describes a seasonal flood pulse, influenced by rainfall upstream and river management, with historical peaks often occurring in September or October. These five NISAR visits follow the landscape from June to October 2026, giving us a repeatable way to inspect the river corridor and its surrounding lowlands.",
+  "conclusion": "Mean HH radar response is nearly unchanged between June (−15.12 dB) and July (−15.17 dB), rises to −12.92 dB in late September, then decreases to −14.20 dB in October. This is a measured seasonal pattern across the study area, not a direct measurement of water extent: vegetation and moisture can strengthen returns even where smooth open water would darken. The historical flood cycle provides context, not validation of a 2026 event. Water-level records and a contemporary independent water map are needed to explain the changes. The missing August visit leaves part of the transition unresolved.",
+  "references": [
+    {"title": "Ogilvie et al. (2020): Senegal floodplain observations and seasonal hydrology", "url": "https://piahs.copernicus.org/articles/383/255/2020/index.html"},
+    {"title": "NASA NISAR provisional GCOV collection", "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"}
+  ],
+  "chapters": [
+    {"label": "Set the June reference", "caption": "22 June establishes the river corridor and neighboring floodplain before the later-season visits. Locate the channel and broad lowland patterns. A dark surface can be smooth water, but dry smooth ground and radar geometry can also affect the signal."},
+    {"label": "A similar July average", "caption": "16 July returns an area-wide mean of −15.17 dB, close to June's −15.12 dB. That similar average does not imply every pixel is unchanged: compare individual channel margins and nearby lowlands with the June view. No flood onset is assigned from this image alone."},
+    {"label": "The early September visit", "caption": "2 September resumes the sequence after a gap of almost seven weeks, with a mean response of −14.75 dB. The meandering river still anchors the view while surrounding patches can be compared through time. Without an August visit, we cannot locate the exact start of the intervening change."},
+    {"label": "Stronger late-September returns", "caption": "26 September has the strongest mean response in these five visits, at −12.92 dB. Compare the brighter lowland and field patterns with July and early September. Vegetation and surface moisture are possible contributors; this radar maximum is not a measured maximum flood extent."},
+    {"label": "An October shift", "caption": "By 20 October, the mean response falls to −14.20 dB. The shift is visible against the same river bends and fixed colour scale. It is a change in measured scattering, not proof that floodwater has receded or that the landscape has returned to normal."}
+  ]
+}

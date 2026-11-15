@@ -1,56 +1,59 @@
 import { useEffect, useRef, useState } from 'react';
-import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, JulianDate, NearFarScalar, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, UrlTemplateImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
+import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
+import type { RefObject } from 'react';
+import { createBaseMapProvider } from '../../config/mapProvider';
+import { StoryMarkerLayer } from './StoryMarkerLayer';
+import type { StoryPick } from './StoryMarkerLayer';
+import { StoryPreview } from './StoryPreview';
+import type { StoryIndexItem } from '../../types/stories';
 import type { GeoJsonFeature, Position } from '../../types/geojson';
 import type { LocationResult } from '../../services/locationSearchService';
 import type { RasterOverlay } from '../../types/visualization';
-import type { StoryIndexItem } from '../../types/stories';
 import 'cesium/Build/Cesium/Widgets/widgets.css';
+import './storyMarkers.css';
 
-const STORY_PREFIX = 'story:';
-
-type Props = { stories?: StoryIndexItem[]; onStoryClick?: (slug: string) => void; selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange?: (cursor: [number, number] | null) => void };
+export type GlobeCameraState = { position: Cartesian3; direction: Cartesian3; up: Cartesian3 };
+type Props = { stories: StoryIndexItem[]; storiesVisible: boolean; onOpenStory: (slug: string) => void;
+  cameraMemory: RefObject<GlobeCameraState | null>; selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange: (cursor: [number, number] | null) => void };
 
 const MINIMUM_ZOOM_DISTANCE = 35_000;
 
-export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftVertexCount, location, clearSignal, undoSignal, homeSignal, focusRequest, rasterOverlay, onRasterClick, onDraftChange, onSelectionChange, onCursorChange }: Props) {
+export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory, selectionActive, draftVertexCount, location, clearSignal, undoSignal, homeSignal, focusRequest, rasterOverlay, onRasterClick, onDraftChange, onSelectionChange, onCursorChange }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<Viewer | null>(null);
+  const markerLayerRef = useRef<StoryMarkerLayer | null>(null);
+  const [storyPick, setStoryPick] = useState<StoryPick>({ choices: [], selected: null });
   const handlerRef = useRef<ScreenSpaceEventHandler | null>(null);
   const positionsRef = useRef<Position[]>([]);
   const activeRef = useRef(selectionActive);
   const rasterClickRef = useRef(onRasterClick);
-  const storyClickRef = useRef(onStoryClick);
   const [viewerReady, setViewerReady] = useState(false);
+  const [overlayError, setOverlayError] = useState<string | null>(null);
 
   useEffect(() => { activeRef.current = selectionActive; }, [selectionActive]);
   useEffect(() => { rasterClickRef.current = onRasterClick; }, [onRasterClick]);
-  useEffect(() => { storyClickRef.current = onStoryClick; }, [onStoryClick]);
-  useEffect(() => {
-    const viewer = viewerRef.current;
-    if (!viewer || viewer.isDestroyed()) return undefined;
-    const added = stories.filter((story) => story.center).map((story) => viewer.entities.add({
-      id: STORY_PREFIX + story.slug,
-      position: Cartesian3.fromDegrees(story.center![0], story.center![1]),
-      point: { pixelSize: 14, color: Color.fromCssColorString('#fc3d21'), outlineColor: Color.WHITE, outlineWidth: 2 },
-      label: { text: story.title, font: '600 12px Inter, sans-serif', fillColor: Color.WHITE, showBackground: true, backgroundColor: Color.fromCssColorString('#18181bcc'), pixelOffset: new Cartesian2(0, -22), translucencyByDistance: new NearFarScalar(1_500_000, 1, 5_000_000, 0) },
-    }));
-    return () => { if (!viewer.isDestroyed()) added.forEach((entity) => viewer.entities.remove(entity)); };
-  }, [stories, viewerReady]);
   useEffect(() => {
     const viewer = viewerRef.current;
     if (!viewer || viewer.isDestroyed()) return;
     viewer.imageryLayers.removeAll();
-    const removeStreetToggle = addBaseLayers(viewer);
+    viewer.imageryLayers.add(new ImageryLayer(createBaseMapProvider()));
+    let cancelled = false;
+    setOverlayError(null);
     if (rasterOverlay) {
       const [west, south, east, north] = rasterOverlay.boundsWgs84;
-      const provider = new SingleTileImageryProvider({
-        url: rasterOverlay.url,
+      // The current Cesium constructor requires image dimensions. Its factory
+      // loads the existing preview and obtains those dimensions without guesses.
+      void SingleTileImageryProvider.fromUrl(rasterOverlay.url, {
         rectangle: Rectangle.fromDegrees(west, south, east, north),
+      }).then(provider => {
+        if (cancelled || viewer.isDestroyed()) return;
+        const layer = viewer.imageryLayers.addImageryProvider(provider);
+        layer.alpha = rasterOverlay.opacity ?? 0.9;
+      }).catch(() => {
+        if (!cancelled && !viewer.isDestroyed()) setOverlayError('The saved raster overlay could not be displayed.');
       });
-      const layer = viewer.imageryLayers.addImageryProvider(provider);
-      layer.alpha = rasterOverlay.opacity ?? 0.9;
     }
-    return () => { if (!viewer.isDestroyed()) removeStreetToggle(); };
+    return () => { cancelled = true; };
   }, [rasterOverlay, viewerReady]);
   useEffect(() => {
     const viewer = viewerRef.current;
@@ -63,7 +66,7 @@ export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftV
   useEffect(() => {
     if (!containerRef.current) return undefined;
     const viewer = new Viewer(containerRef.current, {
-      baseLayer: false, // imagery effect adds the base layers once the viewer is ready
+      baseLayer: new ImageryLayer(createBaseMapProvider()),
       terrainProvider: new EllipsoidTerrainProvider(),
       animation: false, timeline: false, geocoder: false, homeButton: false, sceneModePicker: false,
       navigationHelpButton: false, fullscreenButton: false, baseLayerPicker: false, infoBox: false, selectionIndicator: false,
@@ -76,14 +79,17 @@ export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftV
     // Fog tints tiles per vertex by distance, which also reads as uneven shading.
     viewer.scene.fog.enabled = false;
     viewer.scene.requestRenderMode = false;
-    viewer.camera.setView({
-      destination: Cartesian3.fromDegrees(80, 26, 7_200_000),
+    viewer.camera.setView(cameraMemory.current ? { destination: cameraMemory.current.position,
+      orientation: { direction: cameraMemory.current.direction, up: cameraMemory.current.up } } : {
+      destination: Cartesian3.fromDegrees(-18, 18, 7_200_000),
       orientation: {
         heading: CesiumMath.toRadians(0),
         pitch: CesiumMath.toRadians(-90),
         roll: 0,
       },
     });
+    const markers = new StoryMarkerLayer(viewer, setStoryPick);
+    markerLayerRef.current = markers;
     const cameraController = viewer.scene.screenSpaceCameraController;
     cameraController.enableInputs = true;
     cameraController.enableRotate = true;
@@ -105,6 +111,7 @@ export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftV
     const canvas = viewer.scene.canvas;
     const handleTrackpadZoom = (event: WheelEvent) => {
       if (!cameraController.enableInputs || activeRef.current) return;
+      markers.cancelFlight();
       event.preventDefault();
       const pixels = Math.max(-120, Math.min(120, event.deltaY));
       const currentHeight = viewer.camera.positionCartographic.height;
@@ -120,28 +127,8 @@ export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftV
       const ray = viewer.camera.getPickRay(windowPosition);
       return ray ? viewer.scene.globe.pick(ray, viewer.scene) : undefined;
     };
-    const pickStory = (windowPosition: Cartesian2): { slug: string; position: Cartesian3 } | null => {
-      const entity = viewer.scene.pick(windowPosition)?.id;
-      const id: unknown = entity?.id;
-      const position = entity?.position?.getValue(JulianDate.now());
-      return typeof id === 'string' && id.startsWith(STORY_PREFIX) && position ? { slug: id.slice(STORY_PREFIX.length), position } : null;
-    };
-    let flying = false;
     handler.setInputAction((movement: { position: Cartesian2 }) => {
-      const story = activeRef.current ? null : pickStory(movement.position);
-      if (story) {
-        if (flying) return;
-        flying = true;
-        const target = Cartographic.fromCartesian(story.position);
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        viewer.camera.flyTo({
-          destination: Cartesian3.fromRadians(target.longitude, target.latitude, 600_000),
-          duration: reduceMotion ? 0 : 1.1,
-          complete: () => { flying = false; storyClickRef.current?.(story.slug); },
-          cancel: () => { flying = false; },
-        });
-        return;
-      }
+      if (!activeRef.current && markers.click(movement.position)) return;
       const cartesian = pickSurface(movement.position);
       if (!defined(cartesian)) return;
       const cartographic = Cartographic.fromCartesian(cartesian);
@@ -154,15 +141,34 @@ export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftV
       onDraftChange(positionsRef.current.length);
       if (positionsRef.current.length >= 3) onSelectionChange(createFeature(positionsRef.current));
     }, ScreenSpaceEventType.LEFT_CLICK);
+    for (const type of [ScreenSpaceEventType.LEFT_DOWN, ScreenSpaceEventType.RIGHT_DOWN, ScreenSpaceEventType.PINCH_START]) {
+      handler.setInputAction(() => markers.cancelFlight(), type);
+    }
     handler.setInputAction((movement: { endPosition: Cartesian2 }) => {
-      canvas.style.cursor = !activeRef.current && pickStory(movement.endPosition) ? 'pointer' : '';
+      if (!activeRef.current) markers.move(movement.endPosition);
       const cartesian = pickSurface(movement.endPosition);
       if (!defined(cartesian)) { onCursorChange?.(null); return; }
       const cartographic = Cartographic.fromCartesian(cartesian);
       onCursorChange?.([CesiumMath.toDegrees(cartographic.longitude), CesiumMath.toDegrees(cartographic.latitude)]);
     }, ScreenSpaceEventType.MOUSE_MOVE);
-    return () => { canvas.removeEventListener('wheel', handleTrackpadZoom); handler.destroy(); viewer.destroy(); setViewerReady(false); };
+    const dismiss = (event: KeyboardEvent) => { if (event.key === 'Escape' && markers.hasPreview) { markers.clear(); canvas.focus({ preventScroll: true }); } };
+    const outside = (event: PointerEvent) => {
+      if (event.target instanceof Element && !event.target.closest('.globe-story-preview') && event.target !== canvas) markers.clear();
+    };
+    const leave = () => markers.clearHover();
+    document.addEventListener('keydown', dismiss);
+    document.addEventListener('pointerdown', outside);
+    canvas.addEventListener('pointerleave', leave);
+    return () => {
+      cameraMemory.current = { position: Cartesian3.clone(viewer.camera.positionWC), direction: Cartesian3.clone(viewer.camera.directionWC), up: Cartesian3.clone(viewer.camera.upWC) };
+      document.removeEventListener('keydown', dismiss); document.removeEventListener('pointerdown', outside);
+      canvas.removeEventListener('pointerleave', leave); canvas.removeEventListener('wheel', handleTrackpadZoom);
+      markers.destroy(); markerLayerRef.current = null; handler.destroy(); viewer.destroy(); setViewerReady(false);
+    };
   }, [onCursorChange, onDraftChange, onSelectionChange]);
+
+  useEffect(() => { markerLayerRef.current?.update(stories); }, [stories, viewerReady]);
+  useEffect(() => { markerLayerRef.current?.setVisible(storiesVisible, selectionActive); }, [storiesVisible, selectionActive, viewerReady]);
 
   useEffect(() => {
     if (!viewerRef.current || !location) return;
@@ -221,26 +227,15 @@ export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftV
     }));
   }, [draftVertexCount]);
 
-  return <div ref={containerRef} className="cesium-container" />;
+  return <>
+    <div ref={containerRef} className="cesium-container" />
+    {overlayError && <div className="globe-overlay-error" role="alert">{overlayError}</div>}
+    {storiesVisible && !selectionActive && storyPick.choices.length > 0 && <StoryPreview pick={storyPick}
+      onChoose={slug => markerLayerRef.current?.select(slug)}
+      onClose={() => { markerLayerRef.current?.clear(); viewerRef.current?.canvas.focus({ preventScroll: true }); }}
+      onExplore={onOpenStory} />}
+  </>;
 }
-
-const GIBS = 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best';
-
-// NASA Blue Marble from GIBS for the globe view, and OpenStreetMap only once zoomed past
-// Blue Marble's ~600 m resolution (for drawing study areas).
-// No GIBS Reference_Features overlay: in EPSG:3857 it serves opaque black tiles, which darkened
-// the globe everywhere those tiles had loaded and left bright patches where they hadn't.
-function addBaseLayers(viewer: Viewer) {
-  viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: `${GIBS}/BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg`, maximumLevel: 8, credit: 'NASA Blue Marble · GIBS' }));
-  // Switch the whole street layer on by camera height, not per tile (minimumTerrainLevel), so street
-  // tiles never sit as patches among Blue Marble tiles.
-  const streets = viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' }));
-  const syncStreets = () => { streets.show = viewer.camera.positionCartographic.height < STREETS_BELOW_M; };
-  syncStreets();
-  return viewer.scene.preRender.addEventListener(syncStreets);
-}
-
-const STREETS_BELOW_M = 250_000; // ~where Blue Marble's 600 m pixels start to blur
 
 function createFeature(points: Position[]): GeoJsonFeature {
   const ring = [...points, points[0]];

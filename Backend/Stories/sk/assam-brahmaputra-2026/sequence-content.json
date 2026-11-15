@@ -1,0 +1,78 @@
+{
+  "kind": "sequence",
+  "slug": "assam-brahmaputra-2026",
+  "title": "Brahmaputra flood around Majuli",
+  "location": "Majuli and Jorhat, Assam, India",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Majuli and Jorhat, Assam, India across 4 real radar observations",
+  "introduction": "Assam University's 2026 flood report describes the July 2026 Upper Assam floods (about 2.12 lakh people affected) and a 20 July embankment breach in Jorhat that flooded villages and cut ferry links to Majuli.",
+  "conclusion": "Follow the actual radar observations across the season. Differences are measured radar response, not proof of flooding. Independent flood evidence and classification limits remain applicable.",
+  "references": [
+    {
+      "title": "Assam University: Report on the 2026 Assam floods",
+      "url": "https://www.aus.ac.in/wp-content/uploads/2026/08/Report_Flood_2026_Assam-University.pdf"
+    },
+    {
+      "title": "Sentinel Assam: Brahmaputra erosion puts lower Majuli at risk",
+      "url": "https://www.sentinelassam.com/topheadlines/brahmaputra-erosion-puts-lower-majuli-at-risk-locals-slam-official-negligence"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            94,
+            26.75
+          ],
+          [
+            94.45,
+            26.75
+          ],
+          [
+            94.45,
+            27.1
+          ],
+          [
+            94,
+            27.1
+          ],
+          [
+            94,
+            26.75
+          ]
+        ]
+      ]
+    },
+    "properties": {
+      "name": "Brahmaputra flood around Majuli"
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1502,
+      "height": 1307,
+      "crs": "EPSG:32646",
+      "transform": [
+        30.0,
+        0.0,
+        599130.0,
+        0.0,
+        -30.0,
+        2998340.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

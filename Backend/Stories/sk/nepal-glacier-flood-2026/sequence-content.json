@@ -1,0 +1,84 @@
+{
+  "kind": "sequence",
+  "slug": "nepal-glacier-flood-2026",
+  "title": "Nepal: three radar visits to a mountain river corridor",
+  "location": "Rasuwa–Trishuli corridor, Nepal",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Rasuwa–Trishuli corridor, Nepal across 3 real radar observations",
+  "introduction": "Three NISAR observations show the Rasuwa–Trishuli study area on 19 August, 31 August and 6 October 2026. These frames use track 098, frame 016, selected after checking the actual satellite footprints and valid raster masks across the requested area.",
+  "conclusion": "Use the baseline comparison to inspect persistent river-corridor and mountain-surface patterns. Shadow, layover, snow and ice complicate mountain radar. These views do not independently confirm a collapse mechanism or delineate the full debris-flow footprint.",
+  "references": [
+    {
+      "title": "USGS event assessment",
+      "url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "checkedAt": "2026-11-15T15:26:40.650528+00:00",
+      "role": "External event / published satellite evidence"
+    },
+    {
+      "title": "ESA satellite comparison",
+      "url": "https://www.esa.int/articles/about-us/directorates/earth-observation-programmes/copernicus/sentinel-2/nepal-flash-flood-imaged-by-satellites",
+      "checkedAt": "2026-11-15T15:26:40.650528+00:00",
+      "role": "External event / published satellite evidence"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "name": "Nepal: a mountain collapse becomes a downstream flood",
+      "owner": "sk",
+      "role": "User-requested search rectangle; not a flood boundary"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            85.05,
+            27.75
+          ],
+          [
+            85.6,
+            27.75
+          ],
+          [
+            85.6,
+            28.35
+          ],
+          [
+            85.05,
+            28.35
+          ],
+          [
+            85.05,
+            27.75
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1375,
+      "height": 1681,
+      "crs": "EPSG:32645",
+      "transform": [
+        39.97818181818182,
+        0.0,
+        307810.0,
+        0.0,
+        -39.98215348007139,
+        3137510.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

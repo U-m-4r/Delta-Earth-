@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "catalogCount": 10,
+  "mancharRemoved": true,
+  "newRegionalStoriesRetained": true,
+  "nepalCoverage": [
+    0.9604412957655075,
+    0.9604296144070088,
+    0.960443026337137
+  ],
+  "desktopMapSizes": [
+    {
+      "x": 50,
+      "y": -279.703125,
+      "width": 1000,
+      "height": 698
+    },
+    {
+      "x": 50,
+      "y": -279.703125,
+      "width": 1000,
+      "height": 698
+    },
+    {
+      "x": 50,
+      "y": -279.703125,
+      "width": 1000,
+      "height": 698
+    }
+  ],
+  "mobileStacked": true,
+  "cacheVersioned": true,
+  "errors": []
+}

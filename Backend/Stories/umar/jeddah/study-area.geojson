@@ -1,0 +1,5 @@
+{
+  "type": "Feature",
+  "properties": {"name": "Jeddah: urban drainage corridor", "owner": "Umar"},
+  "geometry": {"type": "Polygon", "coordinates": [[[39.17,21.45],[39.32,21.45],[39.32,21.62],[39.17,21.62],[39.17,21.45]]]}
+}

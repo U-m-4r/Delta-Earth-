@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "browser": "157.0.8103.51",
+  "results": [
+    {
+      "location": "bangalore",
+      "frames": 5,
+      "dates": [
+        "2026-06-27",
+        "2026-07-21",
+        "2026-08-26",
+        "2026-09-19",
+        "2026-10-13"
+      ],
+      "checks": [
+        "catalog entry",
+        "all frames load",
+        "captions and dates",
+        "fixed legend",
+        "previous/next boundaries",
+        "baseline comparison",
+        "provenance",
+        "keyboard selection",
+        "390px layout"
+      ]
+    },
+    {
+      "location": "jeddah",
+      "frames": 5,
+      "dates": [
+        "2026-06-20",
+        "2026-07-14",
+        "2026-08-19",
+        "2026-09-24",
+        "2026-10-18"
+      ],
+      "checks": [
+        "catalog entry",
+        "all frames load",
+        "captions and dates",
+        "fixed legend",
+        "previous/next boundaries",
+        "baseline comparison",
+        "provenance",
+        "keyboard selection",
+        "390px layout"
+      ]
+    }
+  ],
+  "legacyStory": "passed",
+  "returnToGlobe": "passed",
+  "missingStory": "passed",
+  "missingImageRecovery": "passed",
+  "errors": [],
+  "failedAssets": []
+}

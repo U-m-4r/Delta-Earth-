@@ -1,0 +1,84 @@
+{
+  "kind": "sequence",
+  "slug": "usa-arkansas-2019",
+  "title": "The Arkansas River Under Pressure",
+  "location": "Dardanelle floodplain, Arkansas, USA",
+  "changeType": "Multi-date radar observations",
+  "mission": "Sentinel-1 RTC",
+  "headline": "Follow Dardanelle floodplain, Arkansas, USA across 4 real radar observations",
+  "introduction": "Repeated spring storms and upstream runoff drove historic flooding along the Arkansas River in May and June 2019. The National Weather Service documents record or near-record crests and a levee breach near Dardanelle. Four radar observations follow the selected local floodplain from 17 May through 22 June, with a 29 May acquisition during the documented river-flood emergency.",
+  "conclusion": "The 29 May acquisition is during the flood emergency, not a measurement of the eventual river crest. Later observations provide follow-up views; they do not establish that all land or communities had recovered. NASA’s regional optical imagery corroborates the broader disaster, while the NWS report supplies local Dardanelle context. Brightness alone cannot distinguish every wet field, reservoir margin or flooded woodland. No flood-area accuracy, water depth or damage estimate is claimed.",
+  "references": [
+    {
+      "title": "NASA: Flooding Along the Arkansas River (May 2019)",
+      "url": "https://science.nasa.gov/earth/earth-observatory/flooding-along-the-arkansas-river-145108/"
+    },
+    {
+      "title": "National Weather Service: Historic Arkansas River flooding in 2019",
+      "url": "https://www.weather.gov/lzk/flood2019.htm"
+    },
+    {
+      "title": "Sentinel-1 calibrated RTC data collection",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "owner": "sk",
+      "name": "Dardanelle floodplain, Arkansas, USA",
+      "scope": "Focused river corridor, not the entire disaster"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            -93.3,
+            35.15
+          ],
+          [
+            -93.05,
+            35.15
+          ],
+          [
+            -93.05,
+            35.35
+          ],
+          [
+            -93.3,
+            35.35
+          ],
+          [
+            -93.3,
+            35.15
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1139,
+      "height": 1111,
+      "crs": "EPSG:32615",
+      "transform": [
+        20.0,
+        0.0,
+        472670.0,
+        0.0,
+        -20.0,
+        3911900.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Sentinel-1 RTC, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

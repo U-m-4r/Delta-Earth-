@@ -1,0 +1,73 @@
+{
+  "location": "po-delta",
+  "continent": "Europe",
+  "status": "passed",
+  "grid": {
+    "width": 1027,
+    "height": 1255,
+    "crs": "EPSG:32633",
+    "transform": [
+      20.0,
+      0.0,
+      270660.0,
+      0.0,
+      -20.0,
+      4989260.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  },
+  "palette": "viridis",
+  "rangeDb": [
+    -30,
+    5
+  ],
+  "observations": [
+    {
+      "date": "2026-06-19",
+      "granuleId": "G4244115365-ASF",
+      "validPixelCount": 1206867,
+      "meanDb": -12.548562049865723,
+      "medianDb": -13.224906921386719,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-07-13",
+      "granuleId": "G4253074530-ASF",
+      "validPixelCount": 1206867,
+      "meanDb": -11.357073783874512,
+      "medianDb": -11.798039436340332,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-08-18",
+      "granuleId": "G4286147567-ASF",
+      "validPixelCount": 1206867,
+      "meanDb": -11.083020210266113,
+      "medianDb": -11.297487258911133,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-09-11",
+      "granuleId": "G4310309581-ASF",
+      "validPixelCount": 1206867,
+      "meanDb": -9.866069793701172,
+      "medianDb": -9.768290519714355,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    },
+    {
+      "date": "2026-10-17",
+      "granuleId": "G4377830715-ASF",
+      "validPixelCount": 1206867,
+      "meanDb": -10.135342597961426,
+      "medianDb": -10.084379196166992,
+      "sourceHash": "verified",
+      "imageHash": "verified"
+    }
+  ]
+}

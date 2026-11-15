@@ -1,0 +1,153 @@
+{
+  "kind": "sequence",
+  "slug": "nepal-glacier-flood-2026",
+  "title": "Nepal: three radar visits to a mountain river corridor",
+  "location": "Rasuwa–Trishuli corridor, Nepal",
+  "changeType": "Multi-date radar observations",
+  "mission": "NISAR",
+  "headline": "Follow Rasuwa–Trishuli corridor, Nepal across 3 real radar observations",
+  "introduction": "Three NISAR observations show the Rasuwa–Trishuli study area on 19 August, 31 August and 6 October 2026. These frames use track 098, frame 016, selected after checking the actual satellite footprints and valid raster masks across the requested area.",
+  "conclusion": "Use the baseline comparison to inspect persistent river-corridor and mountain-surface patterns. Shadow, layover, snow and ice complicate mountain radar. These views do not independently confirm a collapse mechanism or delineate the full debris-flow footprint.",
+  "references": [
+    {
+      "title": "USGS event assessment",
+      "url": "https://www.usgs.gov/programs/landslide-hazards/science/2026-nepal-debris-avalanche-and-flash-flood",
+      "checkedAt": "2026-11-15T15:26:40.650528+00:00",
+      "role": "External event / published satellite evidence"
+    },
+    {
+      "title": "ESA satellite comparison",
+      "url": "https://www.esa.int/articles/about-us/directorates/earth-observation-programmes/copernicus/sentinel-2/nepal-flash-flood-imaged-by-satellites",
+      "checkedAt": "2026-11-15T15:26:40.650528+00:00",
+      "role": "External event / published satellite evidence"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-08-19T23:39:18.000Z",
+      "image": "frame-1.png",
+      "label": "Reference observation",
+      "caption": "2026-08-19: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4286846660-ASF",
+      "productId": "NISAR_L2_PR_GCOV_028_098_A_016_4005_DHDH_A_20260819T233918_20260819T233953_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_098_A_016_4005_DHDH_A_20260819T233918_20260819T233953_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_098_A_016_4005_DHDH_A_20260819T233918_20260819T233953_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "3162a18809fd1038b1c7894833ad8e44ceb8c833e6c159e74ce746bc81a9b9ce",
+      "imageSha256": "449fe93029c4a309317575f569433f6d36e55a88b2146696aeed2979a6e7fdd4",
+      "meanDb": -4.274017333984375,
+      "medianDb": -4.493838787078857,
+      "validPixelCount": 2219940,
+      "validFraction": 0.9604412957655075
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-08-31T23:39:18.000Z",
+      "image": "frame-2.png",
+      "label": "Intermediate observation",
+      "caption": "2026-08-31: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4296206881-ASF",
+      "productId": "NISAR_L2_PR_GCOV_029_098_A_016_4005_DHDH_A_20260831T233918_20260831T233952_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_029_098_A_016_4005_DHDH_A_20260831T233918_20260831T233952_P05023_N_F_J_001/NISAR_L2_PR_GCOV_029_098_A_016_4005_DHDH_A_20260831T233918_20260831T233952_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "1262cff1ad0d428452f495ab237f432ef474870c83bdb6081132fc7860fd3c9b",
+      "imageSha256": "3b5764680424bae6f9e0907f3c1c9ee3cbec9f61081e9401ba0754408c74393b",
+      "meanDb": -4.165579319000244,
+      "medianDb": -4.361888408660889,
+      "validPixelCount": 2219913,
+      "validFraction": 0.9604296144070088,
+      "changeFromPrevious": {
+        "meanDb": 0.10830861330032349,
+        "medianDb": 0.08373785018920898,
+        "validPixelCount": 2219085
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-10-06T23:39:18.000Z",
+      "image": "frame-3.png",
+      "label": "Final observation",
+      "caption": "2026-10-06: NISAR HHHH radar response on the common grid. Compare stable landmarks with the baseline; brightness differences alone do not establish flooding.",
+      "granuleId": "G4350937998-ASF",
+      "productId": "NISAR_L2_PR_GCOV_032_098_A_016_4005_DHDH_A_20261006T233918_20261006T233952_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_032_098_A_016_4005_DHDH_A_20261006T233918_20261006T233952_P05023_N_F_J_001/NISAR_L2_PR_GCOV_032_098_A_016_4005_DHDH_A_20261006T233918_20261006T233952_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "mission": "NISAR",
+      "sourceSha256": "b58b342eca4424070ff6883990b1fb080c722a45c3d2b4cdf38e438263a67fc6",
+      "imageSha256": "62f2801dcd16a7a40621cb3283ec14d9eea03402ce98897afb07901790563cbb",
+      "meanDb": -4.696394443511963,
+      "medianDb": -4.803951263427734,
+      "validPixelCount": 2219944,
+      "validFraction": 0.960443026337137,
+      "changeFromPrevious": {
+        "meanDb": -0.5307871699333191,
+        "medianDb": -0.4648017883300781,
+        "validPixelCount": 2219129
+      }
+    }
+  ],
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "name": "Nepal: a mountain collapse becomes a downstream flood",
+      "owner": "sk",
+      "role": "User-requested search rectangle; not a flood boundary"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            85.05,
+            27.75
+          ],
+          [
+            85.6,
+            27.75
+          ],
+          [
+            85.6,
+            28.35
+          ],
+          [
+            85.05,
+            28.35
+          ],
+          [
+            85.05,
+            27.75
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1375,
+      "height": 1681,
+      "crs": "EPSG:32645",
+      "transform": [
+        39.97818181818182,
+        0.0,
+        307810.0,
+        0.0,
+        -39.98215348007139,
+        3137510.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "NISAR, consistent polarization and orbit per story. Source calibrated power converted using 10*log10 where necessary; existing dB sources are not converted again. Bilinear alignment to the first grid, invalid/nonpositive power masked, fixed viridis −30 to +5 dB display. Statistics are radar response, not classified flood area.",
+  "review": null
+}

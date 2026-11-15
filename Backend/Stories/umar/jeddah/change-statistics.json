@@ -1,0 +1,45 @@
+{
+  "operation": "right_minus_left",
+  "leftGranuleId": "G4244036293-ASF",
+  "rightGranuleId": "G4379922692-ASF",
+  "polarization": "HHHH",
+  "frequency": "frequencyA",
+  "units": "1",
+  "meanLeft": 0.5437060508147376,
+  "meanRight": 0.6242819629784072,
+  "meanDifference": 0.08057591210003968,
+  "medianDifference": 0.009375572204589844,
+  "minimumDifference": -8057.5654296875,
+  "maximumDifference": 12636.35546875,
+  "standardDeviationDifference": 19.216256120475624,
+  "validOverlappingPixelCount": 2922155,
+  "validOverlappingAreaKm2": 292.2155,
+  "percentageIncreased": 53.71559687970009,
+  "percentageDecreased": 45.04316163926965,
+  "percentageUnchanged": 1.241241481030267,
+  "unchangedTolerance": 0.001336193084716797,
+  "unchangedToleranceMethod": "1% of median absolute measured value (minimum 0.0013361931 1)",
+  "interpretation": "Positive means the right raster has higher measured values; negative means lower values. These measurements alone do not confirm an environmental event.",
+  "studyId": "7eeab13da42ed6f4",
+  "studyName": "Jeddah: urban drainage corridor",
+  "leftSourceRaster": {
+    "granuleId": "G4244036293-ASF",
+    "variable": "HHHH",
+    "frequency": "frequencyA",
+    "acquisitionDate": "2026-06-20T15:55:15.000Z"
+  },
+  "rightSourceRaster": {
+    "granuleId": "G4379922692-ASF",
+    "variable": "HHHH",
+    "frequency": "frequencyA",
+    "acquisitionDate": "2026-10-18T15:55:12.000Z"
+  },
+  "boundsWgs84": [
+    39.16986092713318,
+    21.449859589884795,
+    39.320308481832086,
+    21.62020890790776
+  ],
+  "exportedAt": "2026-11-15T14:27:02.225915+00:00",
+  "methodology": "The right measurement was bilinearly reprojected onto the left GeoTIFF grid in the geographic overlap. Differences were calculated from scientific raster values (right minus left) for pixels valid in both masks. NoData was excluded, never replaced with zero."
+}

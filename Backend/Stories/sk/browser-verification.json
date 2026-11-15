@@ -1,0 +1,119 @@
+{
+  "status": "passed",
+  "results": [
+    {
+      "slug": "bangalore-sequence-2026",
+      "frames": 5,
+      "mission": "NISAR",
+      "checks": [
+        "all frame hashes",
+        "actual dates",
+        "shared viewer",
+        "date selection",
+        "matching captions",
+        "baseline comparison",
+        "synchronized zoom",
+        "mobile layout",
+        "no upstream retrieval"
+      ]
+    },
+    {
+      "slug": "jeddah-sequence-2026",
+      "frames": 5,
+      "mission": "NISAR",
+      "checks": [
+        "all frame hashes",
+        "actual dates",
+        "shared viewer",
+        "date selection",
+        "matching captions",
+        "baseline comparison",
+        "synchronized zoom",
+        "mobile layout",
+        "no upstream retrieval"
+      ]
+    },
+    {
+      "slug": "assam-brahmaputra-2026",
+      "frames": 4,
+      "mission": "NISAR",
+      "checks": [
+        "all frame hashes",
+        "actual dates",
+        "shared viewer",
+        "date selection",
+        "matching captions",
+        "baseline comparison",
+        "synchronized zoom",
+        "mobile layout",
+        "no upstream retrieval"
+      ]
+    },
+    {
+      "slug": "pakistan-tarbela-2026",
+      "frames": 3,
+      "mission": "NISAR",
+      "checks": [
+        "all frame hashes",
+        "actual dates",
+        "shared viewer",
+        "date selection",
+        "matching captions",
+        "baseline comparison",
+        "synchronized zoom",
+        "mobile layout",
+        "no upstream retrieval"
+      ]
+    },
+    {
+      "slug": "punjab-floods-2025",
+      "frames": 4,
+      "mission": "Sentinel-1 RTC",
+      "checks": [
+        "all frame hashes",
+        "actual dates",
+        "shared viewer",
+        "date selection",
+        "matching captions",
+        "baseline comparison",
+        "synchronized zoom",
+        "mobile layout",
+        "no upstream retrieval"
+      ]
+    },
+    {
+      "slug": "pakistan-floods-2022",
+      "frames": 4,
+      "mission": "Sentinel-1 RTC",
+      "checks": [
+        "all frame hashes",
+        "actual dates",
+        "shared viewer",
+        "date selection",
+        "matching captions",
+        "baseline comparison",
+        "synchronized zoom",
+        "mobile layout",
+        "no upstream retrieval"
+      ]
+    },
+    {
+      "slug": "nepal-glacier-flood-2026",
+      "frames": 3,
+      "mission": "NISAR",
+      "checks": [
+        "all frame hashes",
+        "actual dates",
+        "shared viewer",
+        "date selection",
+        "matching captions",
+        "baseline comparison",
+        "synchronized zoom",
+        "mobile layout",
+        "no upstream retrieval"
+      ]
+    }
+  ],
+  "errors": [],
+  "catalogCount": 9
+}
