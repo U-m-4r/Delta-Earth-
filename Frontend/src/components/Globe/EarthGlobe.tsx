@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
+import { BoundingSphere, CameraEventType, Cartesian2, Cartesian3, Cartographic, Color, defined, EllipsoidTerrainProvider, HeightReference, ImageryLayer, PolygonHierarchy, Rectangle, ScreenSpaceEventHandler, ScreenSpaceEventType, SingleTileImageryProvider, UrlTemplateImageryProvider, Viewer, Math as CesiumMath } from 'cesium';
 import type { RefObject } from 'react';
 import { createBaseMapProvider } from '../../config/mapProvider';
 import { StoryMarkerLayer } from './StoryMarkerLayer';
@@ -14,7 +14,7 @@ import './storyMarkers.css';
 
 export type GlobeCameraState = { position: Cartesian3; direction: Cartesian3; up: Cartesian3 };
 type Props = { stories: StoryIndexItem[]; storiesVisible: boolean; onOpenStory: (slug: string) => void;
-  cameraMemory: RefObject<GlobeCameraState | null>; selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange: (cursor: [number, number] | null) => void };
+  cameraMemory: RefObject<GlobeCameraState | null>; selectionActive: boolean; draftVertexCount: number; location?: LocationResult; clearSignal: number; undoSignal: number; homeSignal: number; focusRequest: { selection: GeoJsonFeature; id: number } | null; rasterOverlay?: RasterOverlay | null; onRasterClick?: (coordinates: [number, number]) => void; onDraftChange: (count: number) => void; onSelectionChange: (selection: GeoJsonFeature | null) => void; onCursorChange?: (cursor: [number, number] | null) => void };
 
 const MINIMUM_ZOOM_DISTANCE = 35_000;
 
@@ -37,6 +37,7 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
     if (!viewer || viewer.isDestroyed()) return;
     viewer.imageryLayers.removeAll();
     viewer.imageryLayers.add(new ImageryLayer(createBaseMapProvider()));
+    const removeSatelliteToggle = addSatelliteLayer(viewer);
     let cancelled = false;
     setOverlayError(null);
     if (rasterOverlay) {
@@ -53,7 +54,7 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
         if (!cancelled && !viewer.isDestroyed()) setOverlayError('The saved raster overlay could not be displayed.');
       });
     }
-    return () => { cancelled = true; };
+    return () => { cancelled = true; if (!viewer.isDestroyed()) removeSatelliteToggle(); };
   }, [rasterOverlay, viewerReady]);
   useEffect(() => {
     const viewer = viewerRef.current;
@@ -235,6 +236,17 @@ export function EarthGlobe({ stories, storiesVisible, onOpenStory, cameraMemory,
       onClose={() => { markerLayerRef.current?.clear(); viewerRef.current?.canvas.focus({ preventScroll: true }); }}
       onExplore={onOpenStory} />}
   </>;
+}
+
+// NASA Blue Marble on top of the English-label street map (layer 0) while zoomed out; the whole layer
+// hides at once below SATELLITE_ABOVE_M so the street map shows for drawing study areas.
+// (Not GIBS Reference_Features: in EPSG:3857 it serves opaque black tiles that darken the globe.)
+const SATELLITE_ABOVE_M = 250_000; // ~where Blue Marble's 600 m pixels start to blur
+function addSatelliteLayer(viewer: Viewer) {
+  const satellite = viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg', maximumLevel: 8, credit: 'NASA Blue Marble · GIBS' }));
+  const sync = () => { satellite.show = viewer.camera.positionCartographic.height > SATELLITE_ABOVE_M; };
+  sync();
+  return viewer.scene.preRender.addEventListener(sync);
 }
 
 function createFeature(points: Position[]): GeoJsonFeature {

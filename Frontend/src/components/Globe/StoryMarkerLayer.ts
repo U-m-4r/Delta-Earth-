@@ -1,4 +1,4 @@
-import { CallbackProperty, Cartesian2, Cartesian3, Color, ConstantPositionProperty, ConstantProperty, CustomDataSource, Entity, NearFarScalar, VerticalOrigin, Math as CesiumMath } from 'cesium';
+import { CallbackProperty, Cartesian2, Cartesian3, Color, ConstantPositionProperty, ConstantProperty, CustomDataSource, Entity, VerticalOrigin, Math as CesiumMath } from 'cesium';
 import type { Billboard, Label, PointPrimitive, Viewer } from 'cesium';
 import type { StoryIndexItem } from '../../types/stories';
 
@@ -8,7 +8,8 @@ export const validStoryLocation = (story: StoryIndexItem) => {
   return Boolean(location && Number.isFinite(location.longitude) && Number.isFinite(location.latitude)
     && Math.abs(location.longitude) <= 180 && Math.abs(location.latitude) <= 90);
 };
-const markerImage = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><defs><radialGradient id="g"><stop stop-color="#ed6578" stop-opacity=".4"/><stop offset="1" stop-color="#d83b55" stop-opacity="0"/></radialGradient></defs><circle cx="20" cy="21" r="19" fill="url(#g)"/><circle cx="20" cy="21" r="8" fill="#071722" opacity=".6"/><circle cx="20" cy="19" r="7" fill="#b42d48" stroke="#ffabb4" stroke-width="1.5"/><circle cx="18" cy="17" r="2" fill="#ffb6bf" opacity=".5"/></svg>')}`;
+// Flat red dot with a white ring (the original Delta Earth story marker).
+const markerImage = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="14" fill="#fc3d21" stroke="#fff" stroke-width="4"/></svg>')}`;
 
 /** Owns only the story datasource; drawing entities, imagery and input handlers
  * remain owned by EarthGlobe. Selection is routed through its existing handler. */
@@ -32,9 +33,9 @@ export class StoryMarkerLayer {
     this.removeClusterListener = this.source.clustering.clusterEvent.addEventListener((entities: Entity[], cluster: { billboard: Billboard; label: Label; point: PointPrimitive }) => {
       cluster.point.show = false;
       cluster.billboard.show = true; cluster.billboard.image = markerImage;
-      cluster.billboard.width = 46; cluster.billboard.height = 46; cluster.billboard.id = entities;
+      cluster.billboard.width = 24; cluster.billboard.height = 24; cluster.billboard.id = entities;
       cluster.label.show = true; cluster.label.text = String(entities.length); cluster.label.id = entities;
-      cluster.label.font = 'bold 10px sans-serif'; cluster.label.fillColor = Color.WHITE;
+      cluster.label.font = 'bold 11px Inter, sans-serif'; cluster.label.fillColor = Color.WHITE;
       cluster.label.pixelOffset = new Cartesian2(0, -1);
     });
     void viewer.dataSources.add(this.source).then(() => {
@@ -49,7 +50,7 @@ export class StoryMarkerLayer {
       const location = story.markerLocation!;
       let entity = this.source.entities.getById(id);
       if (!entity) entity = this.source.entities.add({ id, name: story.title,
-        billboard: { image: markerImage, width: 40, height: 40, scaleByDistance: new NearFarScalar(50_000, 1.05, 20_000_000, .8) },
+        billboard: { image: markerImage, width: 16, height: 16 },
         label: { text: story.title, show: false, font: '12px sans-serif', fillColor: Color.fromCssColorString('#e4f1ed'),
           showBackground: true, backgroundColor: Color.fromCssColorString('#091b29e8'),
           pixelOffset: new Cartesian2(0,-22), verticalOrigin: VerticalOrigin.BOTTOM },

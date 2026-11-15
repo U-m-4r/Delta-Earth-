@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { BarChart3, BookOpen, Crosshair, Database, Home, Map, Moon, MousePointer2, PanelRight, Search, Settings, Sun, Undo2, X } from 'lucide-react';
+import { BarChart3, BookOpen, Database, Info, Home, Map, MapPin, Moon, MousePointer2, PanelRight, Search, Settings, Sun, Undo2, X } from 'lucide-react';
 import type { GlobeCameraState } from './components/Globe/EarthGlobe';
 import { useStoryCatalog } from './services/storyCatalog';
 import { EarthGlobe } from './components/Globe/EarthGlobe';
@@ -14,8 +14,9 @@ import { StoriesPage } from './components/stories/StoriesPage';
 import type { RasterOverlay } from './types/visualization';
 
 function App() {
-  const { items: stories, loading: storiesLoading, error: storiesError } = useStoryCatalog();
+  const { items: stories } = useStoryCatalog();
   const [storiesVisible, setStoriesVisible] = useState(true);
+  const [infoOpen, setInfoOpen] = useState(false);
   const globeCamera = useRef<GlobeCameraState | null>(null);
   const initialQuery = new URLSearchParams(window.location.search);
   const [selectionActive, setSelectionActive] = useState(false);
@@ -142,6 +143,7 @@ function App() {
             <button className={selectionActive ? 'active' : ''} onClick={startSelection}><Map size={18} /><span>Select area</span></button>
             <div className="toolbar-divider" />
             <button onClick={() => openStories()}><BookOpen size={18} /><span>Stories</span></button>
+            <button className={storiesVisible ? 'active' : ''} aria-label="Show story markers" aria-pressed={storiesVisible} onClick={() => setStoriesVisible((visible) => !visible)}><MapPin size={18} /><span>Markers</span></button>
             <button className={dataOpen ? 'active' : ''} onClick={() => void openData()} disabled={!selection}><Database size={18} /><span>Data</span></button>
             <button className={visualizationsOpen ? 'active' : ''} onClick={() => void openVisualizations()} disabled={!retrievalSessionId || !retrievalStudyId}><BarChart3 size={18} /><span>Visualize</span></button>
             <button onClick={() => setUndoSignal((signal) => signal + 1)} disabled={!selectionActive || draftVertexCount === 0}><Undo2 size={18} /><span>Undo</span></button>
@@ -152,11 +154,21 @@ function App() {
 
           <main className="globe-workspace">
             <EarthGlobe stories={stories} storiesVisible={storiesVisible} onOpenStory={openStories} cameraMemory={globeCamera} selectionActive={selectionActive} draftVertexCount={draftVertexCount} location={location} clearSignal={clearSignal} undoSignal={undoSignal} homeSignal={homeSignal} focusRequest={focusRequest} rasterOverlay={rasterOverlay} onRasterClick={() => {}} onDraftChange={setDraftVertexCount} onSelectionChange={setSelection} />
-            <div className="globe-story-controls"><button className="globe-stories-toggle" aria-label="Show story markers" aria-pressed={storiesVisible}
-              onClick={() => setStoriesVisible(visible => !visible)}><BookOpen size={14} /> Stories <i className={storiesVisible ? 'on' : ''} /></button>
-              {storiesVisible && <span>{storiesLoading ? 'Loading stories…' : storiesError ? 'Story markers unavailable' : `${stories.filter(story => story.markerLocation).length} stories around the world`}</span>}
+            <div className="globe-info">
+              <button className={`globe-info-button${infoOpen ? ' active' : ''}`} aria-label="Globe controls" aria-expanded={infoOpen} onClick={() => setInfoOpen((open) => !open)}><Info size={16} /></button>
+              {infoOpen && (
+                <div className="globe-info-popover" role="dialog" aria-label="Globe controls">
+                  <span className="section-kicker">Globe controls</span>
+                  <dl>
+                    <div><dt>Rotate</dt><dd>Click and drag</dd></div>
+                    <div><dt>Zoom</dt><dd>Scroll, or pinch on a trackpad</dd></div>
+                    <div><dt>Pan</dt><dd>Right-click and drag</dd></div>
+                    <div><dt>Search</dt><dd><kbd>⌘ K</kbd></dd></div>
+                    <div><dt>Select area</dt><dd>Click three or more points on the globe</dd></div>
+                  </dl>
+                </div>
+              )}
             </div>
-            <div className="globe-hint"><Crosshair size={14} /> {selectionActive ? 'Click the globe to add polygon vertices' : 'Click and drag to rotate · Pinch or two-finger scroll to zoom · Right-drag to pan'}</div>
           </main>
 
           {panelOpen && (

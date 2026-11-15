@@ -17,7 +17,7 @@ type Props = {
   analysisReady?: boolean;
   onOpenData?: () => void;
   onOpenVisualizations?: () => void;
-  onOpenStory?: (slug: string) => void;
+  onOpenStory?: (slug: string | null) => void;
 };
 
 export function InformationPanel({
