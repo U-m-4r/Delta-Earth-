@@ -1,0 +1,196 @@
+{
+  "kind": "sequence",
+  "slug": "jeddah-sequence-2026",
+  "dates": [
+    "2026-06-20",
+    "2026-07-14",
+    "2026-08-19",
+    "2026-09-24",
+    "2026-10-18"
+  ],
+  "title": "Jeddah: five visits to a dry city's drainage landscape",
+  "location": "Eastern Jeddah, Saudi Arabia",
+  "changeType": "Urban drainage baseline",
+  "headline": "What changes between summer and autumn along Jeddah's urban drainage landscape?",
+  "introduction": "Follow five NISAR visits from June to October 2026 across eastern Jeddah. Step through dry-season and autumn observations to compare broad drainage features, open land and built surfaces. All five images use one radar channel, one geographic grid and one fixed colour scale, so a new colour stretch cannot imitate a change.",
+  "conclusion": "This sequence builds a multi-date baseline for investigating later runoff events. A change in radar response can identify a place to examine, but smooth dry ground, terrain shadows and urban geometry can resemble or obscure water. No flood event has been established for these dates. Confirmed storm timing, rainfall observations and independent imagery are needed to turn this baseline into an event story; short-lived runoff may disappear between satellite visits.",
+  "references": [
+    {
+      "title": "Tekeli (2017): historical Jeddah rainfall and flash-flood context",
+      "url": "https://www.mdpi.com/2073-4441/9/8/612"
+    },
+    {
+      "title": "NASA NISAR provisional GCOV collection",
+      "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-20T15:55:15.000Z",
+      "image": "frame-1.png",
+      "label": "Set the summer baseline",
+      "caption": "20 June provides the first view of eastern Jeddah. Locate the bright built surfaces, lower-response open ground and broad corridors through the landscape. Dark pixels are not automatically water in this arid setting.",
+      "granuleId": "G4244036293-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_093_D_078_4005_DHDH_A_20260620T155515_20260620T155556_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_093_D_078_4005_DHDH_A_20260620T155515_20260620T155556_P05023_N_F_J_001/NISAR_L2_PR_GCOV_023_093_D_078_4005_DHDH_A_20260620T155515_20260620T155556_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 2922155,
+      "meanDb": -8.246015548706055,
+      "medianDb": -8.953008651733398,
+      "sourceSha256": "a82b681d37acb332f102eb7b341aa44983ee21c0b92409ac51053124db8b0355",
+      "imageSha256": "43ef817b05a8194068f5a8ba44ec29c08a64528acf21c9d38415cfae236722b3"
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-14T15:55:13.000Z",
+      "image": "frame-2.png",
+      "label": "Revisit in July",
+      "caption": "14 July checks the landscape again during the usual dry-season window described in the historical research. Use the baseline view to distinguish stable spatial features from radar-response differences.",
+      "granuleId": "G4253546880-ASF",
+      "productId": "NISAR_L2_PR_GCOV_025_093_D_078_4005_DHDH_A_20260714T155513_20260714T155554_P05023_F_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_093_D_078_4005_DHDH_A_20260714T155513_20260714T155554_P05023_F_F_J_001/NISAR_L2_PR_GCOV_025_093_D_078_4005_DHDH_A_20260714T155513_20260714T155554_P05023_F_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 2922155,
+      "meanDb": -8.066109657287598,
+      "medianDb": -8.750555038452148,
+      "sourceSha256": "fb6c04f2462aaa9d67456591f54bbe46a4f3469048e5616e75bee14ea7080efd",
+      "imageSha256": "6f35db0c3e3d4cef15423204112c525affdc8ddf9e545fe1927d335b92c193b4",
+      "changeFromPrevious": {
+        "meanDb": 0.1799049824476242,
+        "medianDb": 0.18107986450195312,
+        "validPixelCount": 2922155,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-19T15:55:12.000Z",
+      "image": "frame-3.png",
+      "label": "Check the August pattern",
+      "caption": "19 August adds another observation of the same ground. Look for differences that recur in the same places rather than interpreting an isolated dark patch as flooding. The scale remains fixed at \u221230 to +5 dB.",
+      "granuleId": "G4286524191-ASF",
+      "productId": "NISAR_L2_PR_GCOV_028_093_D_078_4005_DHDH_A_20260819T155512_20260819T155553_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_093_D_078_4005_DHDH_A_20260819T155512_20260819T155553_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_093_D_078_4005_DHDH_A_20260819T155512_20260819T155553_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 2922155,
+      "meanDb": -7.837901592254639,
+      "medianDb": -8.559734344482422,
+      "sourceSha256": "77d06478d184854ab2cea3ecfa0a5cece86c29577571de3253231708688f716a",
+      "imageSha256": "9285b1328b0727741cc0b30f0825a7b29bd171e88607a912c25b5412a466217d",
+      "changeFromPrevious": {
+        "meanDb": 0.22820931673049927,
+        "medianDb": 0.23119306564331055,
+        "validPixelCount": 2922155,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2026-09-24T15:55:11.000Z",
+      "image": "frame-4.png",
+      "label": "Follow the September transition",
+      "caption": "24 September supplies the fourth checkpoint. Compare open surfaces and built blocks separately: their radar responses can change for different reasons. The displayed change statistic uses only pixels valid on both consecutive dates.",
+      "granuleId": "G4324788751-ASF",
+      "productId": "NISAR_L2_PR_GCOV_031_093_D_078_4005_DHDH_A_20260924T155511_20260924T155552_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_031_093_D_078_4005_DHDH_A_20260924T155511_20260924T155552_P05023_N_F_J_001/NISAR_L2_PR_GCOV_031_093_D_078_4005_DHDH_A_20260924T155511_20260924T155552_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 2922155,
+      "meanDb": -7.838632106781006,
+      "medianDb": -8.544659614562988,
+      "sourceSha256": "26f0be81f9615be45ffcf7b0d545ae236b1b897d324feb0d7c5e33039a7a7988",
+      "imageSha256": "d334a334872f360397bb89a704b83b4186fea1325fa4f21c957e200355eca394",
+      "changeFromPrevious": {
+        "meanDb": -0.0007305984618142247,
+        "medianDb": -0.0020647048950195312,
+        "validPixelCount": 2922155,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-5",
+      "date": "2026-10-18T15:55:12.000Z",
+      "image": "frame-5.png",
+      "label": "Establish the autumn reference",
+      "caption": "18 October closes the sequence before the main wetter season described in the historical study. These five visits provide a baseline for a future event comparison; they do not establish a flood or a return to normal after one.",
+      "granuleId": "G4379922692-ASF",
+      "productId": "NISAR_L2_PR_GCOV_033_093_D_078_4005_DHDH_A_20261018T155512_20261018T155548_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_093_D_078_4005_DHDH_A_20261018T155512_20261018T155548_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_093_D_078_4005_DHDH_A_20261018T155512_20261018T155548_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 2922155,
+      "meanDb": -7.791782379150391,
+      "medianDb": -8.533061981201172,
+      "sourceSha256": "3f605ac851d93fb8fcfe618074d03ca528f43baff739807eb71d41feced45b30",
+      "imageSha256": "af3098dddf4361703c3abb40b457c1f4ec40dd12fc3fe0b92b1d4bc8800cd390",
+      "changeFromPrevious": {
+        "meanDb": 0.04684901237487793,
+        "medianDb": 0.08835887908935547,
+        "validPixelCount": 2922155,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    }
+  ],
+  "studyId": "7eeab13da42ed6f4",
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "name": "Jeddah: urban drainage corridor",
+      "owner": "Umar"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            39.17,
+            21.45
+          ],
+          [
+            39.32,
+            21.45
+          ],
+          [
+            39.32,
+            21.62
+          ],
+          [
+            39.17,
+            21.62
+          ],
+          [
+            39.17,
+            21.45
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1555,
+      "height": 1883,
+      "crs": "EPSG:32637",
+      "transform": [
+        10.0,
+        0.0,
+        517600.0,
+        0.0,
+        -10.0,
+        2390800.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Individual frequency-A HHHH GeoTIFFs retrieved with the application Harmony extraction pipeline. Bilinear alignment to the first raster grid, nonpositive and NoData pixels masked, 10*log10(linear power), one fixed palette/range for every frame."
+}

@@ -2,6 +2,10 @@
 
 Owner: Umar. Location: eastern urban Jeddah, Saudi Arabia.
 
+## Browser sequence
+
+The integrated story now includes **20 June, 14 July, 19 August, 24 September and 18 October 2026**. Every frame uses the same grid and viridis −30 to +5 dB scale. Open “Jeddah: five visits to a dry city's drainage landscape” in the browser Stories catalog. [Published frames, captions and provenance](../../../Frontend/public/case-studies/jeddah-sequence-2026/result.json) are generated from [sequence-content.json](sequence-content.json) and individually retrieved pipeline TIFFs. The original two-date comparison below remains supporting evidence.
+
 ## Story copy
 
 ### A dry setting with a water story
