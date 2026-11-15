@@ -317,7 +317,7 @@ body, .earth-app { background: var(--ink); color: var(--text); }
 
 /* Settings menu */
 .top-actions { position: relative; }
-.settings-menu { position: absolute; right: calc(100% + 10px); top: 50%; display: flex; gap: 4px; padding: 4px; background: var(--section); border: 1px solid var(--rule); white-space: nowrap; opacity: 0; visibility: hidden; transform: translate(16px, -50%); transition: opacity .2s ease, transform .25s cubic-bezier(.2,.8,.2,1), visibility 0s .25s; }
+.settings-menu { position: absolute; right: 38px; top: 50%; display: flex; gap: 4px; padding: 4px; background: var(--section); border: 1px solid var(--rule); white-space: nowrap; opacity: 0; visibility: hidden; transform: translate(16px, -50%); transition: opacity .2s ease, transform .25s cubic-bezier(.2,.8,.2,1), visibility 0s .25s; }
 .settings-menu.open { opacity: 1; visibility: visible; transform: translate(0, -50%); transition: opacity .2s ease, transform .25s cubic-bezier(.2,.8,.2,1); }
 .settings-menu button { display: flex; align-items: center; gap: 7px; padding: 7px 12px; border: 1px solid transparent; background: transparent; color: var(--text-2); font-size: 12px; font-weight: 600; }
 .settings-menu button:hover { color: var(--text); background: var(--raise); }
@@ -367,3 +367,6 @@ body, .earth-app { background: var(--ink); color: var(--text); }
 .floating-toolbar button:disabled { opacity: .3; }
 .floating-toolbar button:disabled:hover { background: transparent; }
 .toolbar-divider { width: 44px; margin: 6px 0; }
+
+/* Gap under the panel headline (the status line that used to sit here is gone) */
+.panel-title + .summary-grid { margin-top: 26px; }

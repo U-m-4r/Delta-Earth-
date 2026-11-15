@@ -226,21 +226,17 @@ export function EarthGlobe({ stories = [], onStoryClick, selectionActive, draftV
 
 const GIBS = 'https://gibs.earthdata.nasa.gov/wmts/epsg3857/best';
 
-// NASA Blue Marble from GIBS for the globe view, GIBS borders/coastlines on top,
-// and OpenStreetMap only once zoomed past Blue Marble's ~600 m resolution (for drawing study areas).
+// NASA Blue Marble from GIBS for the globe view, and OpenStreetMap only once zoomed past
+// Blue Marble's ~600 m resolution (for drawing study areas).
+// No GIBS Reference_Features overlay: in EPSG:3857 it serves opaque black tiles, which darkened
+// the globe everywhere those tiles had loaded and left bright patches where they hadn't.
 function addBaseLayers(viewer: Viewer) {
-  const blueMarble = viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: `${GIBS}/BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg`, maximumLevel: 8, credit: 'NASA Blue Marble · GIBS' }));
-  // Blue Marble is dark without ground atmosphere; lift it (values previewed against the real tiles).
-  blueMarble.brightness = 1.4;
-  blueMarble.gamma = 1.4;
-  blueMarble.saturation = 1.05;
-  // Switch the whole street layer on by camera height, not per tile (minimumTerrainLevel), so bright
-  // street tiles never sit as patches among the dark Blue Marble tiles.
+  viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: `${GIBS}/BlueMarble_ShadedRelief_Bathymetry/default/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpeg`, maximumLevel: 8, credit: 'NASA Blue Marble · GIBS' }));
+  // Switch the whole street layer on by camera height, not per tile (minimumTerrainLevel), so street
+  // tiles never sit as patches among Blue Marble tiles.
   const streets = viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png', credit: '© OpenStreetMap contributors' }));
   const syncStreets = () => { streets.show = viewer.camera.positionCartographic.height < STREETS_BELOW_M; };
   syncStreets();
-  const borders = viewer.imageryLayers.addImageryProvider(new UrlTemplateImageryProvider({ url: `${GIBS}/Reference_Features_15m/default/GoogleMapsCompatible_Level13/{z}/{y}/{x}.png`, maximumLevel: 13, credit: 'NASA GIBS' }));
-  borders.alpha = 0.55;
   return viewer.scene.preRender.addEventListener(syncStreets);
 }
 
