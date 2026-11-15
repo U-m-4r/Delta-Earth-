@@ -49,7 +49,17 @@ async def test_batch_persists_each_combination_and_continues_after_failure(confi
         return {"variables": [{"variable": variable, "status": "downloaded", "registryPersistence": "success",
                                "raster": stored["raster"], "bytes": stored["bytes"]}]}
 
+    async def fake_search(*args, **kwargs):
+        return {"observations": [
+            {"id": "G111-ASF", "frequencies": ["frequencyA"], "polarizations": ["HHHH", "HVHV"],
+             "availableVariables": [{"frequency": "frequencyA", "variable": "HHHH"},
+                                    {"frequency": "frequencyA", "variable": "HVHV"}]},
+            {"id": "G222-ASF", "frequencies": ["frequencyB"], "polarizations": ["VVVV"],
+             "availableVariables": [{"frequency": "frequencyB", "variable": "VVVV"}]},
+        ]}
+
     monkeypatch.setattr(main, "extract_granule", fake_extract)
+    monkeypatch.setattr(main, "search_granules", fake_search)
     body = {"studyId": study_id_for_feature(FEATURE), "studyArea": FEATURE,
         "startDate": "2026-01-01", "endDate": "2026-03-31", "combinations": [
             {"granuleId": "G111-ASF", "frequency": "frequencyA", "variable": "HHHH",
@@ -89,7 +99,12 @@ async def test_successful_combination_is_not_extracted_again(config, monkeypatch
             metadata, variables[0], path, feature, retrieval_session_id=metadata["retrievalSessionId"])
         return {"variables": [{"variable": variables[0], "status": "downloaded", "registryPersistence": "success"}]}
 
+    async def fake_search(*args, **kwargs):
+        return {"observations": [{"id": "G333-ASF", "frequencies": ["frequencyA"],
+            "polarizations": ["HHHH"], "availableVariables": [{"frequency": "frequencyA", "variable": "HHHH"}]}]}
+
     monkeypatch.setattr(main, "extract_granule", fake_extract)
+    monkeypatch.setattr(main, "search_granules", fake_search)
     body = {"studyId": study_id_for_feature(FEATURE), "studyArea": FEATURE, "combinations": [
         {"granuleId": "G333-ASF", "frequency": "frequencyA", "variable": "HHHH"}]}
     async with httpx.AsyncClient(transport=httpx.ASGITransport(app=main.app), base_url="http://test") as client:
@@ -102,3 +117,23 @@ async def test_successful_combination_is_not_extracted_again(config, monkeypatch
         raster_list = await client.get(f"/api/retrieval-sessions/{second.json()['retrievalSessionId']}/rasters")
     assert len(calls) == 1
     assert raster_list.json()["rasters"][0]["retrievalSessionId"] == second.json()["retrievalSessionId"]
+
+
+@pytest.mark.asyncio
+async def test_batch_rejects_unavailable_source_variable_without_substitution(config, monkeypatch):
+    async def fake_search(*args, **kwargs):
+        return {"observations": [{"id": "G444-ASF", "frequencies": ["frequencyA"],
+            "polarizations": ["HHHH"], "availableVariables": [
+                {"frequency": "frequencyA", "variable": "HHHH"}]}]}
+
+    async def never_extract(*args, **kwargs):
+        raise AssertionError("invalid unavailable variables must be rejected before processing")
+
+    monkeypatch.setattr(main, "search_granules", fake_search)
+    monkeypatch.setattr(main, "extract_granule", never_extract)
+    body = {"studyId": study_id_for_feature(FEATURE), "studyArea": FEATURE, "combinations": [
+        {"granuleId": "G444-ASF", "frequency": "frequencyA", "variable": "HVHV"}]}
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=main.app), base_url="http://test") as client:
+        response = await client.post("/api/nisar/extractions/batch", json=body)
+    assert response.status_code == 422
+    assert "not listed as available" in response.json()["detail"]

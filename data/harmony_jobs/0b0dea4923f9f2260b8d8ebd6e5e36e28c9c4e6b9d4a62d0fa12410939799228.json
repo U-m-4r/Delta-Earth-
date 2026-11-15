@@ -1,0 +1,77 @@
+{
+  "state": "running",
+  "collectionId": "C2854338529-ASF",
+  "granuleId": "G4243046486-ASF",
+  "variablePath": "/science/LSAR/GCOV/grids/frequencyA/HHHH",
+  "spatialMode": "bbox",
+  "method": "GET",
+  "endpoint": "https://harmony.earthdata.nasa.gov/C2854338529-ASF/ogc-api-coverages/1.0.0/collections/%2Fscience%2FLSAR%2FGCOV%2Fgrids%2FfrequencyA%2FHHHH/coverage/rangeset",
+  "parameters": [
+    [
+      "granuleId",
+      "G4243046486-ASF"
+    ],
+    [
+      "format",
+      "image/tiff"
+    ],
+    [
+      "forceAsync",
+      "true"
+    ],
+    [
+      "ignoreErrors",
+      "false"
+    ],
+    [
+      "subset",
+      "lat(22.210588274852896:22.22801919585591)"
+    ],
+    [
+      "subset",
+      "lon(69.64505987295601:69.67600229029425)"
+    ]
+  ],
+  "studyId": "c612075ed7029d87",
+  "observation": {
+    "id": "G4243046486-ASF",
+    "provider": "NASA ASF DAAC",
+    "title": "NISAR_L2_PR_GCOV_024_041_A_013_4005_DHDH_A_20260629T004415_20260629T004450_P05023_N_F_J_001",
+    "mission": "NISAR",
+    "productShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+    "acquiredAt": "2026-06-29T00:44:15.000Z",
+    "startAt": "2026-06-29T00:44:15.000Z",
+    "endAt": "2026-06-29T00:44:50.999Z",
+    "productType": "GCOV",
+    "processingMaturity": "PROVISIONAL",
+    "frequencies": [
+      "frequencyA",
+      "frequencyB"
+    ],
+    "polarizations": [
+      "HHHH",
+      "HVHV"
+    ],
+    "bbox": null
+  },
+  "startedAt": "2026-11-15T08:47:40.714830+00:00",
+  "httpStatus": 303,
+  "durationSeconds": 1.63,
+  "response": {
+    "httpStatus": 303,
+    "contentType": "text/plain; charset=utf-8",
+    "locationPath": "/jobs/<job-id>",
+    "bodyExcerpt": "See Other. Redirecting to /jobs/833a8752-6aa4-4722-be83-7a9dacb5e350"
+  },
+  "updatedAt": "2026-11-15T08:48:52.796546+00:00",
+  "jobId": "833a8752-6aa4-4722-be83-7a9dacb5e350",
+  "retryAllowed": false,
+  "jobStatus": {
+    "status": "running",
+    "progress": 9,
+    "message": "The job is being processed",
+    "createdAt": "2026-11-15T08:47:42.079Z",
+    "updatedAt": "2026-11-15T08:47:42.759Z",
+    "dataExpiration": "2026-12-15T08:47:42.079Z"
+  }
+}

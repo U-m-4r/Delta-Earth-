@@ -140,6 +140,11 @@ button { cursor: pointer; }
 .visual-raster-display img { display: block; width: min(100%, 1100px); max-height: 68vh; object-fit: contain; margin: auto; image-rendering: auto; }
 .visual-raster-display p { max-width: 1000px; margin: 12px auto; color: #9bb6b8; font-size: 12px; line-height: 1.6; }
 .visual-raster-display a { color: #65d6ca; font-size: 12px; }
+.raster-legend { width: min(100%, 820px); margin: 18px auto; color: #d9e8e8; text-align: left; font-size: 12px; }
+.raster-colorbar { height: 18px; margin-top: 8px; border: 1px solid #577078; border-radius: 3px; }
+.raster-legend-ticks { display: flex; justify-content: space-between; gap: 8px; margin-top: 5px; color: #a9c1c4; font-variant-numeric: tabular-nums; }
+.raster-legend small { display: block; margin-top: 7px; color: #91aeb2; }
+.pixel-inspection { padding: 10px; border: 1px solid #37656b; border-radius: 6px; background: #0d2a34; font-variant-numeric: tabular-nums; }
 .comparison-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
 .comparison-panels figure { min-width: 0; margin: 0; padding: 10px; border: 1px solid #284851; border-radius: 8px; background: #071c27; overflow: auto; }
 .comparison-panels figcaption { margin-bottom: 8px; color: #b9d4d4; font-size: 12px; }

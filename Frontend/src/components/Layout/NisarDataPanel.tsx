@@ -53,14 +53,6 @@ export function NisarDataPanel({ selection, onBack, onViewVisualization }: Props
     return result;
   }, [analysis, selected]);
 
-  const setGranule = (scene: Observation, checked: boolean) => {
-    const next = new Set(selected);
-    for (const item of variablesFor(scene).filter((candidate) => candidate.available)) {
-      const key = keyFor(scene.id, item.frequency, item.variable);
-      if (checked) next.add(key); else next.delete(key);
-    }
-    setSelected(next);
-  };
   const allMatchingSelected = Boolean(analysis?.observations.length) && selectedCombinations.length > 0 &&
     selectedCombinations.length === analysis!.observations.reduce((count, scene) => count + variablesFor(scene).filter((item) => item.available).length, 0);
 
@@ -91,8 +83,7 @@ export function NisarDataPanel({ selection, onBack, onViewVisualization }: Props
 
   const complete = session && ['completed', 'partial', 'failed'].includes(session.status);
   const selectedGranules = new Set(selectedCombinations.map((item) => item.granuleId)).size;
-  const granuleChecked = (scene: Observation) => variablesFor(scene).some((item) => item.available) &&
-    variablesFor(scene).filter((item) => item.available).every((item) => selected.has(keyFor(scene.id, item.frequency, item.variable)));
+  const selectedGranuleIds = new Set(selectedCombinations.map((item) => item.granuleId));
 
   return <main className="visualization-workspace nisar-data-workspace">
     <header className="visualization-header"><button className="visual-back" onClick={onBack}><ArrowLeft size={16} /> Globe</button><div><span className="section-kicker">NASA Earthdata · Harmony</span><h1>NISAR data retrieval</h1><p>Select acquisitions and measurements to retrieve and save.</p></div><div className="visual-header-actions"><button className="secondary-action" onClick={() => void search()} disabled={loading || processing}><RefreshCw size={14} /> Search area</button></div></header>
@@ -100,15 +91,14 @@ export function NisarDataPanel({ selection, onBack, onViewVisualization }: Props
     <div className="visual-scroll">
       <section className="visual-card nisar-search-card">
         <div className="visual-card-heading"><div><span className="section-kicker">Step 1 · Product discovery</span><h2>Choose GCOV granules</h2></div><Satellite size={18} /></div>
-        <div className="nisar-date-filters"><label>Start date<input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} disabled={processing} /></label><label>End date<input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} disabled={processing} /></label><span>{analysis ? `${analysis.area.areaKm2.toLocaleString()} km² · ${analysis.observations.length} granules across ${analysis.acquisitionDates.length} acquisition dates` : 'Searching ASF CMR'}</span><button className="filter-chip" onClick={() => { const next = new Set<string>(); if (!allMatchingSelected) analysis?.observations.forEach((scene) => variablesFor(scene).forEach((item) => next.add(keyFor(scene.id, item.frequency, item.variable)))); setSelected(next); }} disabled={!analysis?.observations.length || processing}><CheckSquare size={14} /> {allMatchingSelected ? 'Clear all' : 'Select all matching'}</button></div>
-        {analysis?.observations.length ? <div className="observation-table-wrap"><table className="observation-table"><thead><tr><th>Select</th><th>Acquired</th><th>Granule</th><th>Frequency</th><th>Available polarization measurements</th><th>Footprint</th><th>Product</th></tr></thead><tbody>{analysis.observations.map((scene) => {
-          const available = variablesFor(scene); const checked = granuleChecked(scene);
+        <div className="nisar-date-filters"><label>Start date<input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} disabled={processing} /></label><label>End date<input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} disabled={processing} /></label><span>{analysis ? `${analysis.area.areaKm2.toLocaleString()} km² · ${analysis.observations.length} granules across ${analysis.acquisitionDates.length} acquisition dates` : 'Searching ASF CMR'}</span><button className="filter-chip" onClick={() => { const next = new Set<string>(); if (!allMatchingSelected) analysis?.observations.forEach((scene) => variablesFor(scene).filter((item) => item.available).forEach((item) => next.add(keyFor(scene.id, item.frequency, item.variable)))); setSelected(next); }} disabled={!analysis?.observations.length || processing}><CheckSquare size={14} /> {allMatchingSelected ? 'Clear all' : 'Select all matching'}</button></div>
+        {analysis?.observations.length ? <div className="observation-table-wrap"><table className="observation-table"><thead><tr><th>Acquired</th><th>Granule</th><th>Frequency</th><th>Available polarization measurements</th><th>Footprint</th><th>Product</th></tr></thead><tbody>{analysis.observations.map((scene) => {
+          const available = variablesFor(scene);
           const frequencies = [...new Set(available.map((item) => item.frequency))];
-          return <tr key={scene.id} className={checked ? 'selected' : ''}>
-            <td><input aria-label={`Select all measurements for ${scene.id}`} type="checkbox" checked={checked} disabled={!available.some((item) => item.available) || processing} onChange={(event) => setGranule(scene, event.target.checked)} /></td>
+          return <tr key={scene.id} className={selectedGranuleIds.has(scene.id) ? 'selected' : ''}>
             <td>{scene.acquiredAt ? new Date(scene.acquiredAt).toLocaleString() : 'Unavailable'}</td><td title={scene.id}>{scene.id}</td>
             <td>{frequencies.map((frequency) => frequency.replace('frequency', '')).join(', ') || '—'}</td>
-            <td><div className="nisar-variable-list">{available.map((item) => <label className={!item.available ? 'variable-unavailable' : ''} key={`${item.frequency}:${item.variable}`}><input type="checkbox" checked={selected.has(keyFor(scene.id, item.frequency, item.variable))} disabled={!item.available || processing} onChange={(event) => { const next = new Set(selected); const key = keyFor(scene.id, item.frequency, item.variable); event.target.checked ? next.add(key) : next.delete(key); setSelected(next); }} />{item.frequency.replace('frequency', '')} · {channelLabel(item.variable)}{!item.available && <small> not listed</small>}</label>)}{!available.length && <small>Frequency not reported</small>}</div></td>
+            <td><div className="nisar-variable-list">{available.map((item) => <label className={!item.available ? 'variable-unavailable' : ''} key={`${item.frequency}:${item.variable}`}><input type="checkbox" checked={selected.has(keyFor(scene.id, item.frequency, item.variable))} disabled={!item.available || processing} onChange={(event) => { const next = new Set(selected); const key = keyFor(scene.id, item.frequency, item.variable); event.target.checked ? next.add(key) : next.delete(key); setSelected(next); }} />{item.frequency.replace('frequency', '')} · {channelLabel(item.variable)} <code>{item.variable}</code>{!item.available && <small> not listed</small>}</label>)}{!available.length && <small>Frequency not reported</small>}</div></td>
             <td>{scene.bbox ? `${scene.bbox.map((value) => value.toFixed(2)).join(', ')}` : 'Not reported'}</td><td>{scene.productType ?? 'GCOV'}</td>
           </tr>;
         })}</tbody></table></div> : <div className="visual-empty">{loading ? 'Searching the ASF catalog…' : 'No GCOV granules intersect this polygon in the selected date range.'}</div>}

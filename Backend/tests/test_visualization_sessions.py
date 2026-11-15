@@ -128,6 +128,34 @@ async def test_persisted_raster_preview_is_georeferenced_and_handles_nodata(conf
     assert response.content.startswith(b"\x89PNG\r\n\x1a\n")
     assert json.loads(response.headers["X-Raster-Bounds-WGS84"]) == pytest.approx([10, 10, 12, 12])
     assert response.headers["X-Raster-Units"] == "unknown"
+    legend = json.loads(response.headers["X-Raster-Legend"])
+    assert legend["palette"] == "red"
+    assert legend["minimum"] == float(response.headers["X-Raster-Minimum"])
+    assert legend["maximum"] == float(response.headers["X-Raster-Maximum"])
+
+
+@pytest.mark.asyncio
+async def test_preview_pixel_inspection_returns_source_value_location_and_color(configured_data):
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=main.app), base_url="http://test") as client:
+        preview = await client.get(f"/api/visualization/{STUDY_ID}/preview/G221-ASF/HHHH",
+            params={"palette": "turbo", "max_dimension": 32})
+        inspected = await client.get(f"/api/visualization/{STUDY_ID}/preview/G221-ASF/HHHH/pixel",
+            params={"x": 5, "y": 6, "palette": "turbo", "max_dimension": 32})
+        nodata = await client.get(f"/api/visualization/{STUDY_ID}/preview/G221-ASF/HHHH/pixel",
+            params={"x": 0, "y": 0, "palette": "turbo", "max_dimension": 32})
+    assert preview.status_code == 200
+    assert inspected.status_code == 200
+    body = inspected.json()
+    assert body["value"] == pytest.approx(257.4)
+    assert body["units"] == "unknown"
+    assert body["longitude"] == pytest.approx(10.34375)
+    assert body["latitude"] == pytest.approx(11.59375)
+    assert body["displayColor"].startswith("#")
+    assert body["sourceVariable"] == "HHHH"
+    assert body["polarization"] == "HH"
+    assert body["acquisitionDate"] == "2026-02-01T00:00:00Z"
+    assert nodata.status_code == 200 and nodata.json()["nodata"] is True
+    assert nodata.json()["value"] is None
 
 
 @pytest.mark.asyncio

@@ -1,7 +1,7 @@
 {
   "studyId": "c612075ed7029d87",
   "observationId": "G4249943332-ASF",
-  "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+  "retrievalSessionId": "fb08843aa53e4c7891aa5ab740400c35",
   "acquisitionDate": "2026-06-17T00:44:16.000Z",
   "acquisitionMetadata": {
     "id": "G4249943332-ASF",
@@ -333,10 +333,9 @@
       "datasetId": "NISAR Provisional Geocoded Polarimetric Covariance Product (Version 1)",
       "granuleSizeMb": 5763.53
     },
-    "frequency": "frequencyB",
-    "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15"
+    "frequency": "frequencyB"
   },
-  "updatedAt": "2026-11-15T08:29:29.149298+00:00",
+  "updatedAt": "2026-11-15T08:47:38.621681+00:00",
   "variables": [
     {
       "name": "HHHH",
@@ -346,9 +345,10 @@
       "sourceVariable": "HHHH",
       "frequency": "frequencyA",
       "polarization": "HHHH",
-      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionId": "fb08843aa53e4c7891aa5ab740400c35",
       "retrievalSessionIds": [
-        "8e31c913432e4a97b52bf83111a35f15"
+        "8e31c913432e4a97b52bf83111a35f15",
+        "fb08843aa53e4c7891aa5ab740400c35"
       ],
       "rasterPath": "studies/c612075ed7029d87/observations/G4249943332-ASF/rasters/HHHH.tif",
       "raster": {
@@ -391,7 +391,7 @@
         "mean": 0.7113229534834131,
         "median": 0.1601390838623047
       },
-      "processingTimestamp": "2026-11-15T08:24:07.319772+00:00",
+      "processingTimestamp": "2026-11-15T08:47:37.555137+00:00",
       "bytes": 107988
     },
     {
@@ -402,9 +402,10 @@
       "sourceVariable": "HVHV",
       "frequency": "frequencyA",
       "polarization": "HVHV",
-      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionId": "fb08843aa53e4c7891aa5ab740400c35",
       "retrievalSessionIds": [
-        "8e31c913432e4a97b52bf83111a35f15"
+        "8e31c913432e4a97b52bf83111a35f15",
+        "fb08843aa53e4c7891aa5ab740400c35"
       ],
       "rasterPath": "studies/c612075ed7029d87/observations/G4249943332-ASF/rasters/HVHV.tif",
       "raster": {
@@ -447,7 +448,7 @@
         "mean": 0.04255744409290927,
         "median": 0.024448871612548828
       },
-      "processingTimestamp": "2026-11-15T08:26:03.023960+00:00",
+      "processingTimestamp": "2026-11-15T08:47:37.888845+00:00",
       "bytes": 105920
     },
     {
@@ -458,9 +459,10 @@
       "sourceVariable": "HHHH",
       "frequency": "frequencyB",
       "polarization": "HHHH",
-      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionId": "fb08843aa53e4c7891aa5ab740400c35",
       "retrievalSessionIds": [
-        "8e31c913432e4a97b52bf83111a35f15"
+        "8e31c913432e4a97b52bf83111a35f15",
+        "fb08843aa53e4c7891aa5ab740400c35"
       ],
       "rasterPath": "studies/c612075ed7029d87/observations/G4249943332-ASF/rasters/frequencyB/HHHH.tif",
       "raster": {
@@ -503,7 +505,7 @@
         "mean": 0.8654922027977145,
         "median": 0.3734130859375
       },
-      "processingTimestamp": "2026-11-15T08:27:37.328505+00:00",
+      "processingTimestamp": "2026-11-15T08:47:38.258250+00:00",
       "bytes": 6075
     },
     {
@@ -514,9 +516,10 @@
       "sourceVariable": "HVHV",
       "frequency": "frequencyB",
       "polarization": "HVHV",
-      "retrievalSessionId": "8e31c913432e4a97b52bf83111a35f15",
+      "retrievalSessionId": "fb08843aa53e4c7891aa5ab740400c35",
       "retrievalSessionIds": [
-        "8e31c913432e4a97b52bf83111a35f15"
+        "8e31c913432e4a97b52bf83111a35f15",
+        "fb08843aa53e4c7891aa5ab740400c35"
       ],
       "rasterPath": "studies/c612075ed7029d87/observations/G4249943332-ASF/rasters/frequencyB/HVHV.tif",
       "raster": {
@@ -559,7 +562,7 @@
         "mean": 0.04833023295718796,
         "median": 0.040955305099487305
       },
-      "processingTimestamp": "2026-11-15T08:29:29.149385+00:00",
+      "processingTimestamp": "2026-11-15T08:47:38.621731+00:00",
       "bytes": 6055
     }
   ]

@@ -24,6 +24,8 @@ from .geometry import PolygonInputError, study_id_for_feature, validate_geojson
 from .harmony import (AUXILIARY, MEASUREMENTS, HarmonyConfigurationError, extract_granule,
     inspect_capabilities, json_safe, refresh_job_status, _sanitize_text, _write_job_record)
 from .raster_registry import persist_processed_raster, query_registry
+from .raster_display import (PALETTE_ANCHORS, colorize_values, log_normalization_scale,
+                             palette_legend)
 from .settings import get_settings
 from .retrieval_sessions import (create_session as create_retrieval_session,
     now as retrieval_now, read_session as read_retrieval_session,
@@ -79,7 +81,7 @@ async def lifespan(_app: FastAPI):
 app = FastAPI(title="Delta Earth — NISAR Data API", version="0.1.0", lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=[settings.frontend_origin], allow_credentials=True,
                    allow_methods=["GET", "POST", "DELETE"], allow_headers=["*"],
-                   expose_headers=["X-Raster-Bounds-WGS84", "X-RGB-Channel-Legend"])
+                   expose_headers=["X-Raster-Bounds-WGS84", "X-RGB-Channel-Legend", "X-Raster-Legend"])
 
 class ExtractRequest(BaseModel):
     granuleId: str = Field(min_length=3, max_length=300)
@@ -327,11 +329,16 @@ async def _process_retrieval_batch(session_id: str) -> None:
 @app.post("/api/nisar/extractions/batch", status_code=202)
 async def start_retrieval_batch(request: BatchExtractionRequest):
     try:
-        validate_geojson(request.studyArea)
+        polygon, _, _, _ = validate_geojson(request.studyArea)
         if study_id_for_feature(request.studyArea) != request.studyId:
             raise PolygonInputError("The studyId does not match the submitted study area.")
         if request.startDate and request.endDate and request.startDate > request.endDate:
             raise PolygonInputError("Start date must be on or before end date.")
+        try:
+            discovery = await search_granules(polygon, request.startDate, request.endDate, all_pages=True)
+        except CMRRequestError as exc:
+            raise _cmr_http_error(exc) from exc
+        available_granules = {item["id"]: item for item in discovery.get("observations", []) if item.get("id")}
         combinations = []
         seen = set()
         for selected in request.combinations:
@@ -344,6 +351,19 @@ async def start_retrieval_batch(request: BatchExtractionRequest):
                 raise PolygonInputError("Frequency must be frequencyA or frequencyB.")
             if not isinstance(variable, str) or variable not in MEASUREMENTS + AUXILIARY:
                 raise PolygonInputError("A selected measurement variable is invalid.")
+            source = available_granules.get(granule_id)
+            if source is None:
+                raise PolygonInputError(f"Selected granule {granule_id} is no longer available for this study and date range.")
+            supported = {(value.get("frequency"), value.get("variable"))
+                         for value in source.get("availableVariables", [])}
+            if not supported:
+                source_frequencies = source.get("frequencies", [])
+                source_variables = source.get("polarizations", [])
+                supported = {(source_frequency, source_variable)
+                             for source_frequency in source_frequencies for source_variable in source_variables}
+            if (frequency, variable) not in supported:
+                raise PolygonInputError(
+                    f"{frequency}/{variable} is not listed as available for selected granule {granule_id}.")
             key = (granule_id, frequency, variable)
             if key in seen:
                 continue
@@ -607,34 +627,30 @@ async def visualization_raster(study_id: str, observation_id: str, variable: str
 
 @app.get("/api/visualization/{study_id}/preview/{observation_id}/{variable}")
 async def visualization_raster_preview(study_id: str, observation_id: str, variable: str,
-                                       style: str = "gray", max_dimension: int = Query(default=1024, ge=32, le=2048),
+                                       palette: str = "viridis", stretch: str = "linear",
+                                       lower_percentile: float = Query(default=2, ge=0, le=100),
+                                       upper_percentile: float = Query(default=98, ge=0, le=100),
+                                       bands: int = Query(default=0, ge=0, le=64),
+                                       style: str | None = None,
+                                       max_dimension: int = Query(default=1024, ge=32, le=2048),
                                        minimum: float | None = None, maximum: float | None = None,
                                        frequency: str = "frequencyA"):
     path, entry = _registered_raster(study_id, observation_id, variable, frequency)
-    if style not in {"gray", "red"}:
-        raise HTTPException(status_code=400, detail="Preview style must be gray or red.")
+    if style is not None:
+        palette = {"gray": "grayscale", "red": "red"}.get(style, style)
+    if palette not in PALETTE_ANCHORS:
+        raise HTTPException(status_code=400, detail=f"Unsupported palette. Choose from: {', '.join(PALETTE_ANCHORS)}.")
+    if stretch not in {"linear", "log"}:
+        raise HTTPException(status_code=400, detail="Stretch must be linear or log.")
     try:
         with rasterio.open(path) as dataset:
             scale = min(1.0, max_dimension / max(dataset.width, dataset.height))
             width, height = max(1, int(dataset.width * scale)), max(1, int(dataset.height * scale))
             sample = dataset.read(1, out_shape=(height, width), masked=True, resampling=Resampling.average)
-            values = np.asarray(sample.data, dtype=np.float64)
-            valid = ~np.ma.getmaskarray(sample) & np.isfinite(values)
-            if not valid.any():
-                raise HTTPException(status_code=422, detail="Raster contains no valid pixels to render.")
-            low = float(minimum) if minimum is not None else float(np.percentile(values[valid], 2))
-            high = float(maximum) if maximum is not None else float(np.percentile(values[valid], 98))
-            if not np.isfinite(low) or not np.isfinite(high) or high <= low:
-                low, high = float(values[valid].min()), float(values[valid].max())
-            normalized = np.zeros((height, width), dtype=np.uint8)
-            if high > low:
-                normalized[valid] = np.clip((values[valid] - low) / (high - low) * 255, 0, 255).astype(np.uint8)
-            rgba = np.zeros((4, height, width), dtype=np.uint8)
-            if style == "red":
-                rgba[0] = normalized
-            else:
-                rgba[0] = rgba[1] = rgba[2] = normalized
-            rgba[3, valid] = 255
+            rgba_last, low, high = colorize_values(sample, palette=palette, minimum=minimum,
+                maximum=maximum, lower_percentile=lower_percentile,
+                upper_percentile=upper_percentile, stretch=stretch, bands=bands)
+            rgba = rgba_last.transpose(2, 0, 1)
             bounds = list(transform_bounds(dataset.crs, "EPSG:4326", *dataset.bounds, densify_pts=21))
         with MemoryFile(ext=".png") as memory:
             with memory.open(driver="PNG", width=width, height=height, count=4, dtype="uint8") as png:
@@ -647,7 +663,65 @@ async def visualization_raster_preview(study_id: str, observation_id: str, varia
     return Response(content=content, media_type="image/png", headers={
         "X-Raster-Bounds-WGS84": json.dumps(bounds), "X-Raster-Minimum": str(low),
         "X-Raster-Maximum": str(high), "X-Raster-Units": str(entry.get("raster", {}).get("units") or "unknown"),
+        "X-Raster-Legend": json.dumps(palette_legend(palette, low, high, bands=bands)),
         "Cache-Control": "private, max-age=300"})
+
+
+@app.get("/api/visualization/{study_id}/preview/{observation_id}/{variable}/pixel")
+async def visualization_preview_pixel(study_id: str, observation_id: str, variable: str,
+                                      x: int = Query(ge=0), y: int = Query(ge=0),
+                                      palette: str = "viridis", stretch: str = "linear",
+                                      lower_percentile: float = Query(default=2, ge=0, le=100),
+                                      upper_percentile: float = Query(default=98, ge=0, le=100),
+                                      bands: int = Query(default=0, ge=0, le=64),
+                                      minimum: float | None = None, maximum: float | None = None,
+                                      max_dimension: int = Query(default=1024, ge=32, le=2048),
+                                      frequency: str = "frequencyA"):
+    path, entry = _registered_raster(study_id, observation_id, variable, frequency)
+    if palette not in PALETTE_ANCHORS or stretch not in {"linear", "log"}:
+        raise HTTPException(status_code=400, detail="Unsupported palette or intensity stretch.")
+    try:
+        with rasterio.open(path) as dataset:
+            scale = min(1.0, max_dimension / max(dataset.width, dataset.height))
+            width, height = max(1, int(dataset.width * scale)), max(1, int(dataset.height * scale))
+            if x >= width or y >= height:
+                raise HTTPException(status_code=400, detail="Preview pixel lies outside the rendered raster.")
+            sample = dataset.read(1, out_shape=(height, width), masked=True, resampling=Resampling.average)
+            shared_scale = log_normalization_scale(sample) if stretch == "log" else None
+            _, low, high = colorize_values(sample, palette=palette, minimum=minimum, maximum=maximum,
+                lower_percentile=lower_percentile, upper_percentile=upper_percentile,
+                stretch=stretch, bands=bands)
+            source_row = min(dataset.height - 1, int((y + .5) * dataset.height / height))
+            source_column = min(dataset.width - 1, int((x + .5) * dataset.width / width))
+            value = dataset.read(1, window=((source_row, source_row + 1),
+                                             (source_column, source_column + 1)), masked=True)[0, 0]
+            valid = not np.ma.is_masked(value) and bool(np.isfinite(value))
+            xy = dataset.xy(source_row, source_column)
+            lon, lat = transform_coordinates(dataset.crs, "EPSG:4326", [xy[0]], [xy[1]])
+            color = [0, 0, 0, 0]
+            if valid:
+                colored, _, _ = colorize_values(np.ma.array([[float(value)]]), palette=palette,
+                    minimum=low, maximum=high, lower_percentile=lower_percentile,
+                    upper_percentile=upper_percentile, stretch=stretch, bands=bands,
+                    normalization_scale=shared_scale)
+                color = colored[0, 0].tolist()
+        acquisition = entry.get("acquisitionMetadata") or {}
+        source_variable = entry.get("sourceVariable", variable)
+        polarization = {"HHHH": "HH", "HVHV": "HV", "VHVH": "VH", "VVVV": "VV"}.get(
+            source_variable, source_variable)
+        return {"studyId": study_id, "observationId": observation_id, "granuleId": observation_id,
+            "frequency": frequency, "polarization": polarization,
+            "sourceVariable": source_variable,
+            "acquisitionDate": entry.get("acquisitionDate") or acquisition.get("acquiredAt"),
+            "longitude": lon[0], "latitude": lat[0], "row": source_row, "column": source_column,
+            "value": float(value) if valid else None,
+            "units": entry.get("raster", {}).get("units") or "unknown",
+            "displayColor": f"#{color[0]:02x}{color[1]:02x}{color[2]:02x}" if valid else None,
+            "nodata": not valid}
+    except HTTPException:
+        raise
+    except (OSError, rasterio.errors.RasterioError, ValueError) as exc:
+        raise HTTPException(status_code=422, detail=f"Could not inspect raster pixel: {exc}") from exc
 
 
 @app.get("/api/studies/{study_id}/observations/{observation_id}/pixel")

@@ -1,0 +1,99 @@
+{
+  "state": "completed",
+  "collectionId": "C2854338529-ASF",
+  "granuleId": "G4275133506-ASF",
+  "variablePath": "/science/LSAR/GCOV/grids/frequencyB/HVHV",
+  "spatialMode": "bbox",
+  "method": "GET",
+  "endpoint": "https://harmony.earthdata.nasa.gov/C2854338529-ASF/ogc-api-coverages/1.0.0/collections/%2Fscience%2FLSAR%2FGCOV%2Fgrids%2FfrequencyB%2FHVHV/coverage/rangeset",
+  "parameters": [
+    [
+      "granuleId",
+      "G4275133506-ASF"
+    ],
+    [
+      "format",
+      "image/tiff"
+    ],
+    [
+      "forceAsync",
+      "true"
+    ],
+    [
+      "ignoreErrors",
+      "false"
+    ],
+    [
+      "subset",
+      "lat(23.201793722963508:23.243523560699185)"
+    ],
+    [
+      "subset",
+      "lon(72.62918049781214:72.70520399004528)"
+    ]
+  ],
+  "studyId": "894f8d0dc93cc28f",
+  "observation": {
+    "id": "G4275133506-ASF",
+    "provider": "NASA ASF DAAC",
+    "title": "NISAR_L2_PR_GCOV_008_135_D_077_2005_QPDH_A_20251225T134952_20251225T135026_P05023_N_F_J_001",
+    "mission": "NISAR",
+    "productShortName": "NISAR_L2_GCOV_PROVISIONAL_V1",
+    "acquiredAt": "2025-12-25T13:49:52.000Z",
+    "startAt": "2025-12-25T13:49:52.000Z",
+    "endAt": "2025-12-25T13:50:26.999Z",
+    "productType": "GCOV",
+    "processingMaturity": "PROVISIONAL",
+    "frequencies": [
+      "frequencyA",
+      "frequencyB"
+    ],
+    "polarizations": [
+      "HHHH",
+      "HHHV",
+      "HHVH",
+      "HHVV",
+      "HVHV",
+      "HVVH",
+      "HVVV",
+      "VHVH",
+      "VHVV",
+      "VVVV"
+    ],
+    "bbox": null
+  },
+  "startedAt": "2026-11-15T09:11:04.447365+00:00",
+  "httpStatus": 303,
+  "durationSeconds": 1.602,
+  "response": {
+    "httpStatus": 303,
+    "contentType": "text/plain; charset=utf-8",
+    "locationPath": "/jobs/<job-id>",
+    "bodyExcerpt": "See Other. Redirecting to /jobs/c176578e-06d4-481b-9fd5-fbe39cb5506f"
+  },
+  "updatedAt": "2026-11-15T09:12:54.389283+00:00",
+  "jobId": "c176578e-06d4-481b-9fd5-fbe39cb5506f",
+  "retryAllowed": false,
+  "jobStatus": {
+    "status": "successful",
+    "progress": 100,
+    "message": "The job has completed successfully",
+    "createdAt": "2026-11-15T09:11:05.458Z",
+    "updatedAt": "2026-11-15T09:12:35.661Z",
+    "dataExpiration": "2026-12-15T09:11:05.458Z"
+  },
+  "completedAt": "2026-11-15T09:12:35.661Z",
+  "resultRetrievalChecked": true,
+  "resultRetrievalVersion": 2,
+  "stacAssets": [
+    {
+      "scheme": "https",
+      "host": "harmony.earthdata.nasa.gov",
+      "path": "/service-results/harmony-prod-staging/public/c176578e-06d4-481b-9fd5-fbe39cb5506f/467322162/NISAR_L2_PR_GCOV_008_135_D_077_2005_QPDH_A_20251225T134952_20251225T135026_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyB_HVHV_subsetted.tif",
+      "title": "NISAR_L2_PR_GCOV_008_135_D_077_2005_QPDH_A_20251225T134952_20251225T135026_P05023_N_F_J_001_science_LSAR_GCOV_grids_frequencyB_HVHV_subsetted.tif",
+      "mediaType": "image/tiff"
+    }
+  ],
+  "resultDownloadOutcome": "success",
+  "downloadedBytes": 24376
+}
