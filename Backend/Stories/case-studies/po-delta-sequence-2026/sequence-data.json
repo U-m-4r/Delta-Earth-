@@ -1,0 +1,198 @@
+{
+  "kind": "sequence",
+  "slug": "po-delta-sequence-2026",
+  "dates": [
+    "2026-06-19",
+    "2026-07-13",
+    "2026-08-18",
+    "2026-09-11",
+    "2026-10-17"
+  ],
+  "title": "Where the Po Meets the Sea",
+  "location": "Po Delta, Emilia-Romagna and Veneto, Italy",
+  "changeType": "Delta and agricultural landscape",
+  "continent": "Europe",
+  "headline": "Five radar visits to a landscape shaped by river, sea and farming",
+  "introduction": "At the edge of northern Italy, the Po divides into channels beside cultivated land and coastal lagoons. ESA's radar portrait of this region describes a productive agricultural landscape threaded by the river's distributaries. Follow five NISAR observations from June to October 2026 to see how the same channels, lagoon margins and field patterns respond through the season.",
+  "conclusion": "Across the valid study area, mean HH radar response rises from \u221212.55 dB in June to \u22129.87 dB in September, then eases to \u221210.14 dB in October. The field mosaic changes while the branching waterways remain recognizable. These are measurements of radar response: vegetation, moisture and agricultural activity are possible explanations, not confirmed causes. They do not measure a flood, crop yield or harvested area. Independent crop records and contemporary optical imagery would help explain the seasonal pattern.",
+  "references": [
+    {
+      "title": "ESA: Earth from Space \u2014 Po (historical landscape and radar context)",
+      "url": "https://www.esa.int/Applications/Observing_the_Earth/Earth_from_Space_Po"
+    },
+    {
+      "title": "NASA NISAR provisional GCOV collection",
+      "url": "https://cmr.earthdata.nasa.gov/search/concepts/C2854338529-ASF.html"
+    }
+  ],
+  "observations": [
+    {
+      "key": "frame-1",
+      "date": "2026-06-19T18:10:03.000Z",
+      "image": "frame-1.png",
+      "label": "A delta in early summer",
+      "caption": "19 June sets the reference. Trace the river branches and the coastal water margins before looking at the patchwork of fields. The dark and bright patterns describe how surfaces scatter radar energy; they are not a natural-colour photograph.",
+      "granuleId": "G4244115365-ASF",
+      "productId": "NISAR_L2_PR_GCOV_023_080_D_066_2005_DHDH_A_20260619T181003_20260619T181038_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_023_080_D_066_2005_DHDH_A_20260619T181003_20260619T181038_P05023_N_F_J_001/NISAR_L2_PR_GCOV_023_080_D_066_2005_DHDH_A_20260619T181003_20260619T181038_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1206867,
+      "meanDb": -12.548562049865723,
+      "medianDb": -13.224906921386719,
+      "sourceSha256": "d9162bb9fbc959511bf1cac6fba337c84b2cb430f4efbf5612b3dd44530f2c34",
+      "imageSha256": "194926adde28c075a435a1b5e11914501a75d3a1da596c41f89b8606b96187ec"
+    },
+    {
+      "key": "frame-2",
+      "date": "2026-07-13T18:10:01.000Z",
+      "image": "frame-2.png",
+      "label": "The July field mosaic",
+      "caption": "By 13 July, mean radar response across the valid study area is \u221211.36 dB, about 1.19 dB above June. The field-shaped patches provide a way to follow this change while the channels anchor the comparison. Vegetation and moisture can alter radar returns without moving a field boundary.",
+      "granuleId": "G4253074530-ASF",
+      "productId": "NISAR_L2_PR_GCOV_025_080_D_066_2005_DHDH_A_20260713T181001_20260713T181036_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_025_080_D_066_2005_DHDH_A_20260713T181001_20260713T181036_P05023_N_F_J_001/NISAR_L2_PR_GCOV_025_080_D_066_2005_DHDH_A_20260713T181001_20260713T181036_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1206867,
+      "meanDb": -11.357073783874512,
+      "medianDb": -11.798039436340332,
+      "sourceSha256": "405989c870d97459023ee6a3b1d6e783d44045c25c87d001313e45017c8d299a",
+      "imageSha256": "c5c91f0f1ff4d5036ee654fd7ca4c3b44e6df5adf1871d287ed2f127a08d898a",
+      "changeFromPrevious": {
+        "meanDb": 1.1914870738983154,
+        "medianDb": 1.1280698776245117,
+        "validPixelCount": 1206867,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-3",
+      "date": "2026-08-18T18:09:59.000Z",
+      "image": "frame-3.png",
+      "label": "Across the August landscape",
+      "caption": "18 August continues the broader increase: mean response is \u221211.08 dB. Follow the changing field mosaic beside the darker river branches. The same \u221230 to +5 dB display is used throughout, so this progression is not caused by an automatic colour stretch.",
+      "granuleId": "G4286147567-ASF",
+      "productId": "NISAR_L2_PR_GCOV_028_080_D_066_2005_DHDH_A_20260818T180959_20260818T181034_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_028_080_D_066_2005_DHDH_A_20260818T180959_20260818T181034_P05023_N_F_J_001/NISAR_L2_PR_GCOV_028_080_D_066_2005_DHDH_A_20260818T180959_20260818T181034_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1206867,
+      "meanDb": -11.083020210266113,
+      "medianDb": -11.297487258911133,
+      "sourceSha256": "9540c122c784acd2ff77aceddda6256714c4a31a6bc4c682c152d2cdb7b26b07",
+      "imageSha256": "314204177b11c0a6d254babe1cd2c8cfcfe5e72ba1df93747e1d5f2774616907",
+      "changeFromPrevious": {
+        "meanDb": 0.2740548849105835,
+        "medianDb": 0.23842573165893555,
+        "validPixelCount": 1206867,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-4",
+      "date": "2026-09-11T18:09:59.000Z",
+      "image": "frame-4.png",
+      "label": "The strongest selected response",
+      "caption": "11 September has the highest area-wide mean among these five selected visits, at \u22129.87 dB. Many field patches appear brighter than in June while the river network remains recognizable. This is a peak in the selected radar sequence, not evidence of a flood peak or a specific harvest date.",
+      "granuleId": "G4310309581-ASF",
+      "productId": "NISAR_L2_PR_GCOV_030_080_D_066_2005_DHDH_A_20260911T180959_20260911T181034_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_030_080_D_066_2005_DHDH_A_20260911T180959_20260911T181034_P05023_N_F_J_001/NISAR_L2_PR_GCOV_030_080_D_066_2005_DHDH_A_20260911T180959_20260911T181034_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1206867,
+      "meanDb": -9.866069793701172,
+      "medianDb": -9.768290519714355,
+      "sourceSha256": "87f33e1515f7016ab908b3bc383a25a2408e0257ec167db82a0319a7a959a48a",
+      "imageSha256": "397090bac85ae1e4284d8ac7ebea3c30073732ab8b120a0138c3dad148a6859c",
+      "changeFromPrevious": {
+        "meanDb": 1.216950535774231,
+        "medianDb": 1.2031288146972656,
+        "validPixelCount": 1206867,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    },
+    {
+      "key": "frame-5",
+      "date": "2026-10-17T18:09:59.000Z",
+      "image": "frame-5.png",
+      "label": "The October return",
+      "caption": "17 October brings a modest decline to \u221210.14 dB, still above the June mean. Compare the persistent field patterns with the first image, then revisit July and August to see the progression. The sequence records seasonal radar change without assigning an unverified flood, erosion or land-conversion event.",
+      "granuleId": "G4377830715-ASF",
+      "productId": "NISAR_L2_PR_GCOV_033_080_D_066_2005_DHDH_A_20261017T180959_20261017T181034_P05023_N_F_J_001",
+      "sourceUrl": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_080_D_066_2005_DHDH_A_20261017T180959_20261017T181034_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_080_D_066_2005_DHDH_A_20261017T180959_20261017T181034_P05023_N_F_J_001.h5",
+      "measurement": "HHHH",
+      "frequency": "frequencyA",
+      "validPixelCount": 1206867,
+      "meanDb": -10.135342597961426,
+      "medianDb": -10.084379196166992,
+      "sourceSha256": "be99607b9ff73abf4b53efc4c4a7a9b6401633572f70651cb0e99e59121c961d",
+      "imageSha256": "2af5948eb2d68e942cead38278771546b8251ca04b4611e9646c50a87a9dd067",
+      "changeFromPrevious": {
+        "meanDb": -0.2692721486091614,
+        "medianDb": -0.2580718994140625,
+        "validPixelCount": 1206867,
+        "note": "Later minus earlier in dB, aligned common valid pixels. Not a flood classification."
+      }
+    }
+  ],
+  "studyId": "102a6970003ce55f",
+  "polygon": {
+    "type": "Feature",
+    "properties": {
+      "name": "Po Delta: river branches, lagoons and fields",
+      "owner": "Umar",
+      "continent": "Europe"
+    },
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [
+            12.1,
+            44.8
+          ],
+          [
+            12.35,
+            44.8
+          ],
+          [
+            12.35,
+            45.02
+          ],
+          [
+            12.1,
+            45.02
+          ],
+          [
+            12.1,
+            44.8
+          ]
+        ]
+      ]
+    }
+  },
+  "display": {
+    "palette": "viridis",
+    "minimum": -30,
+    "maximum": 5,
+    "units": "dB",
+    "grid": {
+      "width": 1027,
+      "height": 1255,
+      "crs": "EPSG:32633",
+      "transform": [
+        20.0,
+        0.0,
+        270660.0,
+        0.0,
+        -20.0,
+        4989260.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    }
+  },
+  "method": "Individual frequency-A HHHH GeoTIFFs retrieved with the application Harmony extraction pipeline. Bilinear alignment to the first raster grid, nonpositive and NoData pixels masked, 10*log10(linear power), one fixed palette/range for every frame."
+}

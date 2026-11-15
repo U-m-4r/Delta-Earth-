@@ -1,0 +1,5 @@
+{
+  "type": "Feature",
+  "properties": {"name": "Po Delta: river branches, lagoons and fields", "owner": "Umar", "continent": "Europe"},
+  "geometry": {"type": "Polygon", "coordinates": [[[12.10,44.80],[12.35,44.80],[12.35,45.02],[12.10,45.02],[12.10,44.80]]]}
+}

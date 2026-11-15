@@ -1,5 +1,16 @@
 [
   {
+    "slug": "po-delta-sequence-2026",
+    "title": "Where the Po Meets the Sea",
+    "location": "Po Delta, Emilia-Romagna and Veneto, Italy",
+    "changeType": "Delta and agricultural landscape",
+    "continent": "Europe",
+    "preview": "frame-3.png",
+    "period": "Jun–Oct 2026",
+    "observationCount": 5,
+    "description": "Five aligned radar visits follow the Po's branching channels, coastal water margins and field mosaic through summer and autumn."
+  },
+  {
     "slug": "bhagalpur-flood-2026",
     "title": "When the Ganga Overflowed",
     "location": "Bhagalpur, Bihar, India",
