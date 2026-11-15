@@ -145,6 +145,58 @@ button { cursor: pointer; }
 .raster-legend-ticks { display: flex; justify-content: space-between; gap: 8px; margin-top: 5px; color: #a9c1c4; font-variant-numeric: tabular-nums; }
 .raster-legend small { display: block; margin-top: 7px; color: #91aeb2; }
 .pixel-inspection { padding: 10px; border: 1px solid #37656b; border-radius: 6px; background: #0d2a34; font-variant-numeric: tabular-nums; }
+.visualization-restructured { max-width: 1480px; margin: 0 auto; }
+.main-raster-card .nisar-extract-controls { align-items: end; }
+.main-raster-card .nisar-extract-controls input[type="number"] { box-sizing: border-box; width: 130px; min-height: 36px; padding: 7px 9px; border: 1px solid #31535d; border-radius: 7px; color: #d9eeeb; background: #0b2431; font: inherit; }
+.viewer-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 14px; }
+.viewer-actions button { min-width: 170px; justify-content: center; }
+.visual-info-message { margin: 12px 0; padding: 11px 13px; border: 1px solid #6c5735; border-radius: 5px; color: #dfc28b; background: #332b1c; font-size: 11px; line-height: 1.5; }
+.comparison-slot-empty { min-height: 220px; display: grid; place-items: center; color: #77969a; border-style: dashed !important; }
+.comparison-empty-slot { display: grid; gap: 8px; text-align: center; }
+.comparison-empty-slot small { color: #77969a; }
+.comparison-slot > p { color: #9bb6b8; font-size: 11px; }
+.comparison-slot > small { color: #78959a; overflow-wrap: anywhere; }
+.timeline-frame-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; min-height: 62px; margin: 8px 0; color: #d9eeeb; }
+.timeline-frame-heading > div { display: grid; gap: 3px; }
+.timeline-frame-heading > div > span { color: #72949a; font: 9px 'DM Mono'; text-transform: uppercase; letter-spacing: 1px; }
+.timeline-frame-heading strong { font-size: 15px; }
+.timeline-frame-heading small, .timeline-request-status { color: #8daeb0; font-size: 11px; }
+.timeline-request-status { margin-left: auto; }
+.timeline-raster-frame { position: relative; display: grid; place-items: center; width: 100%; height: clamp(260px, 38vh, 420px); overflow: hidden; border: 1px solid #284851; border-radius: 7px; background: #071c27; }
+.timeline-frame-image { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 1; transition: opacity 200ms ease; }
+.timeline-frame-outgoing { opacity: 0; }
+.timeline-frame-incoming { opacity: 0; }
+.timeline-frame-incoming.is-visible { opacity: 1; }
+.timeline-loading-indicator { position: absolute; z-index: 2; top: 9px; right: 9px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid #315764; border-radius: 4px; color: #c2d9d8; background: #081b28dd; font: 9px 'DM Mono'; }
+.timeline-load-error { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; min-height: 38px; margin-top: 6px; color: #e2ae91; font-size: 11px; }
+.timeline-checkpoint-scroll { width: 100%; overflow-x: auto; overflow-y: hidden; margin: 10px 0 2px; padding: 4px 0 8px; overscroll-behavior-x: contain; }
+.timeline-checkpoint-track { position: relative; min-height: 94px; }
+.timeline-checkpoint-dates { position: relative; height: 37px; margin: 0 8px; }
+.timeline-checkpoint-dates span { position: absolute; top: 0; display: grid; width: 140px; gap: 3px; transform: translateX(-50%); text-align: center; color: #819fa3; font-size: 10px; white-space: nowrap; }
+.timeline-checkpoint-dates span:first-child { transform: none; text-align: left; }
+.timeline-checkpoint-dates span:last-child { transform: translateX(-100%); text-align: right; }
+.timeline-checkpoint-dates strong { font-weight: 600; }
+.timeline-checkpoint-dates small { color: #66858c; font: 8px 'DM Mono'; overflow: hidden; text-overflow: ellipsis; }
+.timeline-checkpoint-dates span.active { color: #73dfd2; }
+.timeline-range-wrap { position: relative; height: 28px; margin: 0 8px; display: flex; align-items: center; }
+.timeline-range-wrap::before { position: absolute; left: 0; right: 0; top: 50%; height: 2px; transform: translateY(-50%); background: #31535d; content: ''; }
+.timeline-range-wrap input[type="range"] { position: relative; z-index: 2; width: 100%; height: 28px; margin: 0; appearance: none; background: transparent; cursor: pointer; }
+.timeline-range-wrap input[type="range"]::-webkit-slider-runnable-track { height: 2px; background: transparent; }
+.timeline-range-wrap input[type="range"]::-webkit-slider-thumb { width: 16px; height: 16px; margin-top: -7px; appearance: none; border: 2px solid #052023; border-radius: 50%; background: #65d6ca; box-shadow: 0 0 0 2px #65d6ca; }
+.timeline-range-wrap input[type="range"]::-moz-range-track { height: 2px; background: transparent; }
+.timeline-range-wrap input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border: 2px solid #052023; border-radius: 50%; background: #65d6ca; box-shadow: 0 0 0 2px #65d6ca; }
+.timeline-range-wrap input[type="range"]:focus-visible { outline: 2px solid #65d6ca; outline-offset: 3px; border-radius: 8px; }
+.timeline-checkpoint-dots { position: absolute; z-index: 1; inset: 0 0 auto; height: 28px; pointer-events: none; }
+.timeline-checkpoint-dots i { position: absolute; top: 50%; width: 8px; height: 8px; transform: translate(-50%, -50%); border: 1px solid #94b4b8; border-radius: 50%; background: #173944; }
+.timeline-checkpoint-dots i.active { width: 12px; height: 12px; border-color: #65d6ca; background: #65d6ca; box-shadow: 0 0 0 3px #65d6ca33; }
+.timeline-checkpoint-indexes { position: relative; height: 18px; margin: 0 8px; }
+.timeline-checkpoint-indexes small { position: absolute; transform: translateX(-50%); color: #6d8e94; font: 8px 'DM Mono'; }
+.timeline-checkpoint-indexes small:first-child { transform: none; }
+.timeline-checkpoint-indexes small:last-child { transform: translateX(-100%); }
+.timeline-checkpoint-indexes small.active { color: #73dfd2; }
+.timeline-navigation { display: flex; align-items: center; justify-content: space-between; min-height: 36px; }
+.timeline-navigation > span { color: #78969b; font: 9px 'DM Mono'; }
+@media (prefers-reduced-motion: reduce) { .timeline-frame-image { transition: none; } }
 .comparison-panels { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
 .comparison-panels figure { min-width: 0; margin: 0; padding: 10px; border: 1px solid #284851; border-radius: 8px; background: #071c27; overflow: auto; }
 .comparison-panels figcaption { margin-bottom: 8px; color: #b9d4d4; font-size: 12px; }
