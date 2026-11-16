@@ -25,3 +25,7 @@ def test_story_catalog_and_images_work_from_both_local_origins(host):
 def test_unrelated_origins_are_not_enabled():
     response=TestClient(app).get('/api/stories',headers={'Origin':'https://unrelated.example'})
     assert 'access-control-allow-origin' not in response.headers
+
+
+def test_frontend_origins_accepts_comma_separated_list():
+    assert frontend_origins('https://deltaearth.earth, https://www.deltaearth.earth/') == ['https://deltaearth.earth', 'https://www.deltaearth.earth']

@@ -85,12 +85,15 @@ async def lifespan(_app: FastAPI):
 
 
 def frontend_origins(origin: str) -> list[str]:
-    origins = {origin.rstrip('/')}
-    parsed = urlsplit(origin)
-    if parsed.hostname in {'localhost', '127.0.0.1'} and parsed.scheme in {'http', 'https'}:
-        port = f':{parsed.port}' if parsed.port else ''
-        origins.update(urlunsplit((parsed.scheme, host + port, '', '', ''))
-                       for host in ('localhost', '127.0.0.1'))
+    """FRONTEND_ORIGIN may list several origins separated by commas (e.g. apex and www)."""
+    origins: set[str] = set()
+    for item in filter(None, (part.strip() for part in origin.split(','))):
+        origins.add(item.rstrip('/'))
+        parsed = urlsplit(item)
+        if parsed.hostname in {'localhost', '127.0.0.1'} and parsed.scheme in {'http', 'https'}:
+            port = f':{parsed.port}' if parsed.port else ''
+            origins.update(urlunsplit((parsed.scheme, host + port, '', '', ''))
+                           for host in ('localhost', '127.0.0.1'))
     return sorted(origins)
 
 
